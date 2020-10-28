@@ -36,7 +36,7 @@ class BuyerPostalAddress
      * BT-52
      * The common name of the city, town or village, where the Seller address is located.
      *
-     * @var
+     * @var string|null
      */
     private $city;
 
@@ -44,7 +44,7 @@ class BuyerPostalAddress
      * BT-53
      * The identifier for an addressable group of properties according to the relevant postal service.
      *
-     * @var
+     * @var string|null
      */
     private $postCode;
 
@@ -52,7 +52,7 @@ class BuyerPostalAddress
      * BT-54
      * The subdivision of a country.
      *
-     * @var
+     * @var string|null
      */
     private $countrySubdivision;
 
@@ -105,36 +105,36 @@ class BuyerPostalAddress
         return $this;
     }
 
-    public function getPostCode()
-    {
-        return $this->postCode;
-    }
-
-    public function setPostCode($postCode): self
-    {
-        $this->postCode = $postCode;
-
-        return $this;
-    }
-
-    public function getCity()
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function setCity($city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 
         return $this;
     }
 
-    public function getCountrySubdivision()
+    public function getPostCode(): ?string
+    {
+        return $this->postCode;
+    }
+
+    public function setPostCode(?string $postCode): self
+    {
+        $this->postCode = $postCode;
+
+        return $this;
+    }
+
+    public function getCountrySubdivision(): ?string
     {
         return $this->countrySubdivision;
     }
 
-    public function setCountrySubdivision($countrySubdivision): self
+    public function setCountrySubdivision(?string $countrySubdivision): self
     {
         $this->countrySubdivision = $countrySubdivision;
 

@@ -68,6 +68,7 @@ class SellerPostalAddress
     {
         $this->countryCode = $countryCode;
     }
+
     public function getLine1(): ?string
     {
         return $this->line1;
@@ -104,36 +105,36 @@ class SellerPostalAddress
         return $this;
     }
 
-    public function getPostCode()
-    {
-        return $this->postCode;
-    }
-
-    public function setPostCode($postCode): self
-    {
-        $this->postCode = $postCode;
-
-        return $this;
-    }
-
-    public function getCity()
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function setCity($city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 
         return $this;
     }
 
-    public function getCountrySubdivision()
+    public function getPostCode(): ?string
+    {
+        return $this->postCode;
+    }
+
+    public function setPostCode(?string $postCode): self
+    {
+        $this->postCode = $postCode;
+
+        return $this;
+    }
+
+    public function getCountrySubdivision(): ?string
     {
         return $this->countrySubdivision;
     }
 
-    public function setCountrySubdivision($countrySubdivision): self
+    public function setCountrySubdivision(?string $countrySubdivision): self
     {
         $this->countrySubdivision = $countrySubdivision;
 
