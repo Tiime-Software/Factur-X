@@ -24,9 +24,24 @@ class Buyer
      */
     private $tradingName;
 
-    /** @todo BT-46 */
-    /** @todo BT-47 */
+    /** 
+     * BT-46
+     * An identifier of the buyer.
+     * 
+     * @var string|null
+     * @todo schem identifier
+     */
+    private $identifier;
 
+    /** 
+     * BT-47
+     * An identifier issued by an official registrar that identifies the buyer as a legal entity or person.
+     * 
+     * @var string|null
+     * @todo schem identifier
+     */
+    private $legalRegistrationIdentifier;
+    
     /**
      * BT-48
      * The Buyer's VAT identifier (also known as Buyer VAT identification number).
@@ -37,7 +52,6 @@ class Buyer
 
     /**
      * BG-8
-     *
      *
      * @var BuyerPostalAddress
      */
@@ -50,7 +64,14 @@ class Buyer
      */
     private $contact;
 
-    /** @todo BT-49 */
+    /** 
+     * BT-49 
+     * Identifies the buyer's electronic address to which the invoice is delivered.
+     * 
+     * @var string|null 
+     * @todo scheme identifier is mandatory
+     */
+    private $electronicAddress;
 
     public function __construct(string $name, BuyerPostalAddress $address)
     {
@@ -66,5 +87,77 @@ class Buyer
     public function getAddress(): BuyerPostalAddress
     {
         return $this->address;
+    }
+
+    public function getTradingName(): ?string
+    {
+        return $this->tradingName;
+    }
+
+    public function setTradingName(?string $tradingName): self
+    {
+        $this->tradingName = $tradingName;
+
+        return $this;
+    }
+
+    public function getContact(): ?BuyerContact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?BuyerContact $contact): self
+    {
+        $this->contact = $contact;
+
+        return $this;
+    }
+
+    public function getIdentifier(): ?string
+    {
+        return $this->identifier;
+    }
+
+    public function setIdentifier(?string $identifier): self
+    {
+        $this->identifier = $identifier;
+
+        return $this;
+    }
+
+    public function getLegalRegistrationIdentifier(): ?string
+    {
+        return $this->legalRegistrationIdentifier;
+    }
+
+    public function setLegalRegistrationIdentifier(?string $legalRegistrationIdentifier): self
+    {
+        $this->legalRegistrationIdentifier = $legalRegistrationIdentifier;
+
+        return $this;
+    }
+
+    public function getVatIdentifier(): ?string
+    {
+        return $this->vatIdentifier;
+    }
+
+    public function setVatIdentifier(?string $vatIdentifier): self
+    {
+        $this->vatIdentifier = $vatIdentifier;
+
+        return $this;
+    }
+
+    public function getElectronicAddress(): ?string
+    {
+        return $this->electronicAddress;
+    }
+
+    public function setElectronicAddress(?string $electronicAddress): self
+    {
+        $this->electronicAddress = $electronicAddress;
+
+        return $this;
     }
 }
