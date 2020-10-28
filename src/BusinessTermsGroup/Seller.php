@@ -25,14 +25,29 @@ class Seller
      */
     private $tradingName;
 
-    /** @todo BT-29 */
-    /** @todo BT-30 */
+    /**
+     * BT-29
+     * An identifier of the seller.
+     *
+     * @var string[]|null
+     * @todo scheme identifier
+     */
+    private $identifiers;
+
+    /**
+     * BT-30
+     * An identifier issued by an official registrar that identifies the seller as a legal entity or person.
+     *
+     * @var string|null
+     * @todo schem identifier
+     */
+    private $legalRegistrationIdentifier;
 
     /**
      * BT-31
      * The Seller's VAT identifier (also known as Seller VAT identification number)
      *
-     * @var
+     * @var string|null
      */
     private $vatIdentifier;
 
@@ -41,7 +56,7 @@ class Seller
      * The local identification (defined by the Seller’s address) of the Seller for tax purposes
      * or a reference that enables the Seller to state his registered tax status.
      *
-     * @var
+     * @var string|null
      */
     private $taxRegistrationIdentifier;
 
@@ -49,11 +64,18 @@ class Seller
      * BT-33
      * Additional legal information relevant for the Seller.
      *
-     * @var
+     * @var string|null
      */
     private $additionalLegalInformation;
 
-    /** @todo BT-34 */
+    /**
+     * BT-34
+     * Identifies the seller's electronic address to which the application level response to the invoice may be delivered.
+     *
+     * @var string|null
+     * @todo scheme identifier is mandatory
+     */
+    private $electronicAddress;
 
     /**
      * @var SellerPostalAddress
@@ -74,5 +96,89 @@ class Seller
     public function getAddress(): SellerPostalAddress
     {
         return $this->address;
+    }
+
+    public function getTradingName(): ?string
+    {
+        return $this->tradingName;
+    }
+
+    public function setTradingName(?string $tradingName): self
+    {
+        $this->tradingName = $tradingName;
+
+        return $this;
+    }
+
+    public function getIdentifiers(): ?array
+    {
+        return $this->identifiers;
+    }
+
+    public function setIdentifiers(?array $identifiers): self
+    {
+        $this->identifiers = $identifiers;
+
+        return $this;
+    }
+
+    public function getLegalRegistrationIdentifier(): ?string
+    {
+        return $this->legalRegistrationIdentifier;
+    }
+
+    public function setLegalRegistrationIdentifier(?string $legalRegistrationIdentifier): self
+    {
+        $this->legalRegistrationIdentifier = $legalRegistrationIdentifier;
+
+        return $this;
+    }
+
+    public function getVatIdentifier(): ?string
+    {
+        return $this->vatIdentifier;
+    }
+
+    public function setVatIdentifier(?string $vatIdentifier): self
+    {
+        $this->vatIdentifier = $vatIdentifier;
+
+        return $this;
+    }
+
+    public function getTaxRegistrationIdentifier(): ?string
+    {
+        return $this->taxRegistrationIdentifier;
+    }
+
+    public function setTaxRegistrationIdentifier(?string $taxRegistrationIdentifier): self
+    {
+        $this->taxRegistrationIdentifier = $taxRegistrationIdentifier;
+
+        return $this;
+    }
+
+    public function getAdditionalLegalInformation(): ?string
+    {
+        return $this->additionalLegalInformation;
+    }
+
+    public function setAdditionalLegalInformation(?string $additionalLegalInformation): self
+    {
+        $this->additionalLegalInformation = $additionalLegalInformation;
+
+        return $this;
+    }
+
+    public function getElectronicAddress(): ?string
+    {
+        return $this->electronicAddress;
+    }
+
+    public function setElectronicAddress(?string $electronicAddress): self
+    {
+        $this->electronicAddress = $electronicAddress;
+
+        return $this;
     }
 }
