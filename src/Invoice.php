@@ -21,6 +21,50 @@ use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 
 class Invoice
 {
+    const TYPE_DEBIT_NOTE_RELATED_TO_GOODS_OR_SERVICES = '80';
+    const TYPE_CREDIT_NOTE_RELATED_TO_GOODS_OR_SERVICES = '81';
+    const TYPE_METERED_SERVICES_INVOICE = '82';
+    const TYPE_CREDIT_NOTE_RELATED_TO_FINANCIAL_ADJUSTMENTS = '83';
+    const TYPE_DEBIT_NOTE_RELATED_TO_FINANCIAL_ADJUSTMENTS = '84';
+    const TYPE_INVOICING_DATA_SHEET = '130';
+    const TYPE_DIRECT_PAYMENT_VALUATION = '202';
+    const TYPE_PROVISIONAL_PAYMENT_VALUATION = '203';
+    const TYPE_PAYMENT_VALUATION = '204';
+    const TYPE_INTERIM_APPLICATION_FOR_PAYMENT = '211';
+    const TYPE_SELF_BILLED_CREDIT_NOTE = '261';
+    const TYPE_CONSOLIDATED_CREDIT_NOTE_GOODS_AND_SERVICES = '262';
+    const TYPE_PRICE_VARIATION_INVOICE = '295';
+    const TYPE_CREDIT_NOTE_FOR_PRICE_VARIATION = '296';
+    const TYPE_DELCREDERE_CREDIT_NOTE = '308';
+    const TYPE_PROFORMA_INVOICE = '325';
+    const TYPE_PARTIAL_INVOICE = '326';
+    const TYPE_COMMERCIAL_INVOICE = '380';
+    const TYPE_CREDIT_NOTE = '381';
+    const TYPE_DEBIT_NOTE = '383';
+    const TYPE_CORRECTED_INVOICE = '384';
+    const TYPE_CONSOLIDATED_INVOICE = '385';
+    const TYPE_PREPAYMENT_INVOICE = '386';
+    const TYPE_HIRE_INVOICE = '387';
+    const TYPE_TAX_INVOICE = '388';
+    const TYPE_SELF_BILLED_INVOICE = '389';
+    const TYPE_DELCREDERE_INVOICE = '390';
+    const TYPE_FACTORED_INVOICE = '393';
+    const TYPE_LEASE_INVOICE = '394';
+    const TYPE_CONSIGNMENT_INVOICE = '395';
+    const TYPE_FACTORED_CREDIT_NOTE = '396';
+    const TYPE_OCR_PAYMENT_CREDIT_NOTE = '420';
+    const TYPE_DEBIT_ADVICE = '456';
+    const TYPE_REVERSAL_OF_DEBIT = '457';
+    const TYPE_REVERSAL_OF_CREDIT = '458';
+    const TYPE_SELF_BILLED_DEBIT_NOTE = '527';
+    const TYPE_FORWARDER_CREDIT_NOTE = '532';
+    const TYPE_INSURER_INVOICE = '575';
+    const TYPE_FORWARDER_INVOICE = '623';
+    const TYPE_PORT_CHARGES_DOCUMENTS = '633';
+    const TYPE_INVOICE_INFORMATION_FOR_ACCOUNTING_PURPOSES = '751';
+    const TYPE_FREIGHT_INVOICE = '780';
+    const TYPE_CUSTOMS_INVOICE = '935';
+
     /**
      * BT-1
      * A unique identification of the Invoice.
@@ -283,6 +327,7 @@ class Invoice
         $this->number = $number;
         $this->issueDate = $issueDate;
         $this->typeCode = $typeCode;
+        $this->invoiceNote = [];
         $this->currencyCode = $currencyCode;
         $this->processControl = $processControl;
         $this->seller = $seller;
@@ -453,27 +498,5 @@ class Invoice
     public function getInvoiceLines(): array
     {
         return $this->invoiceLines;
-    }
-
-    public function getXml(): string
-    {
-        $invoice = new \DOMDocument();
-        
-        $issueDate = $invoice->createElement('ram:IssueDateTime');
-        
-        $exchangedDocumentChildren = [
-            $invoice->createElement('ram:ID', $this->getNumber()),
-            $invoice->createElement('ram:TypeCode', $this->getTypeCode()),
-            $issueDate->appendChild($invoice->createElement('ram:DateTimeString', $this->getIssueDate()->format('Ymd')))
-        ];
-
-        $exchangedDocument = $invoice->createElement('rsm:ExchangedDocument');
-        foreach ($exchangedDocumentChildren as $node) {
-            $exchangedDocument->appendChild($node);
-        }
-        
-        $invoice->appendChild($exchangedDocument);
-        
-        return $invoice->saveXML();
     }
 }

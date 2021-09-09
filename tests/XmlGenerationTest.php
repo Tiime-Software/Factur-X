@@ -12,6 +12,7 @@ use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 use Tiime\FacturX\Invoice;
+use Tiime\FacturX\Serializer;
 
 class XmlGenerationTest extends TestCase
 {
@@ -23,9 +24,9 @@ class XmlGenerationTest extends TestCase
         $this->invoice = new Invoice(
             '34',
             new \DateTimeImmutable(),
-            'ZC',
+            Invoice::TYPE_COMMERCIAL_INVOICE,
             'EUR',
-            new ProcessControl(),
+            (new ProcessControl(ProcessControl::BASIC))->setBusinessProcessType('A1'),
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
             new DocumentTotals(),
@@ -33,10 +34,10 @@ class XmlGenerationTest extends TestCase
             [new InvoiceLine()]
         );
     }
-    
+
     /** @test */
     public function xml()
     {
-        $this->assertSame('', $this->invoice->getXml());
+        $this->assertSame('', (new Serializer())->serialize($this->invoice));
     }
 }

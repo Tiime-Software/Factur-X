@@ -9,6 +9,8 @@ namespace Tiime\FacturX\BusinessTermsGroup;
 class ProcessControl
 {
     const DEFAULT_IDENTIFIER = 'urn:cen.eu:en16931:2017';
+    
+    const BASIC = 'urn:cen.eu:en16931#compliant#factur-x.eu:1p0:basic';
 
     /**
      * BT-23

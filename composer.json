@@ -14,7 +14,7 @@
         }
     },
     "require": {
-        "php": "^7.2",
+        "php": "^7.4",
         "ext-dom": "*",
         "alcohol/iso4217": "^3.1",
         "atgp/factur-x": "^1.0"

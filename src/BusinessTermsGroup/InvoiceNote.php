@@ -24,4 +24,14 @@ class InvoiceNote
      * @var string
      */
     private $note;
+
+    public function getSubjectCode()
+    {
+        return $this->subjectCode;
+    }
+
+    public function getNote(): string
+    {
+        return $this->note;
+    }
 }
