@@ -25,7 +25,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             new \DateTimeImmutable(),
             'ZC',
             'EUR',
-            new ProcessControl(),
+            new ProcessControl(ProcessControl::MINIMUM),
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
             new DocumentTotals(),

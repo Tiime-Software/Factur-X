@@ -8,9 +8,11 @@ namespace Tiime\FacturX\BusinessTermsGroup;
  */
 class ProcessControl
 {
-    const DEFAULT_IDENTIFIER = 'urn:cen.eu:en16931:2017';
-    
+    const MINIMUM = 'urn:factur-x.eu:1p0:minimum';
+    const BASIC_WL = '';
     const BASIC = 'urn:cen.eu:en16931#compliant#factur-x.eu:1p0:basic';
+    const EN16931 = '';
+    const EXTENDED = '';
 
     /**
      * BT-23
@@ -30,7 +32,7 @@ class ProcessControl
      */
     private $specificationIdentifier;
 
-    public function __construct(string $specificationIdentifier = self::DEFAULT_IDENTIFIER)
+    public function __construct(string $specificationIdentifier)
     {
         $this->specificationIdentifier = $specificationIdentifier;
     }

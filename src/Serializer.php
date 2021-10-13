@@ -29,8 +29,11 @@ class Serializer
         $this->addNumber($invoiceXML, $invoice->getNumber());
         $this->addTypeCode($invoiceXML, $invoice->getTypeCode());
         $this->addIssueDate($invoiceXML, $invoice->getIssueDate());
-        $this->addIncludedNote($invoiceXML, ...$invoice->getInvoiceNote());
-        $this->addCurrency($invoiceXML, $invoice->getCurrencyCode());
+        
+        if ($invoice->getProcessControl()->getSpecificationIdentifier() !== ProcessControl::MINIMUM) {
+            $this->addIncludedNote($invoiceXML, ...$invoice->getInvoiceNote());
+            $this->addCurrency($invoiceXML, $invoice->getCurrencyCode());
+        }
 
         return $invoiceXML->saveXML();
     }

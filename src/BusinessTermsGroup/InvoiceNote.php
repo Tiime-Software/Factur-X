@@ -12,20 +12,22 @@ class InvoiceNote
     /**
      * BT-21
      * The subject of the textual note in BT-22.
-     *
-     * @var
      */
-    private $subjectCode;
+    private InvoiceNoteCode $subjectCode;
 
     /**
      * BT-22
      * A textual note that gives unstructured information that is relevant to the Invoice as a whole.
-     *
-     * @var string
      */
-    private $note;
+    private string $note;
 
-    public function getSubjectCode()
+    public function __construct(InvoiceNoteCode $subjectCode, string $note)
+    {
+        $this->subjectCode = $subjectCode;
+        $this->note = $note;
+    }
+
+    public function getSubjectCode(): InvoiceNoteCode
     {
         return $this->subjectCode;
     }

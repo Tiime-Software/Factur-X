@@ -26,7 +26,7 @@ class XmlGenerationTest extends TestCase
             new \DateTimeImmutable(),
             Invoice::TYPE_COMMERCIAL_INVOICE,
             'EUR',
-            (new ProcessControl(ProcessControl::BASIC))->setBusinessProcessType('A1'),
+            (new ProcessControl(ProcessControl::MINIMUM))->setBusinessProcessType('A1'),
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
             new DocumentTotals(),
@@ -38,6 +38,8 @@ class XmlGenerationTest extends TestCase
     /** @test */
     public function xml()
     {
+        file_put_contents('factu.xml', (new Serializer())->serialize($this->invoice));
+        
         $this->assertSame('', (new Serializer())->serialize($this->invoice));
     }
 }
