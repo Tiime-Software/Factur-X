@@ -230,7 +230,7 @@ class Invoice
     public function __construct(
         string $number,
         \DateTimeInterface $issueDate,
-        string $typeCode,
+        InvoiceTypeCode $typeCode,
         string $currencyCode,
         ProcessControl $processControl,
         Seller $seller,
@@ -314,7 +314,10 @@ class Invoice
         $this->processControl->hydrateXmlDocument($invoiceXML);
 
         $this->appendToExchangedDocument($invoiceXML, $invoiceXML->createElement('ram:ID', $this->number));
-        $this->appendToExchangedDocument($invoiceXML, $invoiceXML->createElement('ram:TypeCode', $this->typeCode));
+        $this->appendToExchangedDocument(
+            $invoiceXML,
+            $invoiceXML->createElement('ram:TypeCode', $this->typeCode->value)
+        );
         $issueDate = $invoiceXML->createElement('ram:IssueDateTime');
         $issueDateString = $invoiceXML->createElement('udt:DateTimeString', $this->issueDate->format('Ymd'));
         $issueDateString->setAttribute('format', '102');

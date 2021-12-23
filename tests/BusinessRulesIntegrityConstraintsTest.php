@@ -8,11 +8,13 @@ use Tiime\FacturX\BusinessTermsGroup\BuyerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\DocumentTotals;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceLine;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceLinePeriod;
+use Tiime\FacturX\BusinessTermsGroup\InvoiceTypeCode;
 use Tiime\FacturX\BusinessTermsGroup\InvoicingPeriod;
 use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
+use Tiime\FacturX\DataType\Identifier;
 use Tiime\FacturX\Invoice;
 
 class BusinessRulesIntegrityConstraintsTest extends TestCase
@@ -25,7 +27,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
         $this->invoice = new Invoice(
             '34',
             new \DateTimeImmutable(),
-            'ZC',
+            InvoiceTypeCode::COMMERCIAL_INVOICE,
             'EUR',
             new ProcessControl(ProcessControl::MINIMUM),
             new Seller('John Doe', new SellerPostalAddress('FR')),
@@ -33,8 +35,8 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             new DocumentTotals(39, 39, 39, 39),
             [new VatBreakdown()],
             [
-                new InvoiceLine(34),
-                new InvoiceLine(5),
+                new InvoiceLine(new Identifier("XS1"), 34),
+                new InvoiceLine(new Identifier("B13"), 5),
             ]
         );
     }
@@ -61,7 +63,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
     /** @test BR-4 */
     public function an_invoice_shall_have_an_invoice_type_code()
     {
-        $this->assertSame('ZC', $this->invoice->getTypeCode());
+        $this->assertSame(InvoiceTypeCode::COMMERCIAL_INVOICE, $this->invoice->getTypeCode());
     }
 
     /** @test BR-5 */
@@ -138,7 +140,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
         new Invoice(
             '34',
             new \DateTimeImmutable(),
-            'ZC',
+            InvoiceTypeCode::COMMERCIAL_INVOICE,
             'EUR',
             new ProcessControl(ProcessControl::MINIMUM),
             new Seller('John Doe', new SellerPostalAddress('FR')),

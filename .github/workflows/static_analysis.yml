@@ -27,6 +27,3 @@ jobs:
 
       - name: 🧽 Run code sniffer
         run: vendor/bin/phpcs -q --report=checkstyle --standard=PSR12 --ignore=src/BusinessTermsGroup/InvoiceNoteCode.php,src/BusinessTermsGroup/InvoiceTypeCode.php ./src | vendor/bin/cs2pr
-
-      - name: ⛓️ Run Psalm
-        run: vendor/bin/psalm --output-format=checkstyle | vendor/bin/cs2pr
