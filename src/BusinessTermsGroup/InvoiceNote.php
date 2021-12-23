@@ -36,4 +36,15 @@ class InvoiceNote
     {
         return $this->note;
     }
+
+    public function hydrateXmlDocument(\DOMDocument $document): void
+    {
+        $exchangedDocument = $document->getElementsByTagName('rsm:ExchangedDocument')->item(0);
+
+        $note = $document->createElement('ram:IncludedNote');
+        $note->appendChild($document->createElement('ram:Content', $this->getNote()));
+        $note->appendChild($document->createElement('ram:SubjectCode', $this->getSubjectCode()));
+
+        $exchangedDocument->appendChild($note);
+    }
 }

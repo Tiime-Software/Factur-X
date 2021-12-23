@@ -11,16 +11,36 @@ class InvoicingPeriod
     /**
      * BT-73
      * The date when the Invoice period starts.
-     *
-     * @var \DateTimeInterface|null
      */
-    private $startDate;
+    private ?\DateTimeInterface $startDate;
 
     /**
      * BT-74
      * The date when the Invoice period ends.
-     *
-     * @var \DateTimeInterface|null
      */
-    private $endDate;
+    private ?\DateTimeInterface $endDate;
+
+    public function __construct(?\DateTimeInterface $startDate, ?\DateTimeInterface $endDate)
+    {
+        if (
+            $startDate instanceof \DateTimeInterface
+            && $endDate instanceof \DateTimeInterface
+            && $startDate > $endDate
+        ) {
+            throw new \Exception('@todo');
+        }
+
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+    }
+
+    public function getStartDate(): ?\DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function getEndDate(): ?\DateTimeInterface
+    {
+        return $this->endDate;
+    }
 }

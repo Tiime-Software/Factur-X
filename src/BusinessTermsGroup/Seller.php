@@ -2,6 +2,8 @@
 
 namespace Tiime\FacturX\BusinessTermsGroup;
 
+use Tiime\FacturX\DataType\Identifier;
+
 /**
  * BG-4
  * A group of business terms providing information about the Seller.
@@ -29,10 +31,11 @@ class Seller
      * BT-29
      * An identifier of the seller.
      *
-     * @var string[]|null
-     * @todo scheme identifier
+     * Identification du Vendeur.
+     *
+     * @var Identifier[]
      */
-    private $identifiers;
+    private array $identifiers;
 
     /**
      * BT-30
@@ -41,7 +44,7 @@ class Seller
      * @var string|null
      * @todo schem identifier
      */
-    private $legalRegistrationIdentifier;
+    private ?Identifier $legalRegistrationIdentifier;
 
     /**
      * BT-31
@@ -70,7 +73,8 @@ class Seller
 
     /**
      * BT-34
-     * Identifies the seller's electronic address to which the application level response to the invoice may be delivered.
+     * Identifies the seller's electronic address to which the application level response to
+     * the invoice may be delivered.
      *
      * @var string|null
      * @todo scheme identifier is mandatory
@@ -86,6 +90,7 @@ class Seller
     {
         $this->name = $name;
         $this->address = $address;
+        $this->identifiers = [];
     }
 
     public function getName(): string
@@ -180,5 +185,18 @@ class Seller
         $this->electronicAddress = $electronicAddress;
 
         return $this;
+    }
+
+    public function hydrateXmlDocument(\DOMDocument $document): void
+    {
+        $applicableHeaderTradeAgreement = $document
+            ->getElementsByTagName('ram:ApplicableHeaderTradeAgreement')
+            ->item(0);
+
+        $sellerTradeParty = $document->createElement('ram:SellerTradeParty');
+
+        $sellerTradeParty->appendChild($document->createElement('ram:Name', $this->name));
+
+        $applicableHeaderTradeAgreement->appendChild($sellerTradeParty);
     }
 }

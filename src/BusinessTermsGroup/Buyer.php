@@ -24,24 +24,24 @@ class Buyer
      */
     private $tradingName;
 
-    /** 
+    /**
      * BT-46
      * An identifier of the buyer.
-     * 
+     *
      * @var string|null
      * @todo schem identifier
      */
     private $identifier;
 
-    /** 
+    /**
      * BT-47
      * An identifier issued by an official registrar that identifies the buyer as a legal entity or person.
-     * 
+     *
      * @var string|null
      * @todo schem identifier
      */
     private $legalRegistrationIdentifier;
-    
+
     /**
      * BT-48
      * The Buyer's VAT identifier (also known as Buyer VAT identification number).
@@ -64,11 +64,11 @@ class Buyer
      */
     private $contact;
 
-    /** 
-     * BT-49 
+    /**
+     * BT-49
      * Identifies the buyer's electronic address to which the invoice is delivered.
-     * 
-     * @var string|null 
+     *
+     * @var string|null
      * @todo scheme identifier is mandatory
      */
     private $electronicAddress;
@@ -159,5 +159,19 @@ class Buyer
         $this->electronicAddress = $electronicAddress;
 
         return $this;
+    }
+
+    public function hydrateXmlDocument(\DOMDocument $document): void
+    {
+        $applicableHeaderTradeAgreement = $document
+            ->getElementsByTagName('ram:ApplicableHeaderTradeAgreement')
+            ->item(0);
+
+
+        $buyerTradeParty = $document->createElement('ram:BuyerTradeParty');
+
+        $buyerTradeParty->appendChild($document->createElement('ram:Name', $this->name));
+
+        $applicableHeaderTradeAgreement->appendChild($buyerTradeParty);
     }
 }

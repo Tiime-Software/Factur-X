@@ -5,12 +5,14 @@ namespace Tiime\FacturX;
 use Alcohol\ISO4217;
 use Tiime\FacturX\BusinessTermsGroup\AdditionalSupportingDocuments;
 use Tiime\FacturX\BusinessTermsGroup\Buyer;
+use Tiime\FacturX\BusinessTermsGroup\DeliverToAddress;
 use Tiime\FacturX\BusinessTermsGroup\DeliveryInformation;
 use Tiime\FacturX\BusinessTermsGroup\DocumentLevelAllowances;
 use Tiime\FacturX\BusinessTermsGroup\DocumentLevelCharges;
 use Tiime\FacturX\BusinessTermsGroup\DocumentTotals;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceLine;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceNote;
+use Tiime\FacturX\BusinessTermsGroup\InvoiceTypeCode;
 use Tiime\FacturX\BusinessTermsGroup\Payee;
 use Tiime\FacturX\BusinessTermsGroup\PaymentInstructions;
 use Tiime\FacturX\BusinessTermsGroup\PrecedingInvoiceReference;
@@ -21,81 +23,30 @@ use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 
 class Invoice
 {
-    const TYPE_DEBIT_NOTE_RELATED_TO_GOODS_OR_SERVICES = '80';
-    const TYPE_CREDIT_NOTE_RELATED_TO_GOODS_OR_SERVICES = '81';
-    const TYPE_METERED_SERVICES_INVOICE = '82';
-    const TYPE_CREDIT_NOTE_RELATED_TO_FINANCIAL_ADJUSTMENTS = '83';
-    const TYPE_DEBIT_NOTE_RELATED_TO_FINANCIAL_ADJUSTMENTS = '84';
-    const TYPE_INVOICING_DATA_SHEET = '130';
-    const TYPE_DIRECT_PAYMENT_VALUATION = '202';
-    const TYPE_PROVISIONAL_PAYMENT_VALUATION = '203';
-    const TYPE_PAYMENT_VALUATION = '204';
-    const TYPE_INTERIM_APPLICATION_FOR_PAYMENT = '211';
-    const TYPE_SELF_BILLED_CREDIT_NOTE = '261';
-    const TYPE_CONSOLIDATED_CREDIT_NOTE_GOODS_AND_SERVICES = '262';
-    const TYPE_PRICE_VARIATION_INVOICE = '295';
-    const TYPE_CREDIT_NOTE_FOR_PRICE_VARIATION = '296';
-    const TYPE_DELCREDERE_CREDIT_NOTE = '308';
-    const TYPE_PROFORMA_INVOICE = '325';
-    const TYPE_PARTIAL_INVOICE = '326';
-    const TYPE_COMMERCIAL_INVOICE = '380';
-    const TYPE_CREDIT_NOTE = '381';
-    const TYPE_DEBIT_NOTE = '383';
-    const TYPE_CORRECTED_INVOICE = '384';
-    const TYPE_CONSOLIDATED_INVOICE = '385';
-    const TYPE_PREPAYMENT_INVOICE = '386';
-    const TYPE_HIRE_INVOICE = '387';
-    const TYPE_TAX_INVOICE = '388';
-    const TYPE_SELF_BILLED_INVOICE = '389';
-    const TYPE_DELCREDERE_INVOICE = '390';
-    const TYPE_FACTORED_INVOICE = '393';
-    const TYPE_LEASE_INVOICE = '394';
-    const TYPE_CONSIGNMENT_INVOICE = '395';
-    const TYPE_FACTORED_CREDIT_NOTE = '396';
-    const TYPE_OCR_PAYMENT_CREDIT_NOTE = '420';
-    const TYPE_DEBIT_ADVICE = '456';
-    const TYPE_REVERSAL_OF_DEBIT = '457';
-    const TYPE_REVERSAL_OF_CREDIT = '458';
-    const TYPE_SELF_BILLED_DEBIT_NOTE = '527';
-    const TYPE_FORWARDER_CREDIT_NOTE = '532';
-    const TYPE_INSURER_INVOICE = '575';
-    const TYPE_FORWARDER_INVOICE = '623';
-    const TYPE_PORT_CHARGES_DOCUMENTS = '633';
-    const TYPE_INVOICE_INFORMATION_FOR_ACCOUNTING_PURPOSES = '751';
-    const TYPE_FREIGHT_INVOICE = '780';
-    const TYPE_CUSTOMS_INVOICE = '935';
-
     /**
      * BT-1
      * A unique identification of the Invoice.
-     *
-     * @var string
      */
-    private $number;
+    private string $number;
 
     /**
      * BT-2
      * The date when the Invoice was issued.
-     *
-     * @var \DateTimeInterface
      */
-    private $issueDate;
+    private \DateTimeInterface $issueDate;
 
     /**
      * BT-3
      * A code specifying the functional type of the Invoice.
      *
-     * @var
      */
-    private $typeCode;
+    private InvoiceTypeCode $typeCode;
 
     /**
      * BT-5
      * The currency in which all Invoice amounts are given, except for the Total VAT amount in accounting currency.
-     *
-     * @var string
      */
-    private $currencyCode;
+    private string $currencyCode;
 
     /**
      * BT-6
@@ -134,9 +85,9 @@ class Invoice
      * BT-10
      * An identifier assigned by the Buyer used for internal routing purposes.
      *
-     * @var
+     * Identifiant assigné par l'Acheteur et destiné au routage de la facture en interne.
      */
-    private $buyerReference;
+    private ?string $buyerReference;
 
     /**
      * BT-11
@@ -228,15 +179,9 @@ class Invoice
      */
     private $precedingInvoiceReference;
 
-    /**
-     * @var Seller
-     */
-    private $seller;
+    private Seller $seller;
 
-    /**
-     * @var Buyer
-     */
-    private $buyer;
+    private Buyer $buyer;
 
     /**
      * @var Payee|null
@@ -248,15 +193,9 @@ class Invoice
      */
     private $sellerTaxRepresentativeParty;
 
-    /**
-     * @var DeliveryInformation|null
-     */
-    private $deliveryInformation;
+    private ?DeliveryInformation $deliveryInformation;
 
-    /**
-     * @var PaymentInstructions|null
-     */
-    private $paymentInstructions;
+    private ?PaymentInstructions $paymentInstructions;
 
     /**
      * @var DocumentLevelAllowances[]
@@ -308,7 +247,7 @@ class Invoice
         }
 
         if (empty($this->vatBreakdowns)) {
-            /** @todo Exception */
+            throw new \Exception('@todo');
         }
 
         $this->invoiceLines = [];
@@ -319,7 +258,7 @@ class Invoice
         }
 
         if (empty($this->invoiceLines)) {
-            /** @todo Exception */
+            throw new \Exception('@todo');
         }
 
         (new ISO4217())->getByCode($currencyCode);
@@ -333,6 +272,102 @@ class Invoice
         $this->seller = $seller;
         $this->buyer = $buyer;
         $this->documentTotals = $documentTotals;
+
+        $this->buyerReference = null;
+        $this->deliveryInformation = null;
+        $this->paymentInstructions = null;
+    }
+
+    public function getXML(): \DOMDocument
+    {
+        $invoiceXML = new \DOMDocument('1.0', 'UTF-8');
+
+        $crossIndustryInvoice = $invoiceXML->createElement('rsm:CrossIndustryInvoice');
+        $crossIndustryInvoice->setAttribute(
+            'xmlns:qdt',
+            'urn:un:unece:uncefact:data:standard:QualifiedDataType:100'
+        );
+        $crossIndustryInvoice->setAttribute(
+            'xmlns:ram',
+            'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100'
+        );
+        $crossIndustryInvoice->setAttribute(
+            'xmlns:rsm',
+            'urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100'
+        );
+        $crossIndustryInvoice->setAttribute(
+            'xmlns:udt',
+            'urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100'
+        );
+        $crossIndustryInvoice->setAttribute(
+            'xmlns:xsi',
+            'http://www.w3.org/2001/XMLSchema-instance'
+        );
+
+        $root = $invoiceXML->appendChild($crossIndustryInvoice);
+
+        $root->appendChild($invoiceXML->createElement('rsm:ExchangedDocumentContext'));
+        $root->appendChild($invoiceXML->createElement('rsm:ExchangedDocument'));
+        $supplyChainTradeTransaction = $invoiceXML->createElement('rsm:SupplyChainTradeTransaction');
+        $root->appendChild($supplyChainTradeTransaction);
+
+        $this->processControl->hydrateXmlDocument($invoiceXML);
+
+        $this->appendToExchangedDocument($invoiceXML, $invoiceXML->createElement('ram:ID', $this->number));
+        $this->appendToExchangedDocument($invoiceXML, $invoiceXML->createElement('ram:TypeCode', $this->typeCode));
+        $issueDate = $invoiceXML->createElement('ram:IssueDateTime');
+        $issueDateString = $invoiceXML->createElement('udt:DateTimeString', $this->issueDate->format('Ymd'));
+        $issueDateString->setAttribute('format', '102');
+        $issueDate->appendChild($issueDateString);
+        $this->appendToExchangedDocument($invoiceXML, $issueDate);
+
+        foreach ($this->invoiceNote as $note) {
+            $note->hydrateXmlDocument($invoiceXML);
+        }
+
+//        foreach ($this->invoiceLines as $line) {
+//            $line->hydrateXmlDocument($invoiceXML);
+//        }
+
+        $applicableHeaderTradeAgreement = $invoiceXML->createElement('ram:ApplicableHeaderTradeAgreement');
+
+        if (null !== $this->buyerReference) {
+            $applicableHeaderTradeAgreement->appendChild(
+                $invoiceXML->createElement('ram:BuyerReference', $this->buyerReference)
+            );
+        }
+
+        $supplyChainTradeTransaction->appendChild($applicableHeaderTradeAgreement);
+
+        $this->seller->hydrateXmlDocument($invoiceXML);
+        $this->buyer->hydrateXmlDocument($invoiceXML);
+
+        $supplyChainTradeTransaction->appendChild($invoiceXML->createElement('ram:ApplicableHeaderTradeDelivery'));
+
+        if ($this->deliveryInformation instanceof DeliveryInformation) {
+            $this->deliveryInformation->hydrateXmlDocument($invoiceXML);
+        }
+
+        $applicableHeaderTradeSettlement = $invoiceXML->createElement('ram:ApplicableHeaderTradeSettlement');
+        $applicableHeaderTradeSettlement->appendChild(
+            $invoiceXML->createElement('ram:InvoiceCurrencyCode', $this->currencyCode)
+        );
+
+        if ($this->paymentInstructions instanceof PaymentInstructions) {
+            $this->paymentInstructions->hydrateXmlDocument($invoiceXML);
+        }
+
+        $supplyChainTradeTransaction->appendChild($applicableHeaderTradeSettlement);
+
+        $this->documentTotals->hydrateXmlDocument($invoiceXML);
+
+
+        return $invoiceXML;
+    }
+
+    private function appendToExchangedDocument(\DOMDocument $invoice, \DOMElement $child): void
+    {
+        $invoice->getElementsByTagName('rsm:ExchangedDocument')->item(0)->appendChild($child);
     }
 
     public function getNumber(): string
@@ -498,5 +533,12 @@ class Invoice
     public function getInvoiceLines(): array
     {
         return $this->invoiceLines;
+    }
+
+    public function setBuyerReference(?string $buyerReference): self
+    {
+        $this->buyerReference = $buyerReference;
+
+        return $this;
     }
 }

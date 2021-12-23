@@ -20,10 +20,13 @@
         "atgp/factur-x": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.4"
+        "phpunit/phpunit": "^8.4",
+        "squizlabs/php_codesniffer": "^3.6",
+        "staabm/annotate-pull-request-from-checkstyle": "^1.7"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit tests"
+        "test": "vendor/bin/phpunit tests",
+        "code_sniffer": "vendor/bin/phpcs --standard=PSR12 --ignore=src/BusinessTermsGroup/InvoiceNoteCode.php,src/BusinessTermsGroup/InvoiceTypeCode.php src/"
     },
     "license": "MIT"
 }

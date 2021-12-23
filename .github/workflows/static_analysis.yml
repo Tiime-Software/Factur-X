@@ -1,0 +1,32 @@
+name: 🕵️ Static analysis
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          extensions: json, tokenizer
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: 📥 Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: 🧽 Run code sniffer
+        run: vendor/bin/phpcs -q --report=checkstyle --standard=PSR12 --ignore=src/BusinessTermsGroup/InvoiceNoteCode.php,src/BusinessTermsGroup/InvoiceTypeCode.php ./src | vendor/bin/cs2pr
+
+      - name: ⛓️ Run Psalm
+        run: vendor/bin/psalm --output-format=checkstyle | vendor/bin/cs2pr

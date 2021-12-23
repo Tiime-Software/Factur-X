@@ -11,6 +11,6 @@ class BusinessRulesConditionsTest extends TestCase
     {
         $this->markTestSkipped('@todo');
     }
-    
+
     // @todo
 }

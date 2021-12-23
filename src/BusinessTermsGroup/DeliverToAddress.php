@@ -4,7 +4,8 @@ namespace Tiime\FacturX\BusinessTermsGroup;
 
 /**
  * BG-15
- * A group of business terms providing information about the address to which goods and services invoiced were or are delivered.
+ * A group of business terms providing information about the address to which
+ * goods and services invoiced were or are delivered.
  */
 class DeliverToAddress
 {

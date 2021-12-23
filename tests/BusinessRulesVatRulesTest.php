@@ -45,7 +45,7 @@ class BusinessRulesVatRulesTest extends TestCase
     }
 
     // @todo
-    
+
     /** @test BR-G-1 */
     public function an_invoice_that_contain_an_invoice_line_a_document_level_allowance_or_a_document_level_charge_where_the_vat_category_code_is_export_outside_EU_shall_contain_in_the_vat_breakdown_exactly_one_vat_category_code_equal_with_export_outside_EU()
     {
@@ -53,7 +53,7 @@ class BusinessRulesVatRulesTest extends TestCase
     }
 
     // @todo
-    
+
     /** @test BR-O-1 */
     public function an_invoice_that_contain_an_invoice_line_a_document_level_allowance_or_a_document_level_charge_where_the_vat_category_code_is_no_subject_to_vat_shall_contain_in_the_vat_breakdown_exactly_one_vat_category_code_equal_with_no_subject_to_vat()
     {

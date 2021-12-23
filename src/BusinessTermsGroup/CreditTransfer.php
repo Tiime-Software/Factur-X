@@ -10,7 +10,8 @@ class CreditTransfer
 {
     /**
      * BT-84
-     * A unique identifier of the financial payment account, at a payment service provider, to which payment should be made.
+     * A unique identifier of the financial payment account, at a payment service provider,
+     * to which payment should be made.
      *
      * @var
      */

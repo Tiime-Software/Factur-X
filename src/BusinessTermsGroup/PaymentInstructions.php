@@ -31,4 +31,8 @@ class PaymentInstructions
      * @var string|null
      */
     private $remittanceInformation;
+
+    public function hydrateXmlDocument(\DOMDocument $document): void
+    {
+    }
 }

@@ -4,7 +4,8 @@ namespace Tiime\FacturX\BusinessTermsGroup;
 
 /**
  * BG-23
- * A group of business terms providing information about VAT breakdown by different categories, rates and exemption reasons
+ * A group of business terms providing information about VAT breakdown by different
+ * categories, rates and exemption reasons.
  */
 class VatBreakdown
 {

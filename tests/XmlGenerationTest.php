@@ -2,15 +2,19 @@
 
 namespace Tests\Tiime\FacturX;
 
+use Atgp\FacturX\Facturx;
 use PHPUnit\Framework\TestCase;
 use Tiime\FacturX\BusinessTermsGroup\Buyer;
+use Tiime\FacturX\BusinessTermsGroup\BuyerContact;
 use Tiime\FacturX\BusinessTermsGroup\BuyerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\DocumentTotals;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceLine;
+use Tiime\FacturX\BusinessTermsGroup\InvoiceTypeCode;
 use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
+use Tiime\FacturX\DataType\Identifier;
 use Tiime\FacturX\Invoice;
 use Tiime\FacturX\Serializer;
 
@@ -24,22 +28,24 @@ class XmlGenerationTest extends TestCase
         $this->invoice = new Invoice(
             '34',
             new \DateTimeImmutable(),
-            Invoice::TYPE_COMMERCIAL_INVOICE,
+            InvoiceTypeCode::COMMERCIAL_INVOICE,
             'EUR',
             (new ProcessControl(ProcessControl::MINIMUM))->setBusinessProcessType('A1'),
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
-            new DocumentTotals(),
+            new DocumentTotals(0, 0, 0, 0),
             [new VatBreakdown()],
-            [new InvoiceLine()]
+            [new InvoiceLine(new Identifier("1"), 0)]
         );
+
+        $this->invoice->setBuyerReference("SERVEXEC");
     }
 
-    /** @test */
-    public function xml()
+    public function testXSDValidation()
     {
-        file_put_contents('factu.xml', (new Serializer())->serialize($this->invoice));
-        
-        $this->assertSame('', (new Serializer())->serialize($this->invoice));
+        $invoice = new \DOMDocument();
+        $invoice->loadXML($this->invoice->getXML()->saveXML());
+
+        $this->assertTrue($invoice->schemaValidate(__DIR__ . '/xsd/1_MINIMUM_XSD/FACTUR-X_MINIMUM.xsd'));
     }
 }

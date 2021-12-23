@@ -7,6 +7,8 @@ use Tiime\FacturX\BusinessTermsGroup\Buyer;
 use Tiime\FacturX\BusinessTermsGroup\BuyerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\DocumentTotals;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceLine;
+use Tiime\FacturX\BusinessTermsGroup\InvoiceLinePeriod;
+use Tiime\FacturX\BusinessTermsGroup\InvoicingPeriod;
 use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerPostalAddress;
@@ -28,9 +30,12 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             new ProcessControl(ProcessControl::MINIMUM),
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
-            new DocumentTotals(),
+            new DocumentTotals(39, 39, 39, 39),
             [new VatBreakdown()],
-            [new InvoiceLine()]
+            [
+                new InvoiceLine(34),
+                new InvoiceLine(5),
+            ]
         );
     }
 
@@ -80,25 +85,25 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
     /** @test BR-8 */
     public function an_invoice_shall_contain_the_seller_postal_address()
     {
-        $this->markTestSkipped('@todo');
+        $this->assertInstanceOf(SellerPostalAddress::class, $this->invoice->getSeller()->getAddress());
     }
 
     /** @test BR-9 */
     public function the_seller_postal_address_shall_contain_a_seller_country_code()
     {
-        $this->markTestSkipped('@todo');
+        $this->assertSame('FR', $this->invoice->getSeller()->getAddress()->getCountryCode());
     }
 
     /** @test BR-10 */
     public function an_invoice_shall_contain_the_buyer_postal_address()
     {
-        $this->markTestSkipped('@todo');
+        $this->assertInstanceOf(BuyerPostalAddress::class, $this->invoice->getBuyer()->getAddress());
     }
 
     /** @test BR-11 */
     public function the_buyer_postal_address_shall_contain_a_seller_country_code()
     {
-        $this->markTestSkipped('@todo');
+        $this->assertSame('FR', $this->invoice->getBuyer()->getAddress()->getCountryCode());
     }
 
     /** @test BR-12 */
@@ -128,7 +133,20 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
     /** @test BR-16 */
     public function an_invoice_shall_have_at_least_one_invoice_line()
     {
-        $this->markTestSkipped('@todo');
+        $this->expectException(\Exception::class);
+
+        new Invoice(
+            '34',
+            new \DateTimeImmutable(),
+            'ZC',
+            'EUR',
+            new ProcessControl(ProcessControl::MINIMUM),
+            new Seller('John Doe', new SellerPostalAddress('FR')),
+            new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
+            new DocumentTotals(0, 0, 0, 0),
+            [new VatBreakdown()],
+            [] // without invoice line
+        );
     }
 
     /** @test BR-17 */
@@ -206,13 +224,17 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
     /** @test BR-29 */
     public function if_both_invoicing_period_start_date_and_invoicing_period_end_date_are_given_then_the_invoicing_period_end_date_shall_be_later_or_equal_to_the_invoicing_period_start_date()
     {
-        $this->markTestSkipped('@todo');
+        $this->expectException(\Exception::class);
+
+        new InvoicingPeriod(new \DateTimeImmutable('2021-01-02'), new \DateTimeImmutable('2021-01-01'));
     }
 
     /** @test BR-30 */
     public function if_both_invoice_line_period_start_date_and_invoice_line_period_end_date_are_given_then_the_invoice_line_period_end_date_shall_be_later_or_equal_to_the_invoice_line_period_start_date()
     {
-        $this->markTestSkipped('@todo');
+        $this->expectException(\Exception::class);
+
+        new InvoiceLinePeriod(new \DateTimeImmutable('2021-01-02'), new \DateTimeImmutable('2021-01-01'));
     }
 
     /** @test BR-31 */

@@ -8,11 +8,11 @@ namespace Tiime\FacturX\BusinessTermsGroup;
  */
 class ProcessControl
 {
-    const MINIMUM = 'urn:factur-x.eu:1p0:minimum';
-    const BASIC_WL = '';
-    const BASIC = 'urn:cen.eu:en16931#compliant#factur-x.eu:1p0:basic';
-    const EN16931 = '';
-    const EXTENDED = '';
+    public const MINIMUM = 'urn:factur-x.eu:1p0:minimum';
+    public const BASIC_WL = '';
+    public const BASIC = 'urn:cen.eu:en16931#compliant#factur-x.eu:1p0:basic';
+    public const EN16931 = '';
+    public const EXTENDED = '';
 
     /**
      * BT-23
@@ -52,5 +52,18 @@ class ProcessControl
     public function getSpecificationIdentifier(): string
     {
         return $this->specificationIdentifier;
+    }
+
+    public function hydrateXmlDocument(\DOMDocument $document): void
+    {
+        $ExchangedDocumentContext = $document->getElementsByTagName('rsm:ExchangedDocumentContext')->item(0);
+
+        $type = $document->createElement('ram:BusinessProcessSpecifiedDocumentContextParameter');
+        $type->appendChild($document->createElement('ram:ID', $this->getBusinessProcessType()));
+        $ExchangedDocumentContext->appendChild($type);
+
+        $identifier = $document->createElement('ram:GuidelineSpecifiedDocumentContextParameter');
+        $identifier->appendChild($document->createElement('ram:ID', $this->getSpecificationIdentifier()));
+        $ExchangedDocumentContext->appendChild($identifier);
     }
 }

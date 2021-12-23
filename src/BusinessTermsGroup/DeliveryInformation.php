@@ -2,6 +2,8 @@
 
 namespace Tiime\FacturX\BusinessTermsGroup;
 
+use Tiime\FacturX\DataType\Identifier;
+
 /**
  * BG-13
  * A group of business terms providing information about where and when the goods and services invoiced are delivered.
@@ -16,7 +18,12 @@ class DeliveryInformation
      */
     private $deliverToPartyName;
 
-    /** @todo BT-71 */
+    /**
+     * @todo BT-71
+     *
+     * @var Identifier[]
+     */
+    private array $etablissement;
 
     /**
      * BT-72
@@ -25,4 +32,12 @@ class DeliveryInformation
      * @var \DateTimeInterface|null
      */
     private $actualDeliveryDate;
+
+    private DeliverToAddress $deliverToAddress;
+
+    private InvoicingPeriod $invoicingPeriod;
+
+    public function hydrateXmlDocument(\DOMDocument $document): void
+    {
+    }
 }

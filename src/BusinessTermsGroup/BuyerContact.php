@@ -37,7 +37,7 @@ class BuyerContact
         if (null === $phoneNumber && null === $email) {
             // @todo exception
         }
-        
+
         $this->point = $point;
         $this->phoneNumber = $phoneNumber;
         $this->email = $email;
@@ -56,5 +56,19 @@ class BuyerContact
     public function getEmail(): ?string
     {
         return $this->email;
+    }
+
+    public function hydrateXmlDocument(\DOMDocument $document): void
+    {
+        $buyerContact = $document->createElement('ram:DefinedTradeContact');
+        $document->appendChild($buyerContact);
+
+        $point = $document->createElement('ram:PersonName', $this->point);
+
+        $phone = $document->createElement('ram:TelephoneUniversalCommunication');
+        $phone->appendChild($document->createElement('ram:CompleteNumber', $this->phoneNumber));
+
+        $buyerContact->appendChild($point);
+        $buyerContact->appendChild($phone);
     }
 }

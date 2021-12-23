@@ -4,7 +4,8 @@ namespace Tiime\FacturX\BusinessTermsGroup;
 
 /**
  * BG-21
- * A group of business terms providing information about charges and taxes other than VAT, applicable to the Invoice as a whole.
+ * A group of business terms providing information about charges and taxes other than VAT,
+ * applicable to the Invoice as a whole.
  */
 class DocumentLevelCharges
 {
