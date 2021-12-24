@@ -42,8 +42,8 @@ class InvoiceNote
         $exchangedDocument = $document->getElementsByTagName('rsm:ExchangedDocument')->item(0);
 
         $note = $document->createElement('ram:IncludedNote');
-        $note->appendChild($document->createElement('ram:Content', $this->getNote()));
-        $note->appendChild($document->createElement('ram:SubjectCode', $this->getSubjectCode()));
+        $note->appendChild($document->createElement('ram:Content', $this->note));
+        $note->appendChild($document->createElement('ram:SubjectCode', $this->subjectCode->value));
 
         $exchangedDocument->appendChild($note);
     }

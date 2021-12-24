@@ -163,7 +163,7 @@ class DocumentTotals
         return $this->amountDueForPayment;
     }
 
-    public function hydrateXmlDocument(\DOMDocument $document): void
+    public function hydrateXmlDocument(\DOMDocument $document, string $profil): void
     {
         $applicableHeaderTradeSettlement = $document
             ->getElementsByTagName('ram:ApplicableHeaderTradeSettlement')
@@ -172,6 +172,12 @@ class DocumentTotals
         $specifiedTradeSettlementHeaderMonetarySummation = $document->createElement(
             'ram:SpecifiedTradeSettlementHeaderMonetarySummation'
         );
+
+        if (ProcessControl::MINIMUM !== $profil) {
+            $specifiedTradeSettlementHeaderMonetarySummation->appendChild(
+                $document->createElement('ram:LineTotalAmount', $this->sumOfInvoiceLineNetAmount)
+            );
+        }
 
         $specifiedTradeSettlementHeaderMonetarySummation->appendChild(
             $document->createElement('ram:TaxBasisTotalAmount', $this->invoiceTotalAmountWithoutVat)

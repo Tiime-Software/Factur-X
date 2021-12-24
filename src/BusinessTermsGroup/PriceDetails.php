@@ -13,33 +13,29 @@ class PriceDetails
      * BT-146
      * The price of an item, exclusive of VAT, after subtracting item price discount.
      *
-     * @var
      */
-    private $itemNetPrice;
+    private float $itemNetPrice;
 
     /**
      * BT-147
      * The total discount subtracted from the Item gross price to calculate the Item net price.
      *
-     * @var
      */
-    private $itemPriceDiscount;
+    private ?float $itemPriceDiscount;
 
     /**
      * BT-148
      * The unit price, exclusive of VAT, before subtracting Item price discount.
      *
-     * @var
      */
-    private $itemGrossPrice;
+    private ?float $itemGrossPrice;
 
     /**
      * BT-149
      * The number of item units to which the price applies.
      *
-     * @var
      */
-    private $itemPriceBaseQuantity;
+    private ?float $itemPriceBaseQuantity;
 
     /**
      * BT-150
@@ -48,4 +44,20 @@ class PriceDetails
      * @var
      */
     private $itemPriceBaseQuantityUnitOfMeasureCode;
+
+    public function __construct(float $itemNetPrice)
+    {
+        $this->itemNetPrice = $itemNetPrice;
+    }
+
+    public function hydrateXmlLine(\DOMDocument $document, \DOMElement $line): void
+    {
+        $specifiedLineTradeAgreement = $document->createElement('ram:SpecifiedLineTradeAgreement');
+
+        $netPriceProductTradePrice = $document->createElement('ram:NetPriceProductTradePrice');
+        $netPriceProductTradePrice->appendChild($document->createElement('ram:ChargeAmount', $this->itemNetPrice));
+
+        $specifiedLineTradeAgreement->appendChild($netPriceProductTradePrice);
+        $line->appendChild($specifiedLineTradeAgreement);
+    }
 }

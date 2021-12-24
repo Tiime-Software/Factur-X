@@ -324,13 +324,17 @@ class Invoice
         $issueDate->appendChild($issueDateString);
         $this->appendToExchangedDocument($invoiceXML, $issueDate);
 
-        foreach ($this->invoiceNote as $note) {
-            $note->hydrateXmlDocument($invoiceXML);
+        if (ProcessControl::MINIMUM !== $this->processControl->getSpecificationIdentifier()) {
+            foreach ($this->invoiceNote as $note) {
+                $note->hydrateXmlDocument($invoiceXML);
+            }
         }
 
-//        foreach ($this->invoiceLines as $line) {
-//            $line->hydrateXmlDocument($invoiceXML);
-//        }
+        if (ProcessControl::MINIMUM !== $this->processControl->getSpecificationIdentifier()) {
+            foreach ($this->invoiceLines as $line) {
+                $line->hydrateXmlDocument($invoiceXML);
+            }
+        }
 
         $applicableHeaderTradeAgreement = $invoiceXML->createElement('ram:ApplicableHeaderTradeAgreement');
 
@@ -362,7 +366,13 @@ class Invoice
 
         $supplyChainTradeTransaction->appendChild($applicableHeaderTradeSettlement);
 
-        $this->documentTotals->hydrateXmlDocument($invoiceXML);
+        if (ProcessControl::MINIMUM !== $this->processControl->getSpecificationIdentifier()) {
+            foreach ($this->vatBreakdowns as $vatBreakdown) {
+                $vatBreakdown->hydrateXmlDocument($invoiceXML);
+            }
+        }
+
+        $this->documentTotals->hydrateXmlDocument($invoiceXML, $this->processControl->getSpecificationIdentifier());
 
 
         return $invoiceXML;
@@ -541,6 +551,13 @@ class Invoice
     public function setBuyerReference(?string $buyerReference): self
     {
         $this->buyerReference = $buyerReference;
+
+        return $this;
+    }
+
+    public function addIncludedNote(InvoiceNote ...$note): self
+    {
+        $this->invoiceNote = $note;
 
         return $this;
     }

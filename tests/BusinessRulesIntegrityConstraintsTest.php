@@ -8,13 +8,19 @@ use Tiime\FacturX\BusinessTermsGroup\BuyerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\DocumentTotals;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceLine;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceLinePeriod;
+use Tiime\FacturX\BusinessTermsGroup\InvoiceNote;
+use Tiime\FacturX\BusinessTermsGroup\InvoiceNoteCode;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceTypeCode;
 use Tiime\FacturX\BusinessTermsGroup\InvoicingPeriod;
+use Tiime\FacturX\BusinessTermsGroup\ItemInformation;
+use Tiime\FacturX\BusinessTermsGroup\LineVatInformation;
+use Tiime\FacturX\BusinessTermsGroup\PriceDetails;
 use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 use Tiime\FacturX\DataType\Identifier;
+use Tiime\FacturX\DataType\VatCategory;
 use Tiime\FacturX\Invoice;
 
 class BusinessRulesIntegrityConstraintsTest extends TestCase
@@ -24,21 +30,31 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->invoice = new Invoice(
+        $this->invoice = (new Invoice(
             '34',
             new \DateTimeImmutable(),
             InvoiceTypeCode::COMMERCIAL_INVOICE,
             'EUR',
-            new ProcessControl(ProcessControl::MINIMUM),
+            (new ProcessControl(ProcessControl::BASIC))->setBusinessProcessType('A1'),
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
-            new DocumentTotals(39, 39, 39, 39),
-            [new VatBreakdown()],
-            [
-                new InvoiceLine(new Identifier("XS1"), 34),
-                new InvoiceLine(new Identifier("B13"), 5),
-            ]
-        );
+            new DocumentTotals(0, 0, 0, 0),
+            [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],
+            [new InvoiceLine(
+                new Identifier("1"),
+                1,
+                "box",
+                0,
+                new ItemInformation("A thing"),
+                new PriceDetails(12),
+                new LineVatInformation(VatCategory::STANDARD)
+            )]
+        ))
+            ->setBuyerReference("SERVEXEC")
+            ->addIncludedNote(
+                new InvoiceNote(InvoiceNoteCode::REASON, "Lorem Ipsum"),
+                new InvoiceNote(InvoiceNoteCode::ADDITIONAL_CONDITIONS, "Lorem Ipsum"),
+            );
     }
 
 
@@ -146,7 +162,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
             new DocumentTotals(0, 0, 0, 0),
-            [new VatBreakdown()],
+            [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],
             [] // without invoice line
         );
     }

@@ -26,7 +26,7 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit tests",
-        "code_sniffer": "vendor/bin/phpcs --standard=PSR12 --ignore=src/BusinessTermsGroup/InvoiceNoteCode.php,src/BusinessTermsGroup/InvoiceTypeCode.php src/"
+        "code_sniffer": "vendor/bin/phpcs --standard=PSR12 --ignore=src/BusinessTermsGroup/InvoiceNoteCode.php,src/BusinessTermsGroup/InvoiceTypeCode.php,src/DataType/VatCategory.php,src/DataType/VatExoneration.php src/"
     },
     "license": "MIT"
 }

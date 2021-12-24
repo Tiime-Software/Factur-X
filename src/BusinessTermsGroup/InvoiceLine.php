@@ -45,20 +45,16 @@ class InvoiceLine
      * The quantity of items (goods or services) that is charged in the Invoice line.
      *
      * Quantité d'articles (biens ou services) facturée prise en compte dans la ligne de Facture.
-     *
-     * @var
      */
-    private $invoicedQuantity;
+    private float $invoicedQuantity;
 
     /**
      * BT-130
      * The unit of measure that applies to the invoiced quantity.
      *
      * Unité de mesure applicable à la quantité facturée.
-     *
-     * @var
      */
-    private $invoicedQuantityUnitOfMeasureCode;
+    private string $invoicedQuantityUnitOfMeasureCode;
 
     /**
      * BT-131
@@ -67,6 +63,12 @@ class InvoiceLine
      * Montant total de la ligne de Facture.
      */
     private float $netAmount;
+
+    private ItemInformation $itemInformation;
+
+    private PriceDetails $priceDetails;
+
+    private LineVatInformation $lineVatInformation;
 
     /**
      * BT-132
@@ -98,10 +100,22 @@ class InvoiceLine
      */
     private $period;
 
-    public function __construct(Identifier $identifier, float $netAmount)
-    {
+    public function __construct(
+        Identifier $identifier,
+        float $invoicedQuantity,
+        string $invoicedQuantityUnitOfMeasureCode,
+        float $netAmount,
+        ItemInformation $itemInformation,
+        PriceDetails $priceDetails,
+        LineVatInformation $lineVatInformation
+    ) {
         $this->identifier = $identifier;
+        $this->invoicedQuantity = $invoicedQuantity;
+        $this->invoicedQuantityUnitOfMeasureCode = $invoicedQuantityUnitOfMeasureCode;
         $this->netAmount = $netAmount;
+        $this->itemInformation = $itemInformation;
+        $this->priceDetails = $priceDetails;
+        $this->lineVatInformation = $lineVatInformation;
     }
 
     public function getNetAmount(): float
@@ -113,12 +127,34 @@ class InvoiceLine
     {
         $supplyChainTradeTransaction = $document->getElementsByTagName('rsm:SupplyChainTradeTransaction')->item(0);
 
-
         $includedSupplyChainTradeLineItem = $document->createElement('ram:IncludedSupplyChainTradeLineItem');
 
         $associatedDocumentLineDocument = $document->createElement('ram:AssociatedDocumentLineDocument');
         $associatedDocumentLineDocument->appendChild($document->createElement('ram:LineID', $this->identifier->value));
         $includedSupplyChainTradeLineItem->appendChild($associatedDocumentLineDocument);
+
+        $this->itemInformation->hydrateXmlLine($document, $includedSupplyChainTradeLineItem);
+        $this->priceDetails->hydrateXmlLine($document, $includedSupplyChainTradeLineItem);
+
+        $specifiedLineTradeDelivery = $document->createElement('ram:SpecifiedLineTradeDelivery');
+        $billedQuantity = $document->createElement('ram:BilledQuantity', $this->invoicedQuantity);
+        $billedQuantity->setAttribute('unitCode', $this->invoicedQuantityUnitOfMeasureCode);
+        $specifiedLineTradeDelivery->appendChild($billedQuantity);
+        $includedSupplyChainTradeLineItem->appendChild($specifiedLineTradeDelivery);
+
+        $specifiedLineTradeSettlement = $document->createElement('ram:SpecifiedLineTradeSettlement');
+
+        $this->lineVatInformation->hydrateXmlLine($document, $specifiedLineTradeSettlement);
+
+        $includedSupplyChainTradeLineItem->appendChild($specifiedLineTradeSettlement);
+
+        $specifiedTradeSettlementLineMonetarySummation = $document->createElement(
+            'ram:SpecifiedTradeSettlementLineMonetarySummation'
+        );
+        $specifiedTradeSettlementLineMonetarySummation->appendChild(
+            $document->createElement('ram:LineTotalAmount', $this->netAmount)
+        );
+        $specifiedLineTradeSettlement->appendChild($specifiedTradeSettlementLineMonetarySummation);
 
         $supplyChainTradeTransaction->appendChild($includedSupplyChainTradeLineItem);
     }

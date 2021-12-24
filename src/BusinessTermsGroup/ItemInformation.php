@@ -2,6 +2,8 @@
 
 namespace Tiime\FacturX\BusinessTermsGroup;
 
+use Tiime\FacturX\DataType\Identifier;
+
 /**
  * BG-31
  * A group of business terms providing information about the goods and services invoiced.
@@ -12,42 +14,58 @@ class ItemInformation
      * BT-153
      * A name for an item.
      *
-     * @var
      */
-    private $name;
+    private string $name;
 
     /**
      * BT-154
      * A description for an item.
      *
-     * @var
      */
-    private $description;
+    private ?string $description;
 
     /**
      * BT-155
      * An identifier, assigned by the Seller, for the item.
      *
-     * @var
      */
-    private $itemSellerIdentifier;
+    private ?Identifier $sellerIdentifier;
 
     /**
      * BT-156
      * An identifier, assigned by the Buyer, for the item.
      *
-     * @var
      */
-    private $itemBuyerIdentifier;
+    private ?Identifier $buyerIdentifier;
 
-    /** @todo BT-157 */
+    /**
+     * BT-157
+     */
+    private ?Identifier $standardIdentifier;
+
     /** @todo BT-158 */
 
     /**
      * BT-159
      * Item country of origin.
      *
-     * @var
+     * Code identifiant le pays d'où provient l'article.
+     *
+     * EN ISO 3166-1
      */
-    private $itemCountryOfOrigin;
+    private ?string $itemCountryOfOrigin;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+
+    public function hydrateXmlLine(\DOMDocument $document, \DOMElement $line): void
+    {
+        $specifiedTradeProduct = $document->createElement('ram:SpecifiedTradeProduct');
+
+        $specifiedTradeProduct->appendChild($document->createElement('ram:Name', $this->name));
+
+        $line->appendChild($specifiedTradeProduct);
+    }
 }
