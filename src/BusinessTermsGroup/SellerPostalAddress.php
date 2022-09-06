@@ -64,8 +64,11 @@ class SellerPostalAddress
      */
     private $countryCode;
 
-    public function __construct(string $countryCode)
+    public function __construct(string $line1, string $postCode, string $city, string $countryCode)
     {
+        $this->line1 = $line1;
+        $this->postCode = $postCode;
+        $this->city = $city;
         $this->countryCode = $countryCode;
     }
 
