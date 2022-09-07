@@ -86,10 +86,11 @@ class Seller
      */
     private $address;
 
-    public function __construct(string $name, SellerPostalAddress $address)
+    public function __construct(string $name, SellerPostalAddress $address, Identifier $identifier)
     {
         $this->name = $name;
         $this->address = $address;
+        $this->legalRegistrationIdentifier = $identifier;
         $this->identifiers = [];
     }
 
@@ -196,6 +197,11 @@ class Seller
         $sellerTradeParty = $document->createElement('ram:SellerTradeParty');
 
         $sellerTradeParty->appendChild($document->createElement('ram:Name', $this->name));
+
+        $specifiedLegalOrganization = $document->createElement('ram:SpecifiedLegalOrganization');
+        $specifiedLegalOrganizationID = $document->createElement('ram:ID', $this->legalRegistrationIdentifier->value);
+        $specifiedLegalOrganizationID->setAttribute('schemeID', $this->legalRegistrationIdentifier->scheme);
+        $sellerTradeParty->appendChild($specifiedLegalOrganization);
 
         $postalTradeAddress = $document->createElement('ram:PostalTradeAddress');
         $postalTradeAddress->appendChild($document->createElement('ram:PostcodeCode', $this->address->getPostCode()));
