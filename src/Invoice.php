@@ -374,6 +374,16 @@ class Invoice
             }
         }
 
+        $specifiedTradePaymentTerms = $invoiceXML->createElement('ram:SpecifiedTradePaymentTerms');
+
+        $paymentDueDate = $invoiceXML->createElement('ram:DueDateDateTime');
+        $paymentDueDateString = $invoiceXML->createElement('udt:DateTimeString', $this->paymentDueDate->format('Ymd'));
+        $paymentDueDateString->setAttribute('format', '102');
+        $paymentDueDate->appendChild($paymentDueDateString);
+
+        $specifiedTradePaymentTerms->appendChild($paymentDueDate);
+        $applicableHeaderTradeSettlement->appendChild($specifiedTradePaymentTerms);
+
         $this->documentTotals->hydrateXmlDocument($invoiceXML, $this->processControl->getSpecificationIdentifier());
 
 
