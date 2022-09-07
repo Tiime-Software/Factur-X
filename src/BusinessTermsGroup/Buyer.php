@@ -172,6 +172,17 @@ class Buyer
 
         $buyerTradeParty->appendChild($document->createElement('ram:Name', $this->name));
 
+        $postalTradeAddress = $document->createElement('ram:PostalTradeAddress');
+
+        $postalTradeAddress->appendChild($document->createElement('ram:PostcodeCode', $this->address->getPostCode()));
+        $postalTradeAddress->appendChild($document->createElement('ram:LineOne', $this->address->getLine1()));
+        $postalTradeAddress->appendChild($document->createElement('ram:LineTwo', $this->address->getLine2()));
+        $postalTradeAddress->appendChild($document->createElement('ram:LineThree', $this->address->getLine3()));
+        $postalTradeAddress->appendChild($document->createElement('ram:CityName', $this->address->getCity()));
+        $postalTradeAddress->appendChild($document->createElement('ram:CountryID', $this->address->getCountryCode()));
+
+        $buyerTradeParty->appendChild($postalTradeAddress);
+
         $applicableHeaderTradeAgreement->appendChild($buyerTradeParty);
     }
 }
