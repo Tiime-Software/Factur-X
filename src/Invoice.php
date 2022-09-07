@@ -230,6 +230,7 @@ class Invoice
     public function __construct(
         string $number,
         \DateTimeInterface $issueDate,
+        \DateTimeInterface $paymentDueDate,
         InvoiceTypeCode $typeCode,
         string $currencyCode,
         ProcessControl $processControl,
@@ -265,6 +266,7 @@ class Invoice
 
         $this->number = $number;
         $this->issueDate = $issueDate;
+        $this->paymentDueDate = $paymentDueDate;
         $this->typeCode = $typeCode;
         $this->invoiceNote = [];
         $this->currencyCode = $currencyCode;
