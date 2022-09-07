@@ -201,6 +201,7 @@ class Seller
         $specifiedLegalOrganization = $document->createElement('ram:SpecifiedLegalOrganization');
         $specifiedLegalOrganizationID = $document->createElement('ram:ID', $this->legalRegistrationIdentifier->value);
         $specifiedLegalOrganizationID->setAttribute('schemeID', $this->legalRegistrationIdentifier->scheme);
+        $specifiedLegalOrganization->appendChild($specifiedLegalOrganizationID);
         $sellerTradeParty->appendChild($specifiedLegalOrganization);
 
         $postalTradeAddress = $document->createElement('ram:PostalTradeAddress');
