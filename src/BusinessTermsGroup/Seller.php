@@ -197,6 +197,7 @@ class Seller
         $sellerTradeParty = $document->createElement('ram:SellerTradeParty');
 
         $sellerTradeParty->appendChild($document->createElement('ram:Name', $this->name));
+        $sellerTradeParty->appendChild($document->createElement('ram:SpecifiedTaxRegistration', $this->vatIdentifier));
 
         $specifiedLegalOrganization = $document->createElement('ram:SpecifiedLegalOrganization');
         $specifiedLegalOrganizationID = $document->createElement('ram:ID', $this->legalRegistrationIdentifier->value);
