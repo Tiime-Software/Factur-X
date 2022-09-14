@@ -41,7 +41,7 @@ class Seller
      * BT-30
      * An identifier issued by an official registrar that identifies the seller as a legal entity or person.
      *
-     * @var string|null
+     * @var Identifier|null
      * @todo schem identifier
      */
     private ?Identifier $legalRegistrationIdentifier;
@@ -50,9 +50,9 @@ class Seller
      * BT-31
      * The Seller's VAT identifier (also known as Seller VAT identification number)
      *
-     * @var string|null
+     * @var Identifier|null
      */
-    private $vatIdentifier;
+    private ?Identifier $vatIdentifier;
 
     /**
      * BT-32
@@ -86,7 +86,7 @@ class Seller
      */
     private $address;
 
-    public function __construct(string $name, SellerPostalAddress $address, Identifier $identifier, string $vatIdentifier)
+    public function __construct(string $name, SellerPostalAddress $address, Identifier $identifier, Identifier $vatIdentifier)
     {
         $this->name = $name;
         $this->address = $address;
@@ -129,24 +129,24 @@ class Seller
         return $this;
     }
 
-    public function getLegalRegistrationIdentifier(): ?string
+    public function getLegalRegistrationIdentifier(): ?Identifier
     {
         return $this->legalRegistrationIdentifier;
     }
 
-    public function setLegalRegistrationIdentifier(?string $legalRegistrationIdentifier): self
+    public function setLegalRegistrationIdentifier(?Identifier $legalRegistrationIdentifier): self
     {
         $this->legalRegistrationIdentifier = $legalRegistrationIdentifier;
 
         return $this;
     }
 
-    public function getVatIdentifier(): ?string
+    public function getVatIdentifier(): ?Identifier
     {
         return $this->vatIdentifier;
     }
 
-    public function setVatIdentifier(?string $vatIdentifier): self
+    public function setVatIdentifier(?Identifier $vatIdentifier): self
     {
         $this->vatIdentifier = $vatIdentifier;
 
@@ -198,7 +198,6 @@ class Seller
         $sellerTradeParty = $document->createElement('ram:SellerTradeParty');
 
         $sellerTradeParty->appendChild($document->createElement('ram:Name', $this->name));
-        $sellerTradeParty->appendChild($document->createElement('ram:SpecifiedTaxRegistration', $this->vatIdentifier));
 
         $specifiedLegalOrganization = $document->createElement('ram:SpecifiedLegalOrganization');
         $specifiedLegalOrganizationID = $document->createElement('ram:ID', $this->legalRegistrationIdentifier->value);
@@ -214,6 +213,12 @@ class Seller
         $postalTradeAddress->appendChild($document->createElement('ram:CityName', $this->address->getCity()));
         $postalTradeAddress->appendChild($document->createElement('ram:CountryID', $this->address->getCountryCode()));
         $sellerTradeParty->appendChild($postalTradeAddress);
+
+        $specifiedTaxRegistration = $document->createElement('ram:SpecifiedTaxRegistration');
+        $specifiedTaxRegistrationID = $document->createElement('ram:ID', $this->vatIdentifier->value);
+        $specifiedTaxRegistrationID->setAttribute('schemeID', $this->vatIdentifier->scheme);
+        $specifiedTaxRegistration->appendChild($specifiedTaxRegistrationID);
+        $sellerTradeParty->appendChild($specifiedTaxRegistration);
 
         $applicableHeaderTradeAgreement->appendChild($sellerTradeParty);
     }
