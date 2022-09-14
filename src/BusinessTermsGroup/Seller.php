@@ -86,11 +86,12 @@ class Seller
      */
     private $address;
 
-    public function __construct(string $name, SellerPostalAddress $address, Identifier $identifier)
+    public function __construct(string $name, SellerPostalAddress $address, Identifier $identifier, string $vatIdentifier)
     {
         $this->name = $name;
         $this->address = $address;
         $this->legalRegistrationIdentifier = $identifier;
+        $this->vatIdentifier = $vatIdentifier;
         $this->identifiers = [];
     }
 
