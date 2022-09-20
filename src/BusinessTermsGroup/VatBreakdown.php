@@ -76,6 +76,80 @@ class VatBreakdown
         $this->vatExemptionReasonCode = null;
     }
 
+    public function getVatCategoryTaxableAmount(): float
+    {
+        return $this->vatCategoryTaxableAmount;
+    }
+
+    public function setVatCategoryTaxableAmount(float $vatCategoryTaxableAmount): self
+    {
+        $this->vatCategoryTaxableAmount = $vatCategoryTaxableAmount;
+
+        return $this;
+    }
+
+    public function getVatCategoryTaxAmount(): float
+    {
+        return $this->vatCategoryTaxAmount;
+    }
+
+    public function setVatCategoryTaxAmount(float $vatCategoryTaxAmount): self
+    {
+        $this->vatCategoryTaxAmount = $vatCategoryTaxAmount;
+
+        return $this;
+    }
+
+    public function getVatCategoryCode(): VatCategory
+    {
+        return $this->vatCategoryCode;
+    }
+
+    public function setVatCategoryCode(VatCategory $vatCategoryCode): self
+    {
+        $this->vatCategoryCode = $vatCategoryCode;
+
+        return $this;
+    }
+
+    public function getVatCategoryRate(): ?float
+    {
+        return $this->vatCategoryRate;
+    }
+
+    public function setVatCategoryRate(?float $vatCategoryRate): self
+    {
+        $this->vatCategoryRate = $vatCategoryRate;
+
+        return $this;
+    }
+
+    public function getVatExemptionReasonText(): ?string
+    {
+        return $this->vatExemptionReasonText;
+    }
+
+    public function setVatExemptionReasonText(?string $vatExemptionReasonText): self
+    {
+        $this->vatExemptionReasonText = $vatExemptionReasonText;
+
+        return $this;
+    }
+
+    public function getVatExemptionReasonCode(): ?VatExoneration
+    {
+        return $this->vatExemptionReasonCode;
+    }
+
+    public function setVatExemptionReasonCode(?VatExoneration $vatExemptionReasonCode): self
+    {
+        $this->vatExemptionReasonCode = $vatExemptionReasonCode;
+
+        return $this;
+    }
+
+
+
     public function hydrateXmlDocument(\DOMDocument $document): void
     {
         $applicableHeaderTradeSettlement = $document
