@@ -79,7 +79,7 @@ class DocumentTotals
         $this->invoiceTotalAmountWithVat = $invoiceTotalAmountWithVat;
         $this->amountDueForPayment = $amountDueForPayment;
 
-        $this->invoiceTotalVatAmount = null;
+        $this->invoiceTotalVatAmount = $invoiceTotalAmountWithVat - $invoiceTotalAmountWithoutVat;
     }
 
     public function setSumOfAllowancesOnDocumentLevel(?float $sumOfAllowancesOnDocumentLevel): void
