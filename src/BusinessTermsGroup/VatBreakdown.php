@@ -44,7 +44,7 @@ class VatBreakdown
      *
      * Taux de TVA, exprimé sous forme de pourcentage, applicable au type de TVA correspondant.
      */
-    private ?float $vatCategoryRate;
+    private ?float $vatCategoryRatePercent;
 
     /**
      * BT-120
@@ -71,7 +71,7 @@ class VatBreakdown
         $this->vatCategoryTaxAmount = $vatCategoryTaxAmount;
         $this->vatCategoryCode = $vatCategoryCode;
 
-        $this->vatCategoryRate = null;
+        $this->vatCategoryRatePercent = null;
         $this->vatExemptionReasonText = null;
         $this->vatExemptionReasonCode = null;
     }
@@ -112,14 +112,14 @@ class VatBreakdown
         return $this;
     }
 
-    public function getVatCategoryRate(): ?float
+    public function getVatCategoryRatePercent(): ?float
     {
-        return $this->vatCategoryRate;
+        return $this->vatCategoryRatePercent;
     }
 
-    public function setVatCategoryRate(?float $vatCategoryRate): self
+    public function setVatCategoryRatePercent(?float $vatCategoryRatePercent): self
     {
-        $this->vatCategoryRate = $vatCategoryRate;
+        $this->vatCategoryRatePercent = $vatCategoryRatePercent;
 
         return $this;
     }
@@ -174,9 +174,9 @@ class VatBreakdown
             );
         }
 
-        if (null !== $this->vatCategoryRate) {
+        if (null !== $this->vatCategoryRatePercent) {
             $applicableTradeTax->appendChild(
-                $document->createElement('ram:RateApplicablePercent', $this->vatCategoryRate)
+                $document->createElement('ram:RateApplicablePercent', $this->vatCategoryRatePercent)
             );
         }
 
