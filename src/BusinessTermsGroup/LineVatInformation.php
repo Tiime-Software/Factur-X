@@ -50,6 +50,7 @@ class LineVatInformation
         $applicableTradeTax->appendChild(
             $document->createElement('ram:CategoryCode', $this->invoicedItemVatCategoryCode->value)
         );
+        $applicableTradeTax->appendChild($document->createElement('ram:RateApplicablePercent', $this->invoicedItemVatRate));
 
         $line->appendChild($applicableTradeTax);
     }
