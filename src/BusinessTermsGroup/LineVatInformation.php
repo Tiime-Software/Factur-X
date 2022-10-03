@@ -23,21 +23,21 @@ class LineVatInformation
      * BT-152
      * The VAT rate, represented as percentage that applies to the invoiced item.
      */
-    private ?float $invoicedItemVatRate;
+    private ?float $invoicedItemVatRatePercent;
 
     public function __construct(VatCategory $invoicedItemVatCategoryCode)
     {
         $this->invoicedItemVatCategoryCode = $invoicedItemVatCategoryCode;
     }
 
-    public function getInvoicedItemVatRate(): ?float
+    public function getInvoicedItemVatRatePercent(): ?float
     {
-        return $this->invoicedItemVatRate;
+        return $this->invoicedItemVatRatePercent;
     }
 
-    public function setInvoicedItemVatRate(?float $invoicedItemVatRate): self
+    public function setInvoicedItemVatRatePercent(?float $invoicedItemVatRatePercent): self
     {
-        $this->invoicedItemVatRate = $invoicedItemVatRate;
+        $this->invoicedItemVatRatePercent = $invoicedItemVatRatePercent;
 
         return $this;
     }
@@ -50,7 +50,7 @@ class LineVatInformation
         $applicableTradeTax->appendChild(
             $document->createElement('ram:CategoryCode', $this->invoicedItemVatCategoryCode->value)
         );
-        $applicableTradeTax->appendChild($document->createElement('ram:RateApplicablePercent', $this->invoicedItemVatRate));
+        $applicableTradeTax->appendChild($document->createElement('ram:RateApplicablePercent', $this->invoicedItemVatRatePercent));
 
         $line->appendChild($applicableTradeTax);
     }
