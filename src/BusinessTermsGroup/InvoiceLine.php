@@ -30,7 +30,10 @@ class InvoiceLine
 
     /**
      * BT-128
-     * @todo english desc
+     * An identifier for an object on which the invoice line is based, given by the Seller.
+     * It may be a subscription number, telephone number, meter point etc., as applicable.
+     * If it may be not clear for the receiver what scheme is used for the identifier,
+     * a conditional scheme identifier should be used that shall be chosen from the UNTDID 1153 code list entries.
      *
      * Identifiant d'un objet sur lequel est basée la ligne de facture et qui est indiqué par le Vendeur.
      * Il peut s'agir d'un numéro d'abonnement, d'un numéro de téléphone, d'un compteur, etc., selon le cas.
