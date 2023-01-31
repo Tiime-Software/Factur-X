@@ -2,7 +2,7 @@
 
 namespace Tiime\FacturX\DataType;
 
-enum MimeCode
+enum MimeCode: string
 {
     case PDF = "application/pdf";
     case PNG = "image/png";
