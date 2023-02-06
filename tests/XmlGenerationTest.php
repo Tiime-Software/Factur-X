@@ -18,6 +18,7 @@ use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 use Tiime\FacturX\DataType\Identifier;
+use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
 use Tiime\FacturX\DataType\VatCategory;
 use Tiime\FacturX\Invoice;
 
@@ -32,7 +33,7 @@ class XmlGenerationTest extends TestCase
     {
         $this->invoices = [
             ProcessControl::MINIMUM => (new Invoice(
-                '34',
+                new InvoiceIdentifier('34'),
                 new \DateTimeImmutable(),
                 InvoiceTypeCode::COMMERCIAL_INVOICE,
                 'EUR',
@@ -56,7 +57,7 @@ class XmlGenerationTest extends TestCase
                 new InvoiceNote(InvoiceNoteCode::ADDITIONAL_CONDITIONS, "Lorem Ipsum"),
             ),
             ProcessControl::BASIC => (new Invoice(
-                '34',
+                new InvoiceIdentifier('34'),
                 new \DateTimeImmutable(),
                 InvoiceTypeCode::COMMERCIAL_INVOICE,
                 'EUR',

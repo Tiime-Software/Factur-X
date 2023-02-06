@@ -20,6 +20,7 @@ use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerTaxRepresentativeParty;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
+use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
 
 class Invoice
 {
@@ -27,7 +28,7 @@ class Invoice
      * BT-1
      * A unique identification of the Invoice.
      */
-    private string $number;
+    private InvoiceIdentifier $number;
 
     /**
      * BT-2
@@ -228,7 +229,7 @@ class Invoice
     private $invoiceLines;
 
     public function __construct(
-        string $number,
+        InvoiceIdentifier $number,
         \DateTimeInterface $issueDate,
         InvoiceTypeCode $typeCode,
         string $currencyCode,
@@ -313,7 +314,7 @@ class Invoice
 
         $this->processControl->hydrateXmlDocument($invoiceXML);
 
-        $this->appendToExchangedDocument($invoiceXML, $invoiceXML->createElement('ram:ID', $this->number));
+        $this->appendToExchangedDocument($invoiceXML, $invoiceXML->createElement('ram:ID', $this->number->value));
         $this->appendToExchangedDocument(
             $invoiceXML,
             $invoiceXML->createElement('ram:TypeCode', $this->typeCode->value)
@@ -383,7 +384,7 @@ class Invoice
         $invoice->getElementsByTagName('rsm:ExchangedDocument')->item(0)->appendChild($child);
     }
 
-    public function getNumber(): string
+    public function getNumber(): InvoiceIdentifier
     {
         return $this->number;
     }
