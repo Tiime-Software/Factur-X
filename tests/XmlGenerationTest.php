@@ -96,7 +96,7 @@ class XmlGenerationTest extends TestCase
         $this->assertTrue($this->invoiceXML[$profil]->schemaValidate($xsd));
     }
     
-    public function XSD(): array
+    public static function XSD(): array
     {
         return [
             "MINIMUM" => [ProcessControl::MINIMUM, __DIR__ . '/xsd/1_MINIMUM_XSD/FACTUR-X_MINIMUM.xsd'],
