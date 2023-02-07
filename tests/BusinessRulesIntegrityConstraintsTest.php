@@ -20,6 +20,7 @@ use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 use Tiime\FacturX\DataType\Identifier;
+use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
 use Tiime\FacturX\DataType\VatCategory;
 use Tiime\FacturX\Invoice;
 
@@ -31,7 +32,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
     protected function setUp(): void
     {
         $this->invoice = (new Invoice(
-            '34',
+            new InvoiceIdentifier('34'),
             new \DateTimeImmutable(),
             InvoiceTypeCode::COMMERCIAL_INVOICE,
             'EUR',
@@ -67,7 +68,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
     /** @test BR-2 */
     public function an_invoice_shall_have_an_invoice_number()
     {
-        $this->assertSame('34', $this->invoice->getNumber());
+        $this->assertInstanceOf(InvoiceIdentifier::class, $this->invoice->getNumber());
     }
 
     /** @test BR-3 */
@@ -154,7 +155,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
         $this->expectException(\Exception::class);
 
         new Invoice(
-            '34',
+            new InvoiceIdentifier('34'),
             new \DateTimeImmutable(),
             InvoiceTypeCode::COMMERCIAL_INVOICE,
             'EUR',
