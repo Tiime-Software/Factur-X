@@ -101,10 +101,8 @@ class Invoice
     /**
      * BT-13
      * An identifier of a referenced purchase order, issued by the Buyer.
-     *
-     * @var
      */
-    private $purchaseOrderReference;
+    private ?PurchaseOrderReference $purchaseOrderReference;
 
     /**
      * BT-14
@@ -415,7 +413,7 @@ class Invoice
         return $this->contractReference;
     }
 
-    public function getPurchaseOrderReference()
+    public function getPurchaseOrderReference(): ?PurchaseOrderReference
     {
         return $this->purchaseOrderReference;
     }
