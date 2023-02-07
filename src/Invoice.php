@@ -20,7 +20,17 @@ use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerTaxRepresentativeParty;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
+use Tiime\FacturX\DataType\CurrencyCode;
+use Tiime\FacturX\DataType\DateCode2005;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
+use Tiime\FacturX\DataType\Identifier\ObjectIdentifier;
+use Tiime\FacturX\DataType\Reference\ContractReference;
+use Tiime\FacturX\DataType\Reference\DespatchAdviceReference;
+use Tiime\FacturX\DataType\Reference\ProjectReference;
+use Tiime\FacturX\DataType\Reference\PurchaseOrderReference;
+use Tiime\FacturX\DataType\Reference\ReceivingAdviceReference;
+use Tiime\FacturX\DataType\Reference\SalesOrderReference;
+use Tiime\FacturX\DataType\Reference\TenderOrLotReference;
 
 class Invoice
 {
@@ -47,40 +57,32 @@ class Invoice
      * BT-5
      * The currency in which all Invoice amounts are given, except for the Total VAT amount in accounting currency.
      */
-    private string $currencyCode;
+    private CurrencyCode $currencyCode;
 
     /**
      * BT-6
      * The currency used for VAT accounting and reporting purposes as accepted or required in the country of the Seller.
-     *
-     * @var
      */
-    private $vatAccountingCurrencyCode;
+    private ?CurrencyCode $vatAccountingCurrencyCode;
 
     /**
      * BT-7
      * The date when the VAT becomes accountable for the Seller and for the Buyer in so far as
      * that date can be determined and differs from the date of issue of the invoice, according to the VAT directive.
-     *
-     * @var \DateTimeInterface|null
      */
-    private $valueAddedTaxPointDate;
+    private ?\DateTimeInterface $valueAddedTaxPointDate;
 
     /**
      * BT-8
      * The code of the date when the VAT becomes accountable for the Seller and for the Buyer.
-     *
-     * @var
      */
-    private $valueAddedTaxPointDateCode;
+    private ?DateCode2005 $valueAddedTaxPointDateCode;
 
     /**
      * BT-9
      * The date when the payment is due.
-     *
-     * @var \DateTimeInterface|null
      */
-    private $paymentDueDate;
+    private ?\DateTimeInterface $paymentDueDate;
 
     /**
      * BT-10
@@ -93,146 +95,120 @@ class Invoice
     /**
      * BT-11
      * The identification of the project the invoice refers to.
-     *
-     * @var
      */
-    private $projectReference;
+    private ?ProjectReference $projectReference;
 
     /**
      * BT-12
      * The identification of a contract.
-     *
-     * @var
      */
-    private $contractReference;
+    private ?ContractReference $contractReference;
 
     /**
      * BT-13
      * An identifier of a referenced purchase order, issued by the Buyer.
-     *
-     * @var
      */
-    private $purchaseOrderReference;
+    private ?PurchaseOrderReference $purchaseOrderReference;
 
     /**
      * BT-14
      * An identifier of a referenced sales order, issued by the Seller.
-     *
-     * @var
      */
-    private $salesOrderReference;
+    private ?SalesOrderReference $salesOrderReference;
 
     /**
      * BT-15
      * An identifier of a referenced receiving advice.
-     *
-     * @var
      */
-    private $receivingAdviceReference;
+    private ?ReceivingAdviceReference $receivingAdviceReference;
 
     /**
      * BT-16
      * An identifier of a referenced despatch advice.
-     *
-     * @var
      */
-    private $despatchAdviceReference;
+    private ?DespatchAdviceReference $despatchAdviceReference;
 
     /**
      * BT-17
      * The identification of the call for tender or lot the invoice relates to.
-     *
-     * @var
      */
-    private $tenderOrLotReference;
+    private ?TenderOrLotReference $tenderOrLotReference;
 
-    /** @todo BT18 */
+    /**
+     * BT-18
+     * An identifier for an object on which the invoice is based, given by the Seller.
+     */
+    private ?ObjectIdentifier $objectIdentifier;
 
     /**
      * BT-19
      * A textual value that specifies where to book the relevant data into the Buyer's financial accounts.
-     *
-     * @var string|null
      */
-    private $buyerAccountingReference;
+    private ?string $buyerAccountingReference;
 
     /**
      * BT-20
      * A textual description of the payment terms that apply to
      * the amount due for payment (Including description of possible penalties).
-     *
-     * @var string|null
      */
-    private $paymentTerms;
+    private ?string $paymentTerms;
 
     /**
-     * @var InvoiceNote[]
+     * @var array<int, InvoiceNote>
      */
-    private $invoiceNote;
+    private array $invoiceNote;
+
+    private ProcessControl $processControl;
 
     /**
-     * @var ProcessControl
+     * @var array<int, PrecedingInvoiceReference>
      */
-    private $processControl;
-
-    /**
-     * @var PrecedingInvoiceReference[]
-     */
-    private $precedingInvoiceReference;
+    private array $precedingInvoiceReferences;
 
     private Seller $seller;
 
     private Buyer $buyer;
 
-    /**
-     * @var Payee|null
-     */
-    private $payee;
+    private ?Payee $payee;
 
-    /**
-     * @var SellerTaxRepresentativeParty|null
-     */
-    private $sellerTaxRepresentativeParty;
+    private ?SellerTaxRepresentativeParty $sellerTaxRepresentativeParty;
 
     private ?DeliveryInformation $deliveryInformation;
 
     private ?PaymentInstructions $paymentInstructions;
 
     /**
-     * @var DocumentLevelAllowances[]
+     * @var array<int, DocumentLevelAllowances>
      */
-    private $documentLevelAllowances;
+    private array $documentLevelAllowances;
 
     /**
-     * @var DocumentLevelCharges[]
+     * @var array<int, DocumentLevelCharges>
      */
-    private $documentLevelCharges;
+    private array $documentLevelCharges;
+
+    private DocumentTotals $documentTotals;
 
     /**
-     * @var DocumentTotals
+     * @var array<int, VatBreakdown>
      */
-    private $documentTotals;
+    private array $vatBreakdowns;
 
     /**
-     * @var VatBreakdown[]
+     * @var array<int, AdditionalSupportingDocuments>
      */
-    private $vatBreakdowns;
+    private array $additionalSupportingDocuments;
 
     /**
-     * @var AdditionalSupportingDocuments[]
+     * @var array<int, InvoiceLine>
      */
-    private $additionalSupportingDocuments;
-
-    /**
-     * @var InvoiceLine[]
-     */
-    private $invoiceLines;
+    private array $invoiceLines;
 
     public function __construct(
         InvoiceIdentifier $number,
         \DateTimeInterface $issueDate,
         InvoiceTypeCode $typeCode,
-        string $currencyCode,
+        CurrencyCode $currencyCode,
         ProcessControl $processControl,
         Seller $seller,
         Buyer $buyer,
@@ -262,7 +238,7 @@ class Invoice
             throw new \Exception('@todo');
         }
 
-        (new ISO4217())->getByCode($currencyCode);
+        (new ISO4217())->getByCode($currencyCode->value);
 
         $this->number = $number;
         $this->issueDate = $issueDate;
@@ -358,7 +334,7 @@ class Invoice
 
         $applicableHeaderTradeSettlement = $invoiceXML->createElement('ram:ApplicableHeaderTradeSettlement');
         $applicableHeaderTradeSettlement->appendChild(
-            $invoiceXML->createElement('ram:InvoiceCurrencyCode', $this->currencyCode)
+            $invoiceXML->createElement('ram:InvoiceCurrencyCode', $this->currencyCode->value)
         );
 
         if ($this->paymentInstructions instanceof PaymentInstructions) {
@@ -399,69 +375,74 @@ class Invoice
         return $this->typeCode;
     }
 
-    public function getCurrencyCode(): string
+    public function getCurrencyCode(): CurrencyCode
     {
         return $this->currencyCode;
     }
 
-    public function getVatAccountingCurrencyCode()
+    public function getVatAccountingCurrencyCode(): ?CurrencyCode
     {
         return $this->vatAccountingCurrencyCode;
     }
 
-    public function getValueAddedTaxPointDate(): \DateTimeInterface
+    public function getValueAddedTaxPointDate(): ?\DateTimeInterface
     {
         return $this->valueAddedTaxPointDate;
     }
 
-    public function getValueAddedTaxPointDateCode()
+    public function getValueAddedTaxPointDateCode(): ?DateCode2005
     {
         return $this->valueAddedTaxPointDateCode;
     }
 
-    public function getPaymentDueDate(): \DateTimeInterface
+    public function getPaymentDueDate(): ?\DateTimeInterface
     {
         return $this->paymentDueDate;
     }
 
-    public function getBuyerReference()
+    public function getBuyerReference(): ?string
     {
         return $this->buyerReference;
     }
 
-    public function getProjectReference()
+    public function getProjectReference(): ?ProjectReference
     {
         return $this->projectReference;
     }
 
-    public function getContractReference()
+    public function getContractReference(): ?ContractReference
     {
         return $this->contractReference;
     }
 
-    public function getPurchaseOrderReference()
+    public function getPurchaseOrderReference(): ?PurchaseOrderReference
     {
         return $this->purchaseOrderReference;
     }
 
-    public function getSalesOrderReference()
+    public function getSalesOrderReference(): ?SalesOrderReference
     {
         return $this->salesOrderReference;
     }
 
-    public function getReceivingAdviceReference()
+    public function getReceivingAdviceReference(): ?ReceivingAdviceReference
     {
         return $this->receivingAdviceReference;
     }
 
-    public function getDespatchAdviceReference()
+    public function getDespatchAdviceReference(): ?DespatchAdviceReference
     {
         return $this->despatchAdviceReference;
     }
 
-    public function getTenderOrLotReference()
+    public function getTenderOrLotReference(): ?TenderOrLotReference
     {
         return $this->tenderOrLotReference;
+    }
+
+    public function getObjectIdentifier(): ?ObjectIdentifier
+    {
+        return $this->objectIdentifier;
     }
 
     public function getBuyerAccountingReference(): string
@@ -484,9 +465,9 @@ class Invoice
         return $this->processControl;
     }
 
-    public function getPrecedingInvoiceReference(): array
+    public function getPrecedingInvoiceReferences(): array
     {
-        return $this->precedingInvoiceReference;
+        return $this->precedingInvoiceReferences;
     }
 
     public function getSeller(): Seller
