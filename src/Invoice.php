@@ -122,10 +122,8 @@ class Invoice
     /**
      * BT-16
      * An identifier of a referenced despatch advice.
-     *
-     * @var
      */
-    private $despatchAdviceReference;
+    private ?DespatchAdviceReference $despatchAdviceReference;
 
     /**
      * BT-17
@@ -427,7 +425,7 @@ class Invoice
         return $this->receivingAdviceReference;
     }
 
-    public function getDespatchAdviceReference()
+    public function getDespatchAdviceReference(): ?DespatchAdviceReference
     {
         return $this->despatchAdviceReference;
     }
