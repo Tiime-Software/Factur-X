@@ -25,6 +25,8 @@ use Tiime\FacturX\DataType\DateCode2005;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
 use Tiime\FacturX\DataType\Reference\ContractReference;
 use Tiime\FacturX\DataType\Reference\ProjectReference;
+use Tiime\FacturX\DataType\Reference\PurchaseOrderReference;
+use Tiime\FacturX\DataType\Reference\SalesOrderReference;
 
 class Invoice
 {
@@ -107,10 +109,8 @@ class Invoice
     /**
      * BT-14
      * An identifier of a referenced sales order, issued by the Seller.
-     *
-     * @var
      */
-    private $salesOrderReference;
+    private ?SalesOrderReference $salesOrderReference;
 
     /**
      * BT-15
@@ -418,7 +418,7 @@ class Invoice
         return $this->purchaseOrderReference;
     }
 
-    public function getSalesOrderReference()
+    public function getSalesOrderReference(): ?SalesOrderReference
     {
         return $this->salesOrderReference;
     }
