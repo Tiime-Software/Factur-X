@@ -23,6 +23,7 @@ use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\DateCode2005;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
+use Tiime\FacturX\DataType\Identifier\ObjectIdentifier;
 use Tiime\FacturX\DataType\Reference\ContractReference;
 use Tiime\FacturX\DataType\Reference\DespatchAdviceReference;
 use Tiime\FacturX\DataType\Reference\ProjectReference;
@@ -133,7 +134,11 @@ class Invoice
      */
     private ?TenderOrLotReference $tenderOrLotReference;
 
-    /** @todo BT18 */
+    /**
+     * BT-18
+     * An identifier for an object on which the invoice is based, given by the Seller.
+     */
+    private ?ObjectIdentifier $objectIdentifier;
 
     /**
      * BT-19
@@ -433,6 +438,11 @@ class Invoice
     public function getTenderOrLotReference(): ?TenderOrLotReference
     {
         return $this->tenderOrLotReference;
+    }
+
+    public function getObjectIdentifier(): ?ObjectIdentifier
+    {
+        return $this->objectIdentifier;
     }
 
     public function getBuyerAccountingReference(): string
