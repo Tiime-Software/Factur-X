@@ -26,4 +26,4 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: 🧽 Run code sniffer
-        run: vendor/bin/phpcs -q --report=checkstyle --standard=PSR12 --ignore=src/BusinessTermsGroup/InvoiceNoteCode.php,src/BusinessTermsGroup/InvoiceTypeCode.php ./src | vendor/bin/cs2pr
+        run: vendor/bin/phpcs -q --report=checkstyle --standard=PSR12 ./src | vendor/bin/cs2pr

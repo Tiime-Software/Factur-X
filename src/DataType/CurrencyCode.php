@@ -183,4 +183,5 @@ enum CurrencyCode: string
     case YEMENI_RIAL = "YER";
     case RAND = "ZAR";
     case ZAMBIAN_KWACHA = "ZMW";
-    case ZIMBABWE_DOLLAR = "ZWL";}
+    case ZIMBABWE_DOLLAR = "ZWL";
+}
