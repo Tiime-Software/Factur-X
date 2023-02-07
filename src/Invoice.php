@@ -20,6 +20,7 @@ use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerTaxRepresentativeParty;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
+use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
 
 class Invoice
@@ -47,15 +48,13 @@ class Invoice
      * BT-5
      * The currency in which all Invoice amounts are given, except for the Total VAT amount in accounting currency.
      */
-    private string $currencyCode;
+    private CurrencyCode $currencyCode;
 
     /**
      * BT-6
      * The currency used for VAT accounting and reporting purposes as accepted or required in the country of the Seller.
-     *
-     * @var
      */
-    private $vatAccountingCurrencyCode;
+    private ?CurrencyCode $vatAccountingCurrencyCode;
 
     /**
      * BT-7
@@ -232,7 +231,7 @@ class Invoice
         InvoiceIdentifier $number,
         \DateTimeInterface $issueDate,
         InvoiceTypeCode $typeCode,
-        string $currencyCode,
+        CurrencyCode $currencyCode,
         ProcessControl $processControl,
         Seller $seller,
         Buyer $buyer,
@@ -262,7 +261,7 @@ class Invoice
             throw new \Exception('@todo');
         }
 
-        (new ISO4217())->getByCode($currencyCode);
+        (new ISO4217())->getByCode($currencyCode->value);
 
         $this->number = $number;
         $this->issueDate = $issueDate;
@@ -358,7 +357,7 @@ class Invoice
 
         $applicableHeaderTradeSettlement = $invoiceXML->createElement('ram:ApplicableHeaderTradeSettlement');
         $applicableHeaderTradeSettlement->appendChild(
-            $invoiceXML->createElement('ram:InvoiceCurrencyCode', $this->currencyCode)
+            $invoiceXML->createElement('ram:InvoiceCurrencyCode', $this->currencyCode->value)
         );
 
         if ($this->paymentInstructions instanceof PaymentInstructions) {
@@ -399,12 +398,12 @@ class Invoice
         return $this->typeCode;
     }
 
-    public function getCurrencyCode(): string
+    public function getCurrencyCode(): CurrencyCode
     {
         return $this->currencyCode;
     }
 
-    public function getVatAccountingCurrencyCode()
+    public function getVatAccountingCurrencyCode(): ?CurrencyCode
     {
         return $this->vatAccountingCurrencyCode;
     }

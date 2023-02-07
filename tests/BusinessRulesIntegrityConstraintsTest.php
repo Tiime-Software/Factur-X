@@ -19,6 +19,7 @@ use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
+use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\Identifier;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
 use Tiime\FacturX\DataType\VatCategory;
@@ -35,7 +36,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             new InvoiceIdentifier('34'),
             new \DateTimeImmutable(),
             InvoiceTypeCode::COMMERCIAL_INVOICE,
-            'EUR',
+            CurrencyCode::EURO,
             (new ProcessControl(ProcessControl::BASIC))->setBusinessProcessType('A1'),
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
@@ -86,7 +87,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
     /** @test BR-5 */
     public function an_invoice_shall_have_an_invoice_currency_code()
     {
-        $this->assertSame('EUR', $this->invoice->getCurrencyCode());
+        $this->assertSame(CurrencyCode::EURO, $this->invoice->getCurrencyCode());
     }
 
     /** @test BR-6 */
@@ -158,7 +159,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             new InvoiceIdentifier('34'),
             new \DateTimeImmutable(),
             InvoiceTypeCode::COMMERCIAL_INVOICE,
-            'EUR',
+            CurrencyCode::EURO,
             new ProcessControl(ProcessControl::MINIMUM),
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
