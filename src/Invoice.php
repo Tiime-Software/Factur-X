@@ -24,10 +24,12 @@ use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\DateCode2005;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
 use Tiime\FacturX\DataType\Reference\ContractReference;
+use Tiime\FacturX\DataType\Reference\DespatchAdviceReference;
 use Tiime\FacturX\DataType\Reference\ProjectReference;
 use Tiime\FacturX\DataType\Reference\PurchaseOrderReference;
 use Tiime\FacturX\DataType\Reference\ReceivingAdviceReference;
 use Tiime\FacturX\DataType\Reference\SalesOrderReference;
+use Tiime\FacturX\DataType\Reference\TenderOrLotReference;
 
 class Invoice
 {
@@ -128,10 +130,8 @@ class Invoice
     /**
      * BT-17
      * The identification of the call for tender or lot the invoice relates to.
-     *
-     * @var
      */
-    private $tenderOrLotReference;
+    private ?TenderOrLotReference $tenderOrLotReference;
 
     /** @todo BT18 */
 
@@ -430,7 +430,7 @@ class Invoice
         return $this->despatchAdviceReference;
     }
 
-    public function getTenderOrLotReference()
+    public function getTenderOrLotReference(): ?TenderOrLotReference
     {
         return $this->tenderOrLotReference;
     }
