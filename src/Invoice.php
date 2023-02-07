@@ -26,6 +26,7 @@ use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
 use Tiime\FacturX\DataType\Reference\ContractReference;
 use Tiime\FacturX\DataType\Reference\ProjectReference;
 use Tiime\FacturX\DataType\Reference\PurchaseOrderReference;
+use Tiime\FacturX\DataType\Reference\ReceivingAdviceReference;
 use Tiime\FacturX\DataType\Reference\SalesOrderReference;
 
 class Invoice
@@ -115,10 +116,8 @@ class Invoice
     /**
      * BT-15
      * An identifier of a referenced receiving advice.
-     *
-     * @var
      */
-    private $receivingAdviceReference;
+    private ?ReceivingAdviceReference $receivingAdviceReference;
 
     /**
      * BT-16
@@ -423,7 +422,7 @@ class Invoice
         return $this->salesOrderReference;
     }
 
-    public function getReceivingAdviceReference()
+    public function getReceivingAdviceReference(): ?ReceivingAdviceReference
     {
         return $this->receivingAdviceReference;
     }
