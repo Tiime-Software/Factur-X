@@ -54,8 +54,8 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
         ))
             ->setBuyerReference("SERVEXEC")
             ->addIncludedNote(
-                new InvoiceNote(InvoiceNoteCode::REASON, "Lorem Ipsum"),
-                new InvoiceNote(InvoiceNoteCode::ADDITIONAL_CONDITIONS, "Lorem Ipsum"),
+                new InvoiceNote("Lorem Ipsum"),
+                new InvoiceNote("Lorem Ipsum"),
             );
     }
 

@@ -54,8 +54,8 @@ class XmlGenerationTest extends TestCase
                 )]
             ))->setBuyerReference("SERVEXEC")
             ->addIncludedNote(
-                new InvoiceNote(InvoiceNoteCode::REASON, "Lorem Ipsum"),
-                new InvoiceNote(InvoiceNoteCode::ADDITIONAL_CONDITIONS, "Lorem Ipsum"),
+                new InvoiceNote("Lorem Ipsum"),
+                new InvoiceNote("Lorem Ipsum"),
             ),
             ProcessControl::BASIC => (new Invoice(
                 new InvoiceIdentifier('34'),
@@ -78,8 +78,8 @@ class XmlGenerationTest extends TestCase
                 )]
             ))->setBuyerReference("SERVEXEC")
             ->addIncludedNote(
-                new InvoiceNote(InvoiceNoteCode::REASON, "Lorem Ipsum"),
-                new InvoiceNote(InvoiceNoteCode::ADDITIONAL_CONDITIONS, "Lorem Ipsum"),
+                new InvoiceNote("Lorem Ipsum"),
+                new InvoiceNote("Lorem Ipsum"),
             ),
         ];
 
