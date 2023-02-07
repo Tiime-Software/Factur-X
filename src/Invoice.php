@@ -23,6 +23,7 @@ use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\DateCode2005;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
+use Tiime\FacturX\DataType\Reference\ContractReference;
 use Tiime\FacturX\DataType\Reference\ProjectReference;
 
 class Invoice
@@ -94,10 +95,8 @@ class Invoice
     /**
      * BT-12
      * The identification of a contract.
-     *
-     * @var
      */
-    private $contractReference;
+    private ?ContractReference $contractReference;
 
     /**
      * BT-13
@@ -411,7 +410,7 @@ class Invoice
         return $this->projectReference;
     }
 
-    public function getContractReference()
+    public function getContractReference(): ?ContractReference
     {
         return $this->contractReference;
     }
