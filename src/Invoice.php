@@ -21,6 +21,7 @@ use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerTaxRepresentativeParty;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 use Tiime\FacturX\DataType\CurrencyCode;
+use Tiime\FacturX\DataType\DateCode2005;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
 
 class Invoice
@@ -60,26 +61,20 @@ class Invoice
      * BT-7
      * The date when the VAT becomes accountable for the Seller and for the Buyer in so far as
      * that date can be determined and differs from the date of issue of the invoice, according to the VAT directive.
-     *
-     * @var \DateTimeInterface|null
      */
-    private $valueAddedTaxPointDate;
+    private ?\DateTimeInterface $valueAddedTaxPointDate;
 
     /**
      * BT-8
      * The code of the date when the VAT becomes accountable for the Seller and for the Buyer.
-     *
-     * @var
      */
-    private $valueAddedTaxPointDateCode;
+    private ?DateCode2005 $valueAddedTaxPointDateCode;
 
     /**
      * BT-9
      * The date when the payment is due.
-     *
-     * @var \DateTimeInterface|null
      */
-    private $paymentDueDate;
+    private ?\DateTimeInterface $paymentDueDate;
 
     /**
      * BT-10
@@ -150,82 +145,66 @@ class Invoice
     /**
      * BT-19
      * A textual value that specifies where to book the relevant data into the Buyer's financial accounts.
-     *
-     * @var string|null
      */
-    private $buyerAccountingReference;
+    private ?string $buyerAccountingReference;
 
     /**
      * BT-20
      * A textual description of the payment terms that apply to
      * the amount due for payment (Including description of possible penalties).
-     *
-     * @var string|null
      */
-    private $paymentTerms;
+    private ?string $paymentTerms;
 
     /**
-     * @var InvoiceNote[]
+     * @var array<int, InvoiceNote>
      */
-    private $invoiceNote;
+    private array $invoiceNote;
+
+    private ProcessControl $processControl;
 
     /**
-     * @var ProcessControl
+     * @var array<int, PrecedingInvoiceReference>
      */
-    private $processControl;
-
-    /**
-     * @var PrecedingInvoiceReference[]
-     */
-    private $precedingInvoiceReference;
+    private array $precedingInvoiceReferences;
 
     private Seller $seller;
 
     private Buyer $buyer;
 
-    /**
-     * @var Payee|null
-     */
-    private $payee;
+    private ?Payee $payee;
 
-    /**
-     * @var SellerTaxRepresentativeParty|null
-     */
-    private $sellerTaxRepresentativeParty;
+    private ?SellerTaxRepresentativeParty $sellerTaxRepresentativeParty;
 
     private ?DeliveryInformation $deliveryInformation;
 
     private ?PaymentInstructions $paymentInstructions;
 
     /**
-     * @var DocumentLevelAllowances[]
+     * @var array<int, DocumentLevelAllowances>
      */
-    private $documentLevelAllowances;
+    private array $documentLevelAllowances;
 
     /**
-     * @var DocumentLevelCharges[]
+     * @var array<int, DocumentLevelCharges>
      */
-    private $documentLevelCharges;
+    private array $documentLevelCharges;
+
+    private DocumentTotals $documentTotals;
 
     /**
-     * @var DocumentTotals
+     * @var array<int, VatBreakdown>
      */
-    private $documentTotals;
+    private array $vatBreakdowns;
 
     /**
-     * @var VatBreakdown[]
+     * @var array<int, AdditionalSupportingDocuments>
      */
-    private $vatBreakdowns;
+    private array $additionalSupportingDocuments;
 
     /**
-     * @var AdditionalSupportingDocuments[]
+     * @var array<int, InvoiceLine>
      */
-    private $additionalSupportingDocuments;
-
-    /**
-     * @var InvoiceLine[]
-     */
-    private $invoiceLines;
+    private array $invoiceLines;
 
     public function __construct(
         InvoiceIdentifier $number,
@@ -408,17 +387,17 @@ class Invoice
         return $this->vatAccountingCurrencyCode;
     }
 
-    public function getValueAddedTaxPointDate(): \DateTimeInterface
+    public function getValueAddedTaxPointDate(): ?\DateTimeInterface
     {
         return $this->valueAddedTaxPointDate;
     }
 
-    public function getValueAddedTaxPointDateCode()
+    public function getValueAddedTaxPointDateCode(): ?DateCode2005
     {
         return $this->valueAddedTaxPointDateCode;
     }
 
-    public function getPaymentDueDate(): \DateTimeInterface
+    public function getPaymentDueDate(): ?\DateTimeInterface
     {
         return $this->paymentDueDate;
     }
@@ -483,9 +462,9 @@ class Invoice
         return $this->processControl;
     }
 
-    public function getPrecedingInvoiceReference(): array
+    public function getPrecedingInvoiceReferences(): array
     {
-        return $this->precedingInvoiceReference;
+        return $this->precedingInvoiceReferences;
     }
 
     public function getSeller(): Seller
