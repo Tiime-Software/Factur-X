@@ -13,7 +13,7 @@ class InvoiceNote
      * BT-21
      * The subject of the textual note in BT-22.
      */
-    private InvoiceNoteCode $subjectCode;
+    private ?InvoiceNoteCode $subjectCode;
 
     /**
      * BT-22
@@ -21,15 +21,22 @@ class InvoiceNote
      */
     private string $note;
 
-    public function __construct(InvoiceNoteCode $subjectCode, string $note)
+    public function __construct(string $note)
     {
-        $this->subjectCode = $subjectCode;
+        $this->subjectCode = null;
         $this->note = $note;
     }
 
-    public function getSubjectCode(): InvoiceNoteCode
+    public function getSubjectCode(): ?InvoiceNoteCode
     {
         return $this->subjectCode;
+    }
+
+    public function setSubjectCode(?InvoiceNoteCode $subjectCode): self
+    {
+        $this->subjectCode = $subjectCode;
+
+        return $this;
     }
 
     public function getNote(): string
