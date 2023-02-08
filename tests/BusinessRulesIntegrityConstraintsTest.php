@@ -22,6 +22,7 @@ use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\Identifier;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
+use Tiime\FacturX\DataType\Identifier\SpecificationIdentifier;
 use Tiime\FacturX\DataType\VatCategory;
 use Tiime\FacturX\Invoice;
 
@@ -37,7 +38,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             new \DateTimeImmutable(),
             InvoiceTypeCode::COMMERCIAL_INVOICE,
             CurrencyCode::EURO,
-            (new ProcessControl(ProcessControl::BASIC))->setBusinessProcessType('A1'),
+            (new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::BASIC)))->setBusinessProcessType('A1'),
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
             new DocumentTotals(0, 0, 0, 0),
@@ -160,7 +161,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             new \DateTimeImmutable(),
             InvoiceTypeCode::COMMERCIAL_INVOICE,
             CurrencyCode::EURO,
-            new ProcessControl(ProcessControl::MINIMUM),
+            new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::MINIMUM)),
             new Seller('John Doe', new SellerPostalAddress('FR')),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
             new DocumentTotals(0, 0, 0, 0),

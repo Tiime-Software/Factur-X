@@ -2,37 +2,29 @@
 
 namespace Tiime\FacturX\BusinessTermsGroup;
 
+use Tiime\FacturX\DataType\Identifier\SpecificationIdentifier;
+
 /**
  * BG-2
  * A group of business terms providing information on the business process and rules applicable to the Invoice document.
  */
 class ProcessControl
 {
-    public const MINIMUM = 'urn:factur-x.eu:1p0:minimum';
-    public const BASIC_WL = '';
-    public const BASIC = 'urn:cen.eu:en16931#compliant#factur-x.eu:1p0:basic';
-    public const EN16931 = '';
-    public const EXTENDED = '';
-
     /**
      * BT-23
      * Identifies the business process context in which the transaction appears,
      * to enable the Buyer to process the Invoice in an appropriate way.
-     *
-     * @var string|null
      */
-    private $businessProcessType;
+    private ?string $businessProcessType;
 
     /**
      * BT-24
      * An identification of the specification containing the total set of rules regarding semantic content,
      * cardinalities and business rules to which the data contained in the instance document conforms.
-     *
-     * @var string
      */
-    private $specificationIdentifier;
+    private SpecificationIdentifier $specificationIdentifier;
 
-    public function __construct(string $specificationIdentifier)
+    public function __construct(SpecificationIdentifier $specificationIdentifier)
     {
         $this->specificationIdentifier = $specificationIdentifier;
     }
@@ -49,7 +41,7 @@ class ProcessControl
         return $this;
     }
 
-    public function getSpecificationIdentifier(): string
+    public function getSpecificationIdentifier(): Specificationidentifier
     {
         return $this->specificationIdentifier;
     }
@@ -63,7 +55,7 @@ class ProcessControl
         $ExchangedDocumentContext->appendChild($type);
 
         $identifier = $document->createElement('ram:GuidelineSpecifiedDocumentContextParameter');
-        $identifier->appendChild($document->createElement('ram:ID', $this->getSpecificationIdentifier()));
+        $identifier->appendChild($document->createElement('ram:ID', $this->getSpecificationIdentifier()->value));
         $ExchangedDocumentContext->appendChild($identifier);
     }
 }
