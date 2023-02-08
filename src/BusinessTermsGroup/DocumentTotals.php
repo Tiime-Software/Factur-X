@@ -2,6 +2,8 @@
 
 namespace Tiime\FacturX\BusinessTermsGroup;
 
+use Tiime\FacturX\DataType\Identifier\SpecificationIdentifier;
+
 /**
  * BG-22
  * A group of business terms providing the monetary totals for the Invoice.
@@ -163,7 +165,7 @@ class DocumentTotals
         return $this->amountDueForPayment;
     }
 
-    public function hydrateXmlDocument(\DOMDocument $document, string $profil): void
+    public function hydrateXmlDocument(\DOMDocument $document, SpecificationIdentifier $specificationIdentifier): void
     {
         $applicableHeaderTradeSettlement = $document
             ->getElementsByTagName('ram:ApplicableHeaderTradeSettlement')
@@ -173,7 +175,7 @@ class DocumentTotals
             'ram:SpecifiedTradeSettlementHeaderMonetarySummation'
         );
 
-        if (ProcessControl::MINIMUM !== $profil) {
+        if (SpecificationIdentifier::MINIMUM !== $specificationIdentifier->value) {
             $specifiedTradeSettlementHeaderMonetarySummation->appendChild(
                 $document->createElement('ram:LineTotalAmount', $this->sumOfInvoiceLineNetAmount)
             );

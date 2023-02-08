@@ -24,6 +24,7 @@ use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\DateCode2005;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
 use Tiime\FacturX\DataType\Identifier\ObjectIdentifier;
+use Tiime\FacturX\DataType\Identifier\SpecificationIdentifier;
 use Tiime\FacturX\DataType\Reference\ContractReference;
 use Tiime\FacturX\DataType\Reference\DespatchAdviceReference;
 use Tiime\FacturX\DataType\Reference\ProjectReference;
@@ -301,13 +302,13 @@ class Invoice
         $issueDate->appendChild($issueDateString);
         $this->appendToExchangedDocument($invoiceXML, $issueDate);
 
-        if (ProcessControl::MINIMUM !== $this->processControl->getSpecificationIdentifier()) {
+        if (SpecificationIdentifier::MINIMUM !== $this->processControl->getSpecificationIdentifier()->value) {
             foreach ($this->invoiceNote as $note) {
                 $note->hydrateXmlDocument($invoiceXML);
             }
         }
 
-        if (ProcessControl::MINIMUM !== $this->processControl->getSpecificationIdentifier()) {
+        if (SpecificationIdentifier::MINIMUM !== $this->processControl->getSpecificationIdentifier()->value) {
             foreach ($this->invoiceLines as $line) {
                 $line->hydrateXmlDocument($invoiceXML);
             }
@@ -343,7 +344,7 @@ class Invoice
 
         $supplyChainTradeTransaction->appendChild($applicableHeaderTradeSettlement);
 
-        if (ProcessControl::MINIMUM !== $this->processControl->getSpecificationIdentifier()) {
+        if (SpecificationIdentifier::MINIMUM !== $this->processControl->getSpecificationIdentifier()->value) {
             foreach ($this->vatBreakdowns as $vatBreakdown) {
                 $vatBreakdown->hydrateXmlDocument($invoiceXML);
             }

@@ -20,6 +20,7 @@ use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
 use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\Identifier;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
+use Tiime\FacturX\DataType\Identifier\SpecificationIdentifier;
 use Tiime\FacturX\DataType\VatCategory;
 use Tiime\FacturX\Invoice;
 
@@ -33,12 +34,13 @@ class XmlGenerationTest extends TestCase
     protected function setUp(): void
     {
         $this->invoices = [
-            ProcessControl::MINIMUM => (new Invoice(
+            SpecificationIdentifier::MINIMUM => (new Invoice(
                 new InvoiceIdentifier('34'),
                 new \DateTimeImmutable(),
                 InvoiceTypeCode::COMMERCIAL_INVOICE,
                 CurrencyCode::EURO,
-                (new ProcessControl(ProcessControl::MINIMUM))->setBusinessProcessType('A1'),
+                (new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::MINIMUM)))
+                    ->setBusinessProcessType('A1'),
                 new Seller('John Doe', new SellerPostalAddress('FR')),
                 new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
                 new DocumentTotals(0, 0, 0, 0),
@@ -57,12 +59,13 @@ class XmlGenerationTest extends TestCase
                 new InvoiceNote("Lorem Ipsum"),
                 new InvoiceNote("Lorem Ipsum"),
             ),
-            ProcessControl::BASIC => (new Invoice(
+            SpecificationIdentifier::BASIC => (new Invoice(
                 new InvoiceIdentifier('34'),
                 new \DateTimeImmutable(),
                 InvoiceTypeCode::COMMERCIAL_INVOICE,
                 CurrencyCode::EURO,
-                (new ProcessControl(ProcessControl::BASIC))->setBusinessProcessType('A1'),
+                (new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::BASIC)))
+                    ->setBusinessProcessType('A1'),
                 new Seller('John Doe', new SellerPostalAddress('FR')),
                 new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
                 new DocumentTotals(0, 0, 0, 0),
@@ -97,15 +100,15 @@ class XmlGenerationTest extends TestCase
     {
         $this->assertTrue($this->invoiceXML[$profil]->schemaValidate($xsd));
     }
-    
+
     public static function XSD(): array
     {
         return [
-            "MINIMUM" => [ProcessControl::MINIMUM, __DIR__ . '/xsd/1_MINIMUM_XSD/FACTUR-X_MINIMUM.xsd'],
-            "BASIC" => [ProcessControl::BASIC, __DIR__ . '/xsd/2_BASIC_XSD/FACTUR-X_BASIC.xsd'],
-//            "BASIC-WL" => [ProcessControl::BASIC_WL, __DIR__ . '/xsd/3_BASIC-WL_XSD/FACTUR-X_BASIC-WL.xsd'],
-//            "EN16931" => [ProcessControl::EN16931, __DIR__ . '/xsd/4_EN16931_XSD/FACTUR-X_EN16931.xsd'],
-//            "EXTENDED" => [ProcessControl::EXTENDED, __DIR__ . '/xsd/5_EXTENDED_XSD/FACTUR-X_EXTENDED.xsd'],
+            "MINIMUM" => [SpecificationIdentifier::MINIMUM, __DIR__ . '/xsd/1_MINIMUM_XSD/FACTUR-X_MINIMUM.xsd'],
+            "BASIC" => [SpecificationIdentifier::BASIC, __DIR__ . '/xsd/2_BASIC_XSD/FACTUR-X_BASIC.xsd'],
+//            "BASIC-WL" => [SpecificationIdentifier::BASIC_WL, __DIR__ . '/xsd/3_BASIC-WL_XSD/FACTUR-X_BASIC-WL.xsd'],
+//            "EN16931" => [SpecificationIdentifier::EN16931, __DIR__ . '/xsd/4_EN16931_XSD/FACTUR-X_EN16931.xsd'],
+//            "EXTENDED" => [SpecificationIdentifier::EXTENDED, __DIR__ . '/xsd/5_EXTENDED_XSD/FACTUR-X_EXTENDED.xsd'],
         ];
     }
 }
