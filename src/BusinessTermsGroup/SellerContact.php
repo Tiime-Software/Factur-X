@@ -11,26 +11,20 @@ class SellerContact
     /**
      * BT-41
      * A contact point for a legal entity or person.
-     *
-     * @var string
      */
-    private $point;
+    private string $point;
 
     /**
      * BT-42
      * A phone number for the contact point.
-     *
-     * @var string|null
      */
-    private $phoneNumber;
+    private ?string $phoneNumber;
 
     /**
      * BT-43
      * An e-mail address for the contact point.
-     *
-     * @var string|null
      */
-    private $email;
+    private ?string $email;
 
     public function __construct(string $point, ?string $phoneNumber, ?string $email)
     {

@@ -3,6 +3,11 @@
 namespace Tiime\FacturX\BusinessTermsGroup;
 
 use Tiime\FacturX\DataType\Identifier;
+use Tiime\FacturX\DataType\Identifier\ElectronicAddressIdentifier;
+use Tiime\FacturX\DataType\Identifier\LegalRegistrationIdentifier;
+use Tiime\FacturX\DataType\Identifier\SellerIdentifier;
+use Tiime\FacturX\DataType\Identifier\TaxRegistrationIdentifier;
+use Tiime\FacturX\DataType\Identifier\VatIdentifier;
 
 /**
  * BG-4
@@ -14,18 +19,14 @@ class Seller
      * BT-27
      * The full formal name by which the Seller is registered in the national registry of legal entities
      * or as a Taxable person or otherwise trades as a person or persons.
-     *
-     * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * BT-28
      * A name by which the Seller is known, other than Seller name (also known as Business name).
-     *
-     * @var string|null
      */
-    private $tradingName;
+    private ?string $tradingName;
 
     /**
      * BT-29
@@ -33,58 +34,45 @@ class Seller
      *
      * Identification du Vendeur.
      *
-     * @var Identifier[]
+     * @var array<int, SellerIdentifier>
      */
     private array $identifiers;
 
     /**
      * BT-30
      * An identifier issued by an official registrar that identifies the seller as a legal entity or person.
-     *
-     * @var string|null
-     * @todo schem identifier
      */
-    private ?Identifier $legalRegistrationIdentifier;
+    private ?LegalRegistrationIdentifier $legalRegistrationIdentifier;
 
     /**
      * BT-31
      * The Seller's VAT identifier (also known as Seller VAT identification number)
-     *
-     * @var string|null
      */
-    private $vatIdentifier;
+    private ?VatIdentifier $vatIdentifier;
 
     /**
      * BT-32
      * The local identification (defined by the Seller’s address) of the Seller for tax purposes
      * or a reference that enables the Seller to state his registered tax status.
-     *
-     * @var string|null
      */
-    private $taxRegistrationIdentifier;
+    private ?TaxRegistrationIdentifier $taxRegistrationIdentifier;
 
     /**
      * BT-33
      * Additional legal information relevant for the Seller.
-     *
-     * @var string|null
      */
-    private $additionalLegalInformation;
+    private ?string $additionalLegalInformation;
 
     /**
      * BT-34
      * Identifies the seller's electronic address to which the application level response to
      * the invoice may be delivered.
-     *
-     * @var string|null
-     * @todo scheme identifier is mandatory
      */
-    private $electronicAddress;
+    private ?ElectronicAddressIdentifier $electronicAddress;
 
-    /**
-     * @var SellerPostalAddress
-     */
-    private $address;
+    private SellerPostalAddress $address;
+
+    private ?SellerContact $contact;
 
     public function __construct(string $name, SellerPostalAddress $address)
     {
@@ -185,6 +173,11 @@ class Seller
         $this->electronicAddress = $electronicAddress;
 
         return $this;
+    }
+
+    public function getContact(): SellerContact
+    {
+        return $this->contact;
     }
 
     public function hydrateXmlDocument(\DOMDocument $document): void
