@@ -167,6 +167,9 @@ class Buyer
             ->getElementsByTagName('ram:ApplicableHeaderTradeAgreement')
             ->item(0);
 
+        if (!$applicableHeaderTradeAgreement instanceof \DOMNode) {
+            throw new \RuntimeException();
+        }
 
         $buyerTradeParty = $document->createElement('ram:BuyerTradeParty');
 

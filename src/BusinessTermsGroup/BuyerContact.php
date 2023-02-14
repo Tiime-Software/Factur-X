@@ -64,11 +64,12 @@ class BuyerContact
         $document->appendChild($buyerContact);
 
         $point = $document->createElement('ram:PersonName', $this->point);
-
-        $phone = $document->createElement('ram:TelephoneUniversalCommunication');
-        $phone->appendChild($document->createElement('ram:CompleteNumber', $this->phoneNumber));
-
         $buyerContact->appendChild($point);
-        $buyerContact->appendChild($phone);
+
+        if (is_string($this->phoneNumber)) {
+            $phone = $document->createElement('ram:TelephoneUniversalCommunication');
+            $phone->appendChild($document->createElement('ram:CompleteNumber', $this->phoneNumber));
+            $buyerContact->appendChild($phone);
+        }
     }
 }

@@ -50,9 +50,15 @@ class ProcessControl
     {
         $ExchangedDocumentContext = $document->getElementsByTagName('rsm:ExchangedDocumentContext')->item(0);
 
-        $type = $document->createElement('ram:BusinessProcessSpecifiedDocumentContextParameter');
-        $type->appendChild($document->createElement('ram:ID', $this->getBusinessProcessType()));
-        $ExchangedDocumentContext->appendChild($type);
+        if (!$ExchangedDocumentContext instanceof \DOMNode) {
+            throw new \RuntimeException();
+        }
+
+        if (is_string($this->getBusinessProcessType())) {
+            $type = $document->createElement('ram:BusinessProcessSpecifiedDocumentContextParameter');
+            $type->appendChild($document->createElement('ram:ID', $this->getBusinessProcessType()));
+            $ExchangedDocumentContext->appendChild($type);
+        }
 
         $identifier = $document->createElement('ram:GuidelineSpecifiedDocumentContextParameter');
         $identifier->appendChild($document->createElement('ram:ID', $this->getSpecificationIdentifier()->value));
