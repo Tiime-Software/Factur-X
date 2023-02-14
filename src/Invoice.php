@@ -15,7 +15,7 @@ use Tiime\FacturX\BusinessTermsGroup\InvoiceNote;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceTypeCode;
 use Tiime\FacturX\BusinessTermsGroup\Payee;
 use Tiime\FacturX\BusinessTermsGroup\PaymentInstructions;
-use Tiime\FacturX\BusinessTermsGroup\PrecedingInvoiceReference;
+use Tiime\FacturX\BusinessTermsGroup\PrecedingInvoice;
 use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerTaxRepresentativeParty;
@@ -162,9 +162,9 @@ class Invoice
     private ProcessControl $processControl;
 
     /**
-     * @var array<int, PrecedingInvoiceReference>
+     * @var array<int, PrecedingInvoice>
      */
-    private array $precedingInvoiceReferences;
+    private array $precedingInvoices;
 
     private Seller $seller;
 
@@ -466,9 +466,9 @@ class Invoice
         return $this->processControl;
     }
 
-    public function getPrecedingInvoiceReferences(): array
+    public function getPrecedingInvoices(): array
     {
-        return $this->precedingInvoiceReferences;
+        return $this->precedingInvoices;
     }
 
     public function getSeller(): Seller
