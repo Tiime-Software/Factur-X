@@ -17,6 +17,7 @@ use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
+use Tiime\FacturX\DataType\CountryAlpha2Code;
 use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\Identifier;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
@@ -41,7 +42,7 @@ class XmlGenerationTest extends TestCase
                 CurrencyCode::EURO,
                 (new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::MINIMUM)))
                     ->setBusinessProcessType('A1'),
-                new Seller('John Doe', new SellerPostalAddress('FR')),
+                new Seller('John Doe', new SellerPostalAddress(CountryAlpha2Code::FRANCE)),
                 new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
                 new DocumentTotals(0, 0, 0, 0),
                 [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],
@@ -66,7 +67,7 @@ class XmlGenerationTest extends TestCase
                 CurrencyCode::EURO,
                 (new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::BASIC)))
                     ->setBusinessProcessType('A1'),
-                new Seller('John Doe', new SellerPostalAddress('FR')),
+                new Seller('John Doe', new SellerPostalAddress(CountryAlpha2Code::FRANCE)),
                 new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
                 new DocumentTotals(0, 0, 0, 0),
                 [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],

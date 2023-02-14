@@ -19,6 +19,7 @@ use Tiime\FacturX\BusinessTermsGroup\ProcessControl;
 use Tiime\FacturX\BusinessTermsGroup\Seller;
 use Tiime\FacturX\BusinessTermsGroup\SellerPostalAddress;
 use Tiime\FacturX\BusinessTermsGroup\VatBreakdown;
+use Tiime\FacturX\DataType\CountryAlpha2Code;
 use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\Identifier;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
@@ -38,8 +39,9 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             new \DateTimeImmutable(),
             InvoiceTypeCode::COMMERCIAL_INVOICE,
             CurrencyCode::EURO,
-            (new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::BASIC)))->setBusinessProcessType('A1'),
-            new Seller('John Doe', new SellerPostalAddress('FR')),
+            (new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::BASIC)))
+                ->setBusinessProcessType('A1'),
+            new Seller('John Doe', new SellerPostalAddress(CountryAlpha2Code::FRANCE)),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
             new DocumentTotals(0, 0, 0, 0),
             [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],
@@ -112,7 +114,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
     /** @test BR-9 */
     public function the_seller_postal_address_shall_contain_a_seller_country_code()
     {
-        $this->assertSame('FR', $this->invoice->getSeller()->getAddress()->getCountryCode());
+        $this->assertSame(CountryAlpha2Code::FRANCE, $this->invoice->getSeller()->getAddress()->getCountryCode());
     }
 
     /** @test BR-10 */
@@ -162,7 +164,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             InvoiceTypeCode::COMMERCIAL_INVOICE,
             CurrencyCode::EURO,
             new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::MINIMUM)),
-            new Seller('John Doe', new SellerPostalAddress('FR')),
+            new Seller('John Doe', new SellerPostalAddress(CountryAlpha2Code::FRANCE)),
             new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
             new DocumentTotals(0, 0, 0, 0),
             [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],
