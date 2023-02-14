@@ -27,7 +27,7 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit tests",
-        "code_sniffer": "vendor/bin/phpcs --standard=PSR12 src/",
+        "code_sniffer": "vendor/bin/phpcs -q --report=checkstyle --standard=PSR12 src/",
         "phpstan": "vendor/bin/phpstan analyse -l 9 src tests"
     },
     "license": "MIT"

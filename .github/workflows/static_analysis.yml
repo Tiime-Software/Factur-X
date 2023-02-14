@@ -26,7 +26,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: 🧽 Run code sniffer
-        run: composer run-script code_sniffer | vendor/bin/cs2pr
+        run: vendor/bin/phpcs -q --report=checkstyle --standard=PSR12 src/ | vendor/bin/cs2pr
 
       - name: 🧽 Run PHPStan
         run: composer run-script phpstan
