@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  code_sniffer:
 
     runs-on: ubuntu-latest
 
@@ -26,4 +26,25 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: 🧽 Run code sniffer
-        run: vendor/bin/phpcs -q --report=checkstyle --standard=PSR12 ./src | vendor/bin/cs2pr
+        run: vendor/bin/phpcs -q --report=checkstyle --standard=PSR12 src/ | vendor/bin/cs2pr
+
+  php_stan:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          extensions: json, tokenizer
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: 📥 Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: 🧽 Run PHPStan
+        run: composer run-script phpstan

@@ -186,6 +186,10 @@ class Seller
             ->getElementsByTagName('ram:ApplicableHeaderTradeAgreement')
             ->item(0);
 
+        if (!$applicableHeaderTradeAgreement instanceof \DOMNode) {
+            throw new \RuntimeException();
+        }
+
         $sellerTradeParty = $document->createElement('ram:SellerTradeParty');
 
         $sellerTradeParty->appendChild($document->createElement('ram:Name', $this->name));

@@ -90,18 +90,27 @@ class XmlGenerationTest extends TestCase
         $this->invoiceXML = [];
         foreach ($this->invoices as $profil => $invoice) {
             $this->invoiceXML[$profil] = new \DOMDocument();
-            $this->invoiceXML[$profil]->loadXML($invoice->getXML()->saveXML()); 
+            $xml = $invoice->getXML()->saveXML();
+
+            if (false === $xml) {
+                $this->fail('XML generation error');
+            }
+
+            $this->invoiceXML[$profil]->loadXML($xml);
         }
     }
 
     /**
      * @dataProvider XSD
      */
-    public function testXSDValidation(string $profil, string $xsd)
+    public function testXSDValidation(string $profil, string $xsd): void
     {
         $this->assertTrue($this->invoiceXML[$profil]->schemaValidate($xsd));
     }
 
+    /**
+     * @return array<string, array<string>>
+     */
     public static function XSD(): array
     {
         return [

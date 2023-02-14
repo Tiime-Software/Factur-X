@@ -48,6 +48,10 @@ class InvoiceNote
     {
         $exchangedDocument = $document->getElementsByTagName('rsm:ExchangedDocument')->item(0);
 
+        if (!$exchangedDocument instanceof \DOMNode) {
+            throw new \RuntimeException();
+        }
+
         $note = $document->createElement('ram:IncludedNote');
         $note->appendChild($document->createElement('ram:Content', $this->note));
         $note->appendChild($document->createElement('ram:SubjectCode', $this->subjectCode->value));

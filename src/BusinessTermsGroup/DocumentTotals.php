@@ -171,31 +171,35 @@ class DocumentTotals
             ->getElementsByTagName('ram:ApplicableHeaderTradeSettlement')
             ->item(0);
 
+        if (!$applicableHeaderTradeSettlement instanceof \DOMNode) {
+            throw new \RuntimeException();
+        }
+
         $specifiedTradeSettlementHeaderMonetarySummation = $document->createElement(
             'ram:SpecifiedTradeSettlementHeaderMonetarySummation'
         );
 
         if (SpecificationIdentifier::MINIMUM !== $specificationIdentifier->value) {
             $specifiedTradeSettlementHeaderMonetarySummation->appendChild(
-                $document->createElement('ram:LineTotalAmount', $this->sumOfInvoiceLineNetAmount)
+                $document->createElement('ram:LineTotalAmount', (string) $this->sumOfInvoiceLineNetAmount)
             );
         }
 
         $specifiedTradeSettlementHeaderMonetarySummation->appendChild(
-            $document->createElement('ram:TaxBasisTotalAmount', $this->invoiceTotalAmountWithoutVat)
+            $document->createElement('ram:TaxBasisTotalAmount', (string) $this->invoiceTotalAmountWithoutVat)
         );
 
         if (null !== $this->invoiceTotalVatAmount) {
             $specifiedTradeSettlementHeaderMonetarySummation->appendChild(
-                $document->createElement('ram:TaxTotalAmount', $this->invoiceTotalVatAmount)
+                $document->createElement('ram:TaxTotalAmount', (string) $this->invoiceTotalVatAmount)
             );
         }
 
         $specifiedTradeSettlementHeaderMonetarySummation->appendChild(
-            $document->createElement('ram:GrandTotalAmount', $this->invoiceTotalAmountWithVat)
+            $document->createElement('ram:GrandTotalAmount', (string) $this->invoiceTotalAmountWithVat)
         );
         $specifiedTradeSettlementHeaderMonetarySummation->appendChild(
-            $document->createElement('ram:DuePayableAmount', $this->amountDueForPayment)
+            $document->createElement('ram:DuePayableAmount', (string) $this->amountDueForPayment)
         );
 
         $applicableHeaderTradeSettlement->appendChild($specifiedTradeSettlementHeaderMonetarySummation);

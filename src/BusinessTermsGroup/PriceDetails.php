@@ -41,7 +41,6 @@ class PriceDetails
      * BT-150
      * The Item price base quantity unit of measure shall be the same as the Invoiced quantity unit of measure (BT-130).
      *
-     * @var
      */
     private $itemPriceBaseQuantityUnitOfMeasureCode;
 
@@ -55,7 +54,9 @@ class PriceDetails
         $specifiedLineTradeAgreement = $document->createElement('ram:SpecifiedLineTradeAgreement');
 
         $netPriceProductTradePrice = $document->createElement('ram:NetPriceProductTradePrice');
-        $netPriceProductTradePrice->appendChild($document->createElement('ram:ChargeAmount', $this->itemNetPrice));
+        $netPriceProductTradePrice->appendChild(
+            $document->createElement('ram:ChargeAmount', (string) $this->itemNetPrice)
+        );
 
         $specifiedLineTradeAgreement->appendChild($netPriceProductTradePrice);
         $line->appendChild($specifiedLineTradeAgreement);

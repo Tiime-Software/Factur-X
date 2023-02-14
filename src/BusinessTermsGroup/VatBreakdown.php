@@ -82,27 +82,31 @@ class VatBreakdown
             ->getElementsByTagName('ram:ApplicableHeaderTradeSettlement')
             ->item(0);
 
+        if (!$applicableHeaderTradeSettlement instanceof \DOMNode) {
+            throw new \RuntimeException();
+        }
+
         $applicableTradeTax = $document->createElement('ram:ApplicableTradeTax');
         $applicableTradeTax->appendChild(
-            $document->createElement('ram:CalculatedAmount', $this->vatCategoryTaxAmount)
+            $document->createElement('ram:CalculatedAmount', (string) $this->vatCategoryTaxAmount)
         );
         $applicableTradeTax->appendChild($document->createElement('ram:TypeCode', "VAT"));
         $applicableTradeTax->appendChild(
-            $document->createElement('ram:BasisAmount', $this->vatCategoryTaxableAmount)
+            $document->createElement('ram:BasisAmount', (string) $this->vatCategoryTaxableAmount)
         );
         $applicableTradeTax->appendChild(
             $document->createElement('ram:CategoryCode', $this->vatCategoryCode->value)
         );
 
-        if (false) { // @todo
-            $applicableTradeTax->appendChild(
-                $document->createElement('ram:DueDateTypeCode')
-            );
-        }
+//        if (false) { // @todo
+//            $applicableTradeTax->appendChild(
+//                $document->createElement('ram:DueDateTypeCode')
+//            );
+//        }
 
         if (null !== $this->vatCategoryRate) {
             $applicableTradeTax->appendChild(
-                $document->createElement('ram:RateApplicablePercent', $this->vatCategoryRate)
+                $document->createElement('ram:RateApplicablePercent', (string) $this->vatCategoryRate)
             );
         }
 

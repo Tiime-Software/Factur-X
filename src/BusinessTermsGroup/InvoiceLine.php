@@ -130,6 +130,10 @@ class InvoiceLine
     {
         $supplyChainTradeTransaction = $document->getElementsByTagName('rsm:SupplyChainTradeTransaction')->item(0);
 
+        if (!$supplyChainTradeTransaction instanceof \DOMNode) {
+            throw new \RuntimeException();
+        }
+
         $includedSupplyChainTradeLineItem = $document->createElement('ram:IncludedSupplyChainTradeLineItem');
 
         $associatedDocumentLineDocument = $document->createElement('ram:AssociatedDocumentLineDocument');
@@ -140,7 +144,7 @@ class InvoiceLine
         $this->priceDetails->hydrateXmlLine($document, $includedSupplyChainTradeLineItem);
 
         $specifiedLineTradeDelivery = $document->createElement('ram:SpecifiedLineTradeDelivery');
-        $billedQuantity = $document->createElement('ram:BilledQuantity', $this->invoicedQuantity);
+        $billedQuantity = $document->createElement('ram:BilledQuantity', (string) $this->invoicedQuantity);
         $billedQuantity->setAttribute('unitCode', $this->invoicedQuantityUnitOfMeasureCode);
         $specifiedLineTradeDelivery->appendChild($billedQuantity);
         $includedSupplyChainTradeLineItem->appendChild($specifiedLineTradeDelivery);
@@ -155,7 +159,7 @@ class InvoiceLine
             'ram:SpecifiedTradeSettlementLineMonetarySummation'
         );
         $specifiedTradeSettlementLineMonetarySummation->appendChild(
-            $document->createElement('ram:LineTotalAmount', $this->netAmount)
+            $document->createElement('ram:LineTotalAmount', (string) $this->netAmount)
         );
         $specifiedLineTradeSettlement->appendChild($specifiedTradeSettlementLineMonetarySummation);
 
