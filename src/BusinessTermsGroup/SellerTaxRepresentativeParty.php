@@ -2,6 +2,8 @@
 
 namespace Tiime\FacturX\BusinessTermsGroup;
 
+use Tiime\FacturX\DataType\Identifier\VatIdentifier;
+
 /**
  * BG-11
  * A group of business terms providing information about the Seller's tax representative.
@@ -11,16 +13,39 @@ class SellerTaxRepresentativeParty
     /**
      * BT-62
      * The full name of the Seller's tax representative party.
-     *
-     * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * BT-63
      * The VAT identifier of the Seller's tax representative party
-     *
-     * @var
      */
-    private $vatIdentifier;
+    private VatIdentifier $vatIdentifier;
+
+    private SellerTaxRepresentativePostalAddress $address;
+
+    public function __construct(
+        string $name,
+        VatIdentifier $vatIdentifier,
+        SellerTaxRepresentativePostalAddress $address
+    ) {
+        $this->name = $name;
+        $this->vatIdentifier = $vatIdentifier;
+        $this->address = $address;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getVatIdentifier(): VatIdentifier
+    {
+        return $this->vatIdentifier;
+    }
+
+    public function getAddress(): SellerTaxRepresentativePostalAddress
+    {
+        return $this->address;
+    }
 }
