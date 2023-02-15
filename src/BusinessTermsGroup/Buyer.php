@@ -2,6 +2,12 @@
 
 namespace Tiime\FacturX\BusinessTermsGroup;
 
+use Tiime\FacturX\DataType\ElectronicAddressScheme;
+use Tiime\FacturX\DataType\Identifier\BuyerIdentifier;
+use Tiime\FacturX\DataType\Identifier\ElectronicAddressIdentifier;
+use Tiime\FacturX\DataType\Identifier\LegalRegistrationIdentifier;
+use Tiime\FacturX\DataType\Identifier\VatIdentifier;
+
 /**
  * BG-7
  * A group of business terms providing information about the Buyer.
@@ -11,67 +17,49 @@ class Buyer
     /**
      * BT-44
      * The full name of the Buyer.
-     *
-     * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * BT-45
      * A name by which the Buyer is known, other than Buyer name (also known as Business name).
-     *
-     * @var string|null
      */
-    private $tradingName;
+    private ?string $tradingName;
 
     /**
      * BT-46
      * An identifier of the buyer.
-     *
-     * @var string|null
-     * @todo schem identifier
      */
-    private $identifier;
+    private ?BuyerIdentifier $identifier;
 
     /**
      * BT-47
      * An identifier issued by an official registrar that identifies the buyer as a legal entity or person.
-     *
-     * @var string|null
-     * @todo schem identifier
      */
-    private $legalRegistrationIdentifier;
+    private ?LegalRegistrationIdentifier $legalRegistrationIdentifier;
 
     /**
      * BT-48
      * The Buyer's VAT identifier (also known as Buyer VAT identification number).
-     *
-     * @var string|null
      */
-    private $vatIdentifier;
-
-    /**
-     * BG-8
-     *
-     * @var BuyerPostalAddress
-     */
-    private $address;
-
-    /**
-     * BG-9
-     *
-     * @var BuyerContact|null
-     */
-    private $contact;
+    private VatIdentifier $vatIdentifier;
 
     /**
      * BT-49
      * Identifies the buyer's electronic address to which the invoice is delivered.
-     *
-     * @var string|null
-     * @todo scheme identifier is mandatory
      */
-    private $electronicAddress;
+    private ?ElectronicAddressIdentifier $electronicAddress;
+
+    /**
+     * BG-8
+     */
+    private BuyerPostalAddress $address;
+
+    /**
+     * BG-9
+     */
+    private ?BuyerContact $contact;
+
 
     public function __construct(string $name, BuyerPostalAddress $address)
     {
@@ -113,48 +101,48 @@ class Buyer
         return $this;
     }
 
-    public function getIdentifier(): ?string
+    public function getIdentifier(): ?BuyerIdentifier
     {
         return $this->identifier;
     }
 
-    public function setIdentifier(?string $identifier): self
+    public function setIdentifier(?BuyerIdentifier $identifier): self
     {
         $this->identifier = $identifier;
 
         return $this;
     }
 
-    public function getLegalRegistrationIdentifier(): ?string
+    public function getLegalRegistrationIdentifier(): ?LegalRegistrationIdentifier
     {
         return $this->legalRegistrationIdentifier;
     }
 
-    public function setLegalRegistrationIdentifier(?string $legalRegistrationIdentifier): self
+    public function setLegalRegistrationIdentifier(?LegalRegistrationIdentifier $legalRegistrationIdentifier): self
     {
         $this->legalRegistrationIdentifier = $legalRegistrationIdentifier;
 
         return $this;
     }
 
-    public function getVatIdentifier(): ?string
+    public function getVatIdentifier(): ?VatIdentifier
     {
         return $this->vatIdentifier;
     }
 
-    public function setVatIdentifier(?string $vatIdentifier): self
+    public function setVatIdentifier(?VatIdentifier $vatIdentifier): self
     {
         $this->vatIdentifier = $vatIdentifier;
 
         return $this;
     }
 
-    public function getElectronicAddress(): ?string
+    public function getElectronicAddress(): ?ElectronicAddressIdentifier
     {
         return $this->electronicAddress;
     }
 
-    public function setElectronicAddress(?string $electronicAddress): self
+    public function setElectronicAddress(?ElectronicAddressIdentifier $electronicAddress): self
     {
         $this->electronicAddress = $electronicAddress;
 
