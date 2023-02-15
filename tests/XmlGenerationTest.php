@@ -43,7 +43,7 @@ class XmlGenerationTest extends TestCase
                 (new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::MINIMUM)))
                     ->setBusinessProcessType('A1'),
                 new Seller('John Doe', new SellerPostalAddress(CountryAlpha2Code::FRANCE)),
-                new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
+                new Buyer('Richard Roe', new BuyerPostalAddress(CountryAlpha2Code::FRANCE)),
                 new DocumentTotals(0, 0, 0, 0),
                 [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],
                 [new InvoiceLine(
@@ -68,7 +68,7 @@ class XmlGenerationTest extends TestCase
                 (new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::BASIC)))
                     ->setBusinessProcessType('A1'),
                 new Seller('John Doe', new SellerPostalAddress(CountryAlpha2Code::FRANCE)),
-                new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
+                new Buyer('Richard Roe', new BuyerPostalAddress(CountryAlpha2Code::FRANCE)),
                 new DocumentTotals(0, 0, 0, 0),
                 [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],
                 [new InvoiceLine(

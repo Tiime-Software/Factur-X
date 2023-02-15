@@ -42,7 +42,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             (new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::BASIC)))
                 ->setBusinessProcessType('A1'),
             new Seller('John Doe', new SellerPostalAddress(CountryAlpha2Code::FRANCE)),
-            new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
+            new Buyer('Richard Roe', new BuyerPostalAddress(CountryAlpha2Code::FRANCE)),
             new DocumentTotals(0, 0, 0, 0),
             [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],
             [new InvoiceLine(
@@ -126,7 +126,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
     /** @test BR-11 */
     public function the_buyer_postal_address_shall_contain_a_seller_country_code(): void
     {
-        $this->assertSame('FR', $this->invoice->getBuyer()->getAddress()->getCountryCode());
+        $this->assertSame(CountryAlpha2Code::FRANCE, $this->invoice->getBuyer()->getAddress()->getCountryCode());
     }
 
     /** @test BR-12 */
@@ -165,7 +165,7 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             CurrencyCode::EURO,
             new ProcessControl(new SpecificationIdentifier(SpecificationIdentifier::MINIMUM)),
             new Seller('John Doe', new SellerPostalAddress(CountryAlpha2Code::FRANCE)),
-            new Buyer('Richard Roe', new BuyerPostalAddress('FR')),
+            new Buyer('Richard Roe', new BuyerPostalAddress(CountryAlpha2Code::FRANCE)),
             new DocumentTotals(0, 0, 0, 0),
             [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],
             [] // without invoice line
