@@ -2,7 +2,12 @@
 
 namespace Tiime\FacturX\BusinessTermsGroup;
 
+use Tiime\FacturX\DataType\CountryAlpha2Code;
 use Tiime\FacturX\DataType\Identifier;
+use Tiime\FacturX\DataType\Identifier\BuyerItemIdentifier;
+use Tiime\FacturX\DataType\Identifier\ItemClassificationIdentifier;
+use Tiime\FacturX\DataType\Identifier\SellerItemIdentifier;
+use Tiime\FacturX\DataType\Identifier\StandardItemIdentifier;
 
 /**
  * BG-31
@@ -29,35 +34,126 @@ class ItemInformation
      * An identifier, assigned by the Seller, for the item.
      *
      */
-    private ?Identifier $sellerIdentifier;
+    private ?SellerItemIdentifier $sellerIdentifier;
 
     /**
      * BT-156
      * An identifier, assigned by the Buyer, for the item.
      *
      */
-    private ?Identifier $buyerIdentifier;
+    private ?BuyerItemIdentifier $buyerIdentifier;
 
     /**
      * BT-157
      */
-    private ?Identifier $standardIdentifier;
+    private ?StandardItemIdentifier $standardIdentifier;
 
-    /** @todo BT-158 */
+    /**
+     * @var array<int, ItemClassificationIdentifier>
+     */
+    private array $classificationIdentifiers;
 
     /**
      * BT-159
      * Item country of origin.
      *
      * Code identifiant le pays d'où provient l'article.
-     *
-     * EN ISO 3166-1
      */
-    private ?string $itemCountryOfOrigin;
+    private ?CountryAlpha2Code $itemCountryOfOrigin;
 
     public function __construct(string $name)
     {
         $this->name = $name;
+        $this->description = null;
+        $this->sellerIdentifier = null;
+        $this->buyerIdentifier = null;
+        $this->standardIdentifier = null;
+        $this->classificationIdentifiers = [];
+        $this->itemCountryOfOrigin = null;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): ItemInformation
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): ItemInformation
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getSellerIdentifier(): ?SellerItemIdentifier
+    {
+        return $this->sellerIdentifier;
+    }
+
+    public function setSellerIdentifier(?SellerItemIdentifier $sellerIdentifier): ItemInformation
+    {
+        $this->sellerIdentifier = $sellerIdentifier;
+
+        return $this;
+    }
+
+    public function getBuyerIdentifier(): ?BuyerItemIdentifier
+    {
+        return $this->buyerIdentifier;
+    }
+
+    public function setBuyerIdentifier(?BuyerItemIdentifier $buyerIdentifier): ItemInformation
+    {
+        $this->buyerIdentifier = $buyerIdentifier;
+
+        return $this;
+    }
+
+    public function getStandardIdentifier(): ?StandardItemIdentifier
+    {
+        return $this->standardIdentifier;
+    }
+
+    public function setStandardIdentifier(?StandardItemIdentifier $standardIdentifier): ItemInformation
+    {
+        $this->standardIdentifier = $standardIdentifier;
+
+        return $this;
+    }
+
+    public function getClassificationIdentifiers(): array
+    {
+        return $this->classificationIdentifiers;
+    }
+
+    public function setClassificationIdentifiers(array $classificationIdentifiers): ItemInformation
+    {
+        $this->classificationIdentifiers = $classificationIdentifiers;
+
+        return $this;
+    }
+
+    public function getItemCountryOfOrigin(): ?CountryAlpha2Code
+    {
+        return $this->itemCountryOfOrigin;
+    }
+
+    public function setItemCountryOfOrigin(?CountryAlpha2Code $itemCountryOfOrigin): ItemInformation
+    {
+        $this->itemCountryOfOrigin = $itemCountryOfOrigin;
+
+        return $this;
     }
 
     public function hydrateXmlLine(\DOMDocument $document, \DOMElement $line): void
