@@ -5,10 +5,9 @@ namespace Tiime\FacturX;
 use Alcohol\ISO4217;
 use Tiime\FacturX\BusinessTermsGroup\AdditionalSupportingDocuments;
 use Tiime\FacturX\BusinessTermsGroup\Buyer;
-use Tiime\FacturX\BusinessTermsGroup\DeliverToAddress;
 use Tiime\FacturX\BusinessTermsGroup\DeliveryInformation;
-use Tiime\FacturX\BusinessTermsGroup\DocumentLevelAllowances;
-use Tiime\FacturX\BusinessTermsGroup\DocumentLevelCharges;
+use Tiime\FacturX\BusinessTermsGroup\DocumentLevelAllowance;
+use Tiime\FacturX\BusinessTermsGroup\DocumentLevelCharge;
 use Tiime\FacturX\BusinessTermsGroup\DocumentTotals;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceLine;
 use Tiime\FacturX\BusinessTermsGroup\InvoiceNote;
@@ -179,12 +178,12 @@ class Invoice
     private ?PaymentInstructions $paymentInstructions;
 
     /**
-     * @var array<int, DocumentLevelAllowances>
+     * @var array<int, DocumentLevelAllowance>
      */
     private array $documentLevelAllowances;
 
     /**
-     * @var array<int, DocumentLevelCharges>
+     * @var array<int, DocumentLevelCharge>
      */
     private array $documentLevelCharges;
 
