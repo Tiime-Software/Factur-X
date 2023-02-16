@@ -3,7 +3,7 @@
 namespace Tiime\FacturX;
 
 use Alcohol\ISO4217;
-use Tiime\FacturX\BusinessTermsGroup\AdditionalSupportingDocuments;
+use Tiime\FacturX\BusinessTermsGroup\AdditionalSupportingDocument;
 use Tiime\FacturX\BusinessTermsGroup\Buyer;
 use Tiime\FacturX\BusinessTermsGroup\DeliveryInformation;
 use Tiime\FacturX\BusinessTermsGroup\DocumentLevelAllowance;
@@ -195,7 +195,7 @@ class Invoice
     private array $vatBreakdowns;
 
     /**
-     * @var array<int, AdditionalSupportingDocuments>
+     * @var array<int, AdditionalSupportingDocument>
      */
     private array $additionalSupportingDocuments;
 
