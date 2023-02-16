@@ -3,6 +3,10 @@
 namespace Tiime\FacturX\BusinessTermsGroup;
 
 use Tiime\FacturX\DataType\Identifier;
+use Tiime\FacturX\DataType\Identifier\InvoiceLineIdentifier;
+use Tiime\FacturX\DataType\Identifier\ObjectIdentifier;
+use Tiime\FacturX\DataType\Reference\PurchaseOrderLineReference;
+use Tiime\FacturX\DataType\UnitOfMeasurement;
 
 /**
  * BG-25
@@ -18,7 +22,7 @@ class InvoiceLine
      *
      * Identifiant unique d'une ligne au sein de la Facture.
      */
-    private Identifier $identifier;
+    private InvoiceLineIdentifier $identifier;
 
     /**
      * BT-127
@@ -41,7 +45,7 @@ class InvoiceLine
      * il convient d'utiliser un identifiant de schéma conditionnel qui doit être choisi parmi
      * les codes de la liste de codes de la donnée 1153 du dictionnaire des données UNTDID.
      */
-    private ?Identifier $objectIdentifier;
+    private ?ObjectIdentifier $objectIdentifier;
 
     /**
      * BT-129
@@ -57,7 +61,7 @@ class InvoiceLine
      *
      * Unité de mesure applicable à la quantité facturée.
      */
-    private string $invoicedQuantityUnitOfMeasureCode;
+    private UnitOfMeasurement $invoicedQuantityUnitOfMeasureCode;
 
     /**
      * BT-131
@@ -67,19 +71,13 @@ class InvoiceLine
      */
     private float $netAmount;
 
-    private ItemInformation $itemInformation;
-
-    private PriceDetails $priceDetails;
-
-    private LineVatInformation $lineVatInformation;
-
     /**
      * BT-132
      * An identifier for a referenced line within a purchase order, issued by the Buyer.
      *
      * Identifiant d'une ligne d'un bon de commande référencée, généré par l'Acheteur.
      */
-    private ?string $referencedPurchaseOrderLineReference;
+    private ?PurchaseOrderLineReference $referencedPurchaseOrderLineReference;
 
     /**
      * BT-133
@@ -89,36 +87,42 @@ class InvoiceLine
      */
     private ?string $buyerAccountingReference;
 
-    /**
-     * @var InvoiceLineCharges[]
-     */
-    private $charges;
+    private ?InvoiceLinePeriod $period;
 
     /**
-     * @var InvoiceLineAllowances[]
+     * @var array<int, InvoiceLineAllowance>
      */
-    private $allowances;
+    private array $allowances;
+
     /**
-     * @var InvoiceLinePeriod|null
+     * @var array<int, InvoiceLineCharge>
      */
-    private $period;
+    private array $charges;
+
+    private PriceDetails $priceDetails;
+
+    private LineVatInformation $lineVatInformation;
+
+    private ItemInformation $itemInformation;
+
+
 
     public function __construct(
-        Identifier $identifier,
+        InvoiceLineIdentifier $identifier,
         float $invoicedQuantity,
-        string $invoicedQuantityUnitOfMeasureCode,
+        UnitOfMeasurement $invoicedQuantityUnitOfMeasureCode,
         float $netAmount,
-        ItemInformation $itemInformation,
         PriceDetails $priceDetails,
-        LineVatInformation $lineVatInformation
+        LineVatInformation $lineVatInformation,
+        ItemInformation $itemInformation,
     ) {
         $this->identifier = $identifier;
         $this->invoicedQuantity = $invoicedQuantity;
         $this->invoicedQuantityUnitOfMeasureCode = $invoicedQuantityUnitOfMeasureCode;
         $this->netAmount = $netAmount;
-        $this->itemInformation = $itemInformation;
         $this->priceDetails = $priceDetails;
         $this->lineVatInformation = $lineVatInformation;
+        $this->itemInformation = $itemInformation;
     }
 
     public function getNetAmount(): float
@@ -145,7 +149,7 @@ class InvoiceLine
 
         $specifiedLineTradeDelivery = $document->createElement('ram:SpecifiedLineTradeDelivery');
         $billedQuantity = $document->createElement('ram:BilledQuantity', (string) $this->invoicedQuantity);
-        $billedQuantity->setAttribute('unitCode', $this->invoicedQuantityUnitOfMeasureCode);
+        $billedQuantity->setAttribute('unitCode', $this->invoicedQuantityUnitOfMeasureCode->value);
         $specifiedLineTradeDelivery->appendChild($billedQuantity);
         $includedSupplyChainTradeLineItem->appendChild($specifiedLineTradeDelivery);
 

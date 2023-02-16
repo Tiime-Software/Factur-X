@@ -23,7 +23,9 @@ use Tiime\FacturX\DataType\CountryAlpha2Code;
 use Tiime\FacturX\DataType\CurrencyCode;
 use Tiime\FacturX\DataType\Identifier;
 use Tiime\FacturX\DataType\Identifier\InvoiceIdentifier;
+use Tiime\FacturX\DataType\Identifier\InvoiceLineIdentifier;
 use Tiime\FacturX\DataType\Identifier\SpecificationIdentifier;
+use Tiime\FacturX\DataType\UnitOfMeasurement;
 use Tiime\FacturX\DataType\VatCategory;
 use Tiime\FacturX\Invoice;
 
@@ -46,13 +48,13 @@ class BusinessRulesIntegrityConstraintsTest extends TestCase
             new DocumentTotals(0, 0, 0, 0),
             [new VatBreakdown(12, 2.4, VatCategory::STANDARD)],
             [new InvoiceLine(
-                new Identifier("1"),
+                new InvoiceLineIdentifier("1"),
                 1,
-                "box",
+                UnitOfMeasurement::BOX_REC21,
                 0,
-                new ItemInformation("A thing"),
                 new PriceDetails(12),
-                new LineVatInformation(VatCategory::STANDARD)
+                new LineVatInformation(VatCategory::STANDARD),
+                new ItemInformation("A thing"),
             )]
         ))
             ->setBuyerReference("SERVEXEC")

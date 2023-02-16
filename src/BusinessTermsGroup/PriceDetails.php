@@ -2,6 +2,8 @@
 
 namespace Tiime\FacturX\BusinessTermsGroup;
 
+use Tiime\FacturX\DataType\UnitOfMeasurement;
+
 /**
  * BG-29
  * A group of business terms providing information about the price applied for
@@ -42,7 +44,7 @@ class PriceDetails
      * The Item price base quantity unit of measure shall be the same as the Invoiced quantity unit of measure (BT-130).
      *
      */
-    private $itemPriceBaseQuantityUnitOfMeasureCode;
+    private ?UnitOfMeasurement $itemPriceBaseQuantityUnitOfMeasureCode;
 
     public function __construct(float $itemNetPrice)
     {
