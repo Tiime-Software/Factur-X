@@ -253,6 +253,9 @@ class Invoice
         $this->buyerReference = null;
         $this->deliveryInformation = null;
         $this->paymentInstructions = null;
+        $this->documentLevelAllowances = [];
+        $this->documentLevelCharges = [];
+        $this->additionalSupportingDocuments = [];
     }
 
     public function getXML(): \DOMDocument
