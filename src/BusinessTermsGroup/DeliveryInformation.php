@@ -2,7 +2,7 @@
 
 namespace Tiime\FacturX\BusinessTermsGroup;
 
-use Tiime\FacturX\DataType\Identifier;
+use Tiime\FacturX\DataType\Identifier\LocationIdentifier;
 
 /**
  * BG-13
@@ -13,31 +13,95 @@ class DeliveryInformation
     /**
      * BT-70
      * The name of the party to which the goods and services are delivered.
-     *
-     * @var
      */
-    private $deliverToPartyName;
+    private ?string $deliverToPartyName;
 
     /**
-     * @todo BT-71
-     *
-     * @var Identifier[]
+     * BT-71
+     * An identifier for the location at which the goods and services are delivered.
      */
-    private array $etablissement;
+    private ?LocationIdentifier $locationIdentifier;
 
     /**
      * BT-72
-     * the date on which the supply of goods or services was made or completed.
-     *
-     * @var \DateTimeInterface|null
+     * The date on which the supply of goods or services was made or completed.
      */
-    private $actualDeliveryDate;
+    private ?\DateTimeInterface $actualDeliveryDate;
 
-    private DeliverToAddress $deliverToAddress;
+    private ?InvoicingPeriod $invoicingPeriod;
 
-    private InvoicingPeriod $invoicingPeriod;
+    private ?DeliverToAddress $deliverToAddress;
+
+    public function __construct()
+    {
+        $this->deliverToPartyName = null;
+        $this->locationIdentifier = null;
+        $this->actualDeliveryDate = null;
+        $this->invoicingPeriod = null;
+        $this->deliverToAddress = null;
+    }
 
     public function hydrateXmlDocument(\DOMDocument $document): void
     {
+    }
+
+    public function getDeliverToPartyName(): ?string
+    {
+        return $this->deliverToPartyName;
+    }
+
+    public function setDeliverToPartyName(?string $deliverToPartyName): self
+    {
+        $this->deliverToPartyName = $deliverToPartyName;
+
+        return $this;
+    }
+
+    public function getLocationIdentifier(): ?LocationIdentifier
+    {
+        return $this->locationIdentifier;
+    }
+
+    public function setLocationIdentifier(?LocationIdentifier $locationIdentifier): self
+    {
+        $this->locationIdentifier = $locationIdentifier;
+
+        return $this;
+    }
+
+    public function getActualDeliveryDate(): ?\DateTimeInterface
+    {
+        return $this->actualDeliveryDate;
+    }
+
+    public function setActualDeliveryDate(?\DateTimeInterface $actualDeliveryDate): self
+    {
+        $this->actualDeliveryDate = $actualDeliveryDate;
+
+        return $this;
+    }
+
+    public function getInvoicingPeriod(): ?InvoicingPeriod
+    {
+        return $this->invoicingPeriod;
+    }
+
+    public function setInvoicingPeriod(?InvoicingPeriod $invoicingPeriod): self
+    {
+        $this->invoicingPeriod = $invoicingPeriod;
+
+        return $this;
+    }
+
+    public function getDeliverToAddress(): ?DeliverToAddress
+    {
+        return $this->deliverToAddress;
+    }
+
+    public function setDeliverToAddress(?DeliverToAddress $deliverToAddress): self
+    {
+        $this->deliverToAddress = $deliverToAddress;
+
+        return $this;
     }
 }
