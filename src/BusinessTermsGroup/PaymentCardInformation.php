@@ -11,16 +11,42 @@ class PaymentCardInformation
     /**
      * BT-87
      * The Primary Account Number (PAN) of the card used for payment.
-     *
-     * @var
      */
-    private $primaryAccountNumber;
+    private string $primaryAccountNumber;
 
     /**
      * BT-88
      * The name of the payment card holder.
-     *
-     * @var
      */
-    private $holderName;
+    private ?string $holderName;
+
+    public function __construct(string $primaryAccountNumber)
+    {
+        $this->primaryAccountNumber = $primaryAccountNumber;
+        $this->holderName = null;
+    }
+
+    public function getPrimaryAccountNumber(): string
+    {
+        return $this->primaryAccountNumber;
+    }
+
+    public function setPrimaryAccountNumber(string $primaryAccountNumber): self
+    {
+        $this->primaryAccountNumber = $primaryAccountNumber;
+
+        return $this;
+    }
+
+    public function getHolderName(): ?string
+    {
+        return $this->holderName;
+    }
+
+    public function setHolderName(?string $holderName): self
+    {
+        $this->holderName = $holderName;
+
+        return $this;
+    }
 }
