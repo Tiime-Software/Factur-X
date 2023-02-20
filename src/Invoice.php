@@ -204,6 +204,10 @@ class Invoice
      */
     private array $invoiceLines;
 
+    /**
+     * @param array<int, VatBreakdown> $vatBreakdowns
+     * @param array<int, InvoiceLine> $invoiceLines
+     */
     public function __construct(
         InvoiceIdentifier $number,
         \DateTimeInterface $issueDate,
@@ -360,7 +364,13 @@ class Invoice
 
     private function appendToExchangedDocument(\DOMDocument $invoice, \DOMElement $child): void
     {
-        $invoice->getElementsByTagName('rsm:ExchangedDocument')->item(0)->appendChild($child);
+        $element = $invoice->getElementsByTagName('rsm:ExchangedDocument')->item(0);
+
+        if (false === $element instanceof \DOMElement) {
+            throw new \Exception('@todo');
+        }
+
+        $element->appendChild($child);
     }
 
     public function getNumber(): InvoiceIdentifier
@@ -373,7 +383,7 @@ class Invoice
         return $this->issueDate;
     }
 
-    public function getTypeCode()
+    public function getTypeCode(): InvoiceTypeCode
     {
         return $this->typeCode;
     }
@@ -388,9 +398,23 @@ class Invoice
         return $this->vatAccountingCurrencyCode;
     }
 
+    public function setVatAccountingCurrencyCode(?CurrencyCode $vatAccountingCurrencyCode): self
+    {
+        $this->vatAccountingCurrencyCode = $vatAccountingCurrencyCode;
+
+        return $this;
+    }
+
     public function getValueAddedTaxPointDate(): ?\DateTimeInterface
     {
         return $this->valueAddedTaxPointDate;
+    }
+
+    public function setValueAddedTaxPointDate(?\DateTimeInterface $valueAddedTaxPointDate): self
+    {
+        $this->valueAddedTaxPointDate = $valueAddedTaxPointDate;
+
+        return $this;
     }
 
     public function getValueAddedTaxPointDateCode(): ?DateCode2005
@@ -398,9 +422,23 @@ class Invoice
         return $this->valueAddedTaxPointDateCode;
     }
 
+    public function setValueAddedTexPointDateCode(?DateCode2005 $valueAddedTaxPointDateCode): self
+    {
+        $this->valueAddedTaxPointDateCode = $valueAddedTaxPointDateCode;
+
+        return $this;
+    }
+
     public function getPaymentDueDate(): ?\DateTimeInterface
     {
         return $this->paymentDueDate;
+    }
+
+    public function setPaymentDueDate(?\DateTimeInterface $paymentDueDate): self
+    {
+        $this->paymentDueDate = $paymentDueDate;
+
+        return $this;
     }
 
     public function getBuyerReference(): ?string
@@ -413,9 +451,23 @@ class Invoice
         return $this->projectReference;
     }
 
+    public function setProjectReference(?ProjectReference $projectReference): self
+    {
+        $this->projectReference = $projectReference;
+
+        return $this;
+    }
+
     public function getContractReference(): ?ContractReference
     {
         return $this->contractReference;
+    }
+
+    public function setContractReference(?ContractReference $contractReference): self
+    {
+        $this->contractReference = $contractReference;
+
+        return $this;
     }
 
     public function getPurchaseOrderReference(): ?PurchaseOrderReference
@@ -423,9 +475,23 @@ class Invoice
         return $this->purchaseOrderReference;
     }
 
+    public function setPurchaseOrderReference(?PurchaseOrderReference $purchaseOrderReference): self
+    {
+        $this->purchaseOrderReference = $purchaseOrderReference;
+
+        return $this;
+    }
+
     public function getSalesOrderReference(): ?SalesOrderReference
     {
         return $this->salesOrderReference;
+    }
+
+    public function setSalesOrderReference(?SalesOrderReference $salesOrderReference): self
+    {
+        $this->salesOrderReference = $salesOrderReference;
+
+        return $this;
     }
 
     public function getReceivingAdviceReference(): ?ReceivingAdviceReference
@@ -433,9 +499,23 @@ class Invoice
         return $this->receivingAdviceReference;
     }
 
+    public function setReceivingAdviceReference(?ReceivingAdviceReference $receivingAdviceReference): self
+    {
+        $this->receivingAdviceReference = $receivingAdviceReference;
+
+        return $this;
+    }
+
     public function getDespatchAdviceReference(): ?DespatchAdviceReference
     {
         return $this->despatchAdviceReference;
+    }
+
+    public function setDespatchAdviceReference(?DespatchAdviceReference $despatchAdviceReference): self
+    {
+        $this->despatchAdviceReference = $despatchAdviceReference;
+
+        return $this;
     }
 
     public function getTenderOrLotReference(): ?TenderOrLotReference
@@ -443,21 +523,52 @@ class Invoice
         return $this->tenderOrLotReference;
     }
 
+    public function setTenderOrLotReference(?TenderOrLotReference $tenderOrLotReference): self
+    {
+        $this->tenderOrLotReference = $tenderOrLotReference;
+
+        return $this;
+    }
+
     public function getObjectIdentifier(): ?ObjectIdentifier
     {
         return $this->objectIdentifier;
     }
 
-    public function getBuyerAccountingReference(): string
+    public function setObjectIdentifier(?ObjectIdentifier $objectIdentifier): self
+    {
+        $this->objectIdentifier = $objectIdentifier;
+
+        return $this;
+    }
+
+    public function getBuyerAccountingReference(): ?string
     {
         return $this->buyerAccountingReference;
     }
 
-    public function getPaymentTerms(): string
+    public function setBuyerAccountingReference(?string $buyerAccountingReference): self
+    {
+        $this->buyerAccountingReference = $buyerAccountingReference;
+
+        return $this;
+    }
+
+    public function getPaymentTerms(): ?string
     {
         return $this->paymentTerms;
     }
 
+    public function setPaymentTerms(?string $paymentTerms): self
+    {
+        $this->paymentTerms = $paymentTerms;
+
+        return $this;
+    }
+
+    /**
+     * @return array<int, InvoiceNote>
+     */
     public function getInvoiceNote(): array
     {
         return $this->invoiceNote;
@@ -468,9 +579,22 @@ class Invoice
         return $this->processControl;
     }
 
+    /**
+     * @return array<int, PrecedingInvoice>
+     */
     public function getPrecedingInvoices(): array
     {
         return $this->precedingInvoices;
+    }
+
+    /**
+     * @param array<int, PrecedingInvoice> $precedingInvoices
+     */
+    public function setPrecedingInvoices(array $precedingInvoices): self
+    {
+        $this->precedingInvoices = $precedingInvoices;
+
+        return $this;
     }
 
     public function getSeller(): Seller
@@ -483,31 +607,51 @@ class Invoice
         return $this->buyer;
     }
 
-    public function getPayee(): Payee
+    public function getPayee(): ?Payee
     {
         return $this->payee;
     }
 
-    public function getSellerTaxRepresentativeParty(): SellerTaxRepresentativeParty
+    public function setPayee(?Payee $payee): self
+    {
+        $this->payee = $payee;
+
+        return $this;
+    }
+
+    public function getSellerTaxRepresentativeParty(): ?SellerTaxRepresentativeParty
     {
         return $this->sellerTaxRepresentativeParty;
     }
 
-    public function getDeliveryInformation(): DeliveryInformation
+    public function setSellerTaxRepresentativeParty(?SellerTaxRepresentativeParty $sellerTaxRepresentativeParty): self
+    {
+        $this->sellerTaxRepresentativeParty = $sellerTaxRepresentativeParty;
+
+        return $this;
+    }
+
+    public function getDeliveryInformation(): ?DeliveryInformation
     {
         return $this->deliveryInformation;
     }
 
-    public function getPaymentInstructions(): PaymentInstructions
+    public function getPaymentInstructions(): ?PaymentInstructions
     {
         return $this->paymentInstructions;
     }
 
+    /**
+     * @return array<int, DocumentLevelAllowance>
+     */
     public function getDocumentLevelAllowances(): array
     {
         return $this->documentLevelAllowances;
     }
 
+    /**
+     * @return array<int, DocumentLevelCharge>
+     */
     public function getDocumentLevelCharges(): array
     {
         return $this->documentLevelCharges;
@@ -518,16 +662,25 @@ class Invoice
         return $this->documentTotals;
     }
 
+    /**
+     * @return array<int, VatBreakdown>
+     */
     public function getVatBreakdowns(): array
     {
         return $this->vatBreakdowns;
     }
 
+    /**
+     * @return array<int, AdditionalSupportingDocument>
+     */
     public function getAdditionalSupportingDocuments(): array
     {
         return $this->additionalSupportingDocuments;
     }
 
+    /**
+     * @return array<int, InvoiceLine>
+     */
     public function getInvoiceLines(): array
     {
         return $this->invoiceLines;
@@ -540,9 +693,11 @@ class Invoice
         return $this;
     }
 
-    public function addIncludedNote(InvoiceNote ...$note): self
+    public function addIncludedNote(InvoiceNote ...$notes): self
     {
-        $this->invoiceNote = $note;
+        foreach ($notes as $note) {
+            $this->invoiceNote[] = $note;
+        }
 
         return $this;
     }

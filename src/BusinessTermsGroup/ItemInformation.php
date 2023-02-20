@@ -3,7 +3,6 @@
 namespace Tiime\FacturX\BusinessTermsGroup;
 
 use Tiime\FacturX\DataType\CountryAlpha2Code;
-use Tiime\FacturX\DataType\Identifier;
 use Tiime\FacturX\DataType\Identifier\BuyerItemIdentifier;
 use Tiime\FacturX\DataType\Identifier\ItemClassificationIdentifier;
 use Tiime\FacturX\DataType\Identifier\SellerItemIdentifier;
@@ -61,6 +60,9 @@ class ItemInformation
      */
     private ?CountryAlpha2Code $itemCountryOfOrigin;
 
+    /** @var array<int, ItemAttribute> */
+    private array $itemAttributes;
+
     public function __construct(string $name)
     {
         $this->name = $name;
@@ -70,6 +72,7 @@ class ItemInformation
         $this->standardIdentifier = null;
         $this->classificationIdentifiers = [];
         $this->itemCountryOfOrigin = null;
+        $this->itemAttributes = [];
     }
 
     public function getName(): string
@@ -132,11 +135,17 @@ class ItemInformation
         return $this;
     }
 
+    /**
+     * @return array<int, ItemClassificationIdentifier>
+     */
     public function getClassificationIdentifiers(): array
     {
         return $this->classificationIdentifiers;
     }
 
+    /**
+     * @param array<int, ItemClassificationIdentifier> $classificationIdentifiers
+     */
     public function setClassificationIdentifiers(array $classificationIdentifiers): ItemInformation
     {
         $this->classificationIdentifiers = $classificationIdentifiers;
@@ -163,5 +172,23 @@ class ItemInformation
         $specifiedTradeProduct->appendChild($document->createElement('ram:Name', $this->name));
 
         $line->appendChild($specifiedTradeProduct);
+    }
+
+    /**
+     * @return array<int, ItemAttribute>
+     */
+    public function getItemAttributes(): array
+    {
+        return $this->itemAttributes;
+    }
+
+    /**
+     * @param array<int, ItemAttribute> $itemAttributes
+     */
+    public function setItemAttributes(array $itemAttributes): self
+    {
+        $this->itemAttributes = $itemAttributes;
+
+        return $this;
     }
 }

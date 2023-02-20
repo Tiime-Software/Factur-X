@@ -32,6 +32,7 @@ class InvoiceLine
      */
     private ?string $note;
 
+
     /**
      * BT-128
      * An identifier for an object on which the invoice line is based, given by the Seller.
@@ -123,6 +124,176 @@ class InvoiceLine
         $this->priceDetails = $priceDetails;
         $this->lineVatInformation = $lineVatInformation;
         $this->itemInformation = $itemInformation;
+    }
+
+    public function getIdentifier(): InvoiceLineIdentifier
+    {
+        return $this->identifier;
+    }
+
+    public function setIdentifier(InvoiceLineIdentifier $identifier): InvoiceLine
+    {
+        $this->identifier = $identifier;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): InvoiceLine
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    public function getObjectIdentifier(): ?ObjectIdentifier
+    {
+        return $this->objectIdentifier;
+    }
+
+    public function setObjectIdentifier(?ObjectIdentifier $objectIdentifier): InvoiceLine
+    {
+        $this->objectIdentifier = $objectIdentifier;
+
+        return $this;
+    }
+
+    public function getInvoicedQuantity(): float
+    {
+        return $this->invoicedQuantity;
+    }
+
+    public function setInvoicedQuantity(float $invoicedQuantity): InvoiceLine
+    {
+        $this->invoicedQuantity = $invoicedQuantity;
+
+        return $this;
+    }
+
+    public function getInvoicedQuantityUnitOfMeasureCode(): UnitOfMeasurement
+    {
+        return $this->invoicedQuantityUnitOfMeasureCode;
+    }
+
+    public function setInvoicedQuantityUnitOfMeasureCode(
+        UnitOfMeasurement $invoicedQuantityUnitOfMeasureCode
+    ): InvoiceLine {
+        $this->invoicedQuantityUnitOfMeasureCode = $invoicedQuantityUnitOfMeasureCode;
+
+        return $this;
+    }
+
+    public function getReferencedPurchaseOrderLineReference(): ?PurchaseOrderLineReference
+    {
+        return $this->referencedPurchaseOrderLineReference;
+    }
+
+    public function setReferencedPurchaseOrderLineReference(
+        ?PurchaseOrderLineReference $referencedPurchaseOrderLineReference
+    ): InvoiceLine {
+        $this->referencedPurchaseOrderLineReference = $referencedPurchaseOrderLineReference;
+
+        return $this;
+    }
+
+    public function getBuyerAccountingReference(): ?string
+    {
+        return $this->buyerAccountingReference;
+    }
+
+    public function setBuyerAccountingReference(?string $buyerAccountingReference): InvoiceLine
+    {
+        $this->buyerAccountingReference = $buyerAccountingReference;
+
+        return $this;
+    }
+
+    public function getPeriod(): ?InvoiceLinePeriod
+    {
+        return $this->period;
+    }
+
+    public function setPeriod(?InvoiceLinePeriod $period): InvoiceLine
+    {
+        $this->period = $period;
+
+        return $this;
+    }
+
+    /**
+     * @return array<int, InvoiceLineAllowance>
+     */
+    public function getAllowances(): array
+    {
+        return $this->allowances;
+    }
+
+    /**
+     * @param array<int, InvoiceLineAllowance> $allowances
+     */
+    public function setAllowances(array $allowances): InvoiceLine
+    {
+        $this->allowances = $allowances;
+
+        return $this;
+    }
+
+    /**
+     * @return array<int, InvoiceLineCharge>
+     */
+    public function getCharges(): array
+    {
+        return $this->charges;
+    }
+
+    /**
+     * @param array<int, InvoiceLineCharge> $charges
+     */
+    public function setCharges(array $charges): InvoiceLine
+    {
+        $this->charges = $charges;
+
+        return $this;
+    }
+
+    public function getPriceDetails(): PriceDetails
+    {
+        return $this->priceDetails;
+    }
+
+    public function setPriceDetails(PriceDetails $priceDetails): InvoiceLine
+    {
+        $this->priceDetails = $priceDetails;
+
+        return $this;
+    }
+
+    public function getLineVatInformation(): LineVatInformation
+    {
+        return $this->lineVatInformation;
+    }
+
+    public function setLineVatInformation(LineVatInformation $lineVatInformation): InvoiceLine
+    {
+        $this->lineVatInformation = $lineVatInformation;
+
+        return $this;
+    }
+
+    public function getItemInformation(): ItemInformation
+    {
+        return $this->itemInformation;
+    }
+
+    public function setItemInformation(ItemInformation $itemInformation): InvoiceLine
+    {
+        $this->itemInformation = $itemInformation;
+
+        return $this;
     }
 
     public function getNetAmount(): float

@@ -21,4 +21,34 @@ class PrecedingInvoice
      * The date when the Preceding Invoice was issued.
      */
     private ?\DateTimeInterface $issueDate;
+
+    public function __construct(PrecedingInvoiceReference $reference)
+    {
+        $this->reference = $reference;
+        $this->issueDate = null;
+    }
+
+    public function getReference(): PrecedingInvoiceReference
+    {
+        return $this->reference;
+    }
+
+    public function setReference(PrecedingInvoiceReference $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getIssueDate(): ?\DateTimeInterface
+    {
+        return $this->issueDate;
+    }
+
+    public function setIssueDate(?\DateTimeInterface $issueDate): self
+    {
+        $this->issueDate = $issueDate;
+
+        return $this;
+    }
 }
