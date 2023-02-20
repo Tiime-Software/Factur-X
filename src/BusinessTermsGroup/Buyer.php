@@ -42,7 +42,7 @@ class Buyer
      * BT-48
      * The Buyer's VAT identifier (also known as Buyer VAT identification number).
      */
-    private VatIdentifier $vatIdentifier;
+    private ?VatIdentifier $vatIdentifier;
 
     /**
      * BT-49

@@ -3,6 +3,7 @@
 namespace Tiime\FacturX\BusinessTermsGroup;
 
 use Tiime\FacturX\DataType\Identifier\BankAssignedCreditorIdentifier;
+use Tiime\FacturX\DataType\Identifier\DebitedAccountIdentifier;
 use Tiime\FacturX\DataType\Identifier\MandateReferenceIdentifier;
 
 /**
@@ -28,4 +29,45 @@ class DirectDebit
      * The account to be debited by the direct debit.
      */
     private ?DebitedAccountIdentifier $debitedAccountIdentifier;
+
+    public function __construct()
+    {
+    }
+
+    public function getMandateReferenceIdentifier(): ?MandateReferenceIdentifier
+    {
+        return $this->mandateReferenceIdentifier;
+    }
+
+    public function setMandateReferenceIdentifier(?MandateReferenceIdentifier $mandateReferenceIdentifier): DirectDebit
+    {
+        $this->mandateReferenceIdentifier = $mandateReferenceIdentifier;
+
+        return $this;
+    }
+
+    public function getBankAssignedCreditorIdentifier(): ?BankAssignedCreditorIdentifier
+    {
+        return $this->bankAssignedCreditorIdentifier;
+    }
+
+    public function setBankAssignedCreditorIdentifier(
+        ?BankAssignedCreditorIdentifier $bankAssignedCreditorIdentifier
+    ): DirectDebit {
+        $this->bankAssignedCreditorIdentifier = $bankAssignedCreditorIdentifier;
+
+        return $this;
+    }
+
+    public function getDebitedAccountIdentifier(): ?DebitedAccountIdentifier
+    {
+        return $this->debitedAccountIdentifier;
+    }
+
+    public function setDebitedAccountIdentifier(?DebitedAccountIdentifier $debitedAccountIdentifier): DirectDebit
+    {
+        $this->debitedAccountIdentifier = $debitedAccountIdentifier;
+
+        return $this;
+    }
 }

@@ -103,48 +103,54 @@ class Seller
         return $this;
     }
 
+    /**
+     * @return array<int, SellerIdentifier>
+     */
     public function getIdentifiers(): ?array
     {
         return $this->identifiers;
     }
 
-    public function setIdentifiers(?array $identifiers): self
+    /**
+     * @param array<int, SellerIdentifier> $identifiers
+     */
+    public function setIdentifiers(array $identifiers): self
     {
         $this->identifiers = $identifiers;
 
         return $this;
     }
 
-    public function getLegalRegistrationIdentifier(): ?string
+    public function getLegalRegistrationIdentifier(): ?LegalRegistrationIdentifier
     {
         return $this->legalRegistrationIdentifier;
     }
 
-    public function setLegalRegistrationIdentifier(?string $legalRegistrationIdentifier): self
+    public function setLegalRegistrationIdentifier(?LegalRegistrationIdentifier $legalRegistrationIdentifier): self
     {
         $this->legalRegistrationIdentifier = $legalRegistrationIdentifier;
 
         return $this;
     }
 
-    public function getVatIdentifier(): ?string
+    public function getVatIdentifier(): ?VatIdentifier
     {
         return $this->vatIdentifier;
     }
 
-    public function setVatIdentifier(?string $vatIdentifier): self
+    public function setVatIdentifier(?VatIdentifier $vatIdentifier): self
     {
         $this->vatIdentifier = $vatIdentifier;
 
         return $this;
     }
 
-    public function getTaxRegistrationIdentifier(): ?string
+    public function getTaxRegistrationIdentifier(): ?TaxRegistrationIdentifier
     {
         return $this->taxRegistrationIdentifier;
     }
 
-    public function setTaxRegistrationIdentifier(?string $taxRegistrationIdentifier): self
+    public function setTaxRegistrationIdentifier(?TaxRegistrationIdentifier $taxRegistrationIdentifier): self
     {
         $this->taxRegistrationIdentifier = $taxRegistrationIdentifier;
 
@@ -163,21 +169,28 @@ class Seller
         return $this;
     }
 
-    public function getElectronicAddress(): ?string
+    public function getElectronicAddress(): ?ElectronicAddressIdentifier
     {
         return $this->electronicAddress;
     }
 
-    public function setElectronicAddress(?string $electronicAddress): self
+    public function setElectronicAddress(?ElectronicAddressIdentifier $electronicAddress): self
     {
         $this->electronicAddress = $electronicAddress;
 
         return $this;
     }
 
-    public function getContact(): SellerContact
+    public function getContact(): ?SellerContact
     {
         return $this->contact;
+    }
+
+    public function setContact(?SellerContact $contact): self
+    {
+        $this->contact = $contact;
+
+        return $this;
     }
 
     public function hydrateXmlDocument(\DOMDocument $document): void

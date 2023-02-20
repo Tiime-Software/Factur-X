@@ -37,6 +37,95 @@ class PaymentInstructions
 
     private ?DirectDebit $directDebit;
 
+    public function __construct(PaymentMeansCode $paymentMeansTypeCode)
+    {
+        $this->paymentMeansTypeCode = $paymentMeansTypeCode;
+        $this->paymentMeansText = null;
+        $this->remittanceInformation = null;
+        $this->creditTransfers = [];
+        $this->paymentCardInformation = null;
+        $this->directDebit = null;
+    }
+
+    public function getPaymentMeansTypeCode(): PaymentMeansCode
+    {
+        return $this->paymentMeansTypeCode;
+    }
+
+    public function setPaymentMeansTypeCode(PaymentMeansCode $paymentMeansTypeCode): self
+    {
+        $this->paymentMeansTypeCode = $paymentMeansTypeCode;
+
+        return $this;
+    }
+
+    public function getPaymentMeansText(): ?string
+    {
+        return $this->paymentMeansText;
+    }
+
+    public function setPaymentMeansText(?string $paymentMeansText): self
+    {
+        $this->paymentMeansText = $paymentMeansText;
+
+        return $this;
+    }
+
+    public function getRemittanceInformation(): ?string
+    {
+        return $this->remittanceInformation;
+    }
+
+    public function setRemittanceInformation(?string $remittanceInformation): self
+    {
+        $this->remittanceInformation = $remittanceInformation;
+
+        return $this;
+    }
+
+    /**
+     * @return array<int, CreditTransfer>
+     */
+    public function getCreditTransfers(): array
+    {
+        return $this->creditTransfers;
+    }
+
+    /**
+     * @param array<int, CreditTransfer> $creditTransfers
+     */
+    public function setCreditTransfers(array $creditTransfers): self
+    {
+        $this->creditTransfers = $creditTransfers;
+
+        return $this;
+    }
+
+    public function getPaymentCardInformation(): ?PaymentCardInformation
+    {
+        return $this->paymentCardInformation;
+    }
+
+    public function setPaymentCardInformation(?PaymentCardInformation $paymentCardInformation): self
+    {
+        $this->paymentCardInformation = $paymentCardInformation;
+
+        return $this;
+    }
+
+    public function getDirectDebit(): ?DirectDebit
+    {
+        return $this->directDebit;
+    }
+
+    public function setDirectDebit(?DirectDebit $directDebit): self
+    {
+        $this->directDebit = $directDebit;
+
+        return $this;
+    }
+
+
     public function hydrateXmlDocument(\DOMDocument $document): void
     {
     }

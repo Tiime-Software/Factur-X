@@ -30,6 +30,32 @@ class LineVatInformation
         $this->invoicedItemVatCategoryCode = $invoicedItemVatCategoryCode;
     }
 
+    public function getInvoicedItemVatCategoryCode(): VatCategory
+    {
+        return $this->invoicedItemVatCategoryCode;
+    }
+
+    public function setInvoicedItemVatCategoryCode(VatCategory $invoicedItemVatCategoryCode): self
+    {
+        $this->invoicedItemVatCategoryCode = $invoicedItemVatCategoryCode;
+
+        return $this;
+    }
+
+    public function getInvoicedItemVatRate(): ?float
+    {
+        return $this->invoicedItemVatRate;
+    }
+
+    public function setInvoicedItemVatRate(?float $invoicedItemVatRate): self
+    {
+        $this->invoicedItemVatRate = $invoicedItemVatRate;
+
+        return $this;
+    }
+
+
+
     public function hydrateXmlLine(\DOMDocument $document, \DOMElement $line): void
     {
         $applicableTradeTax = $document->createElement('ram:ApplicableTradeTax');

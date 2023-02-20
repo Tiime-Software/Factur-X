@@ -49,7 +49,74 @@ class PriceDetails
     public function __construct(float $itemNetPrice)
     {
         $this->itemNetPrice = $itemNetPrice;
+        $this->itemPriceDiscount = null;
+        $this->itemGrossPrice = null;
+        $this->itemPriceBaseQuantity = null;
+        $this->itemPriceBaseQuantityUnitOfMeasureCode = null;
     }
+
+    public function getItemNetPrice(): float
+    {
+        return $this->itemNetPrice;
+    }
+
+    public function setItemNetPrice(float $itemNetPrice): self
+    {
+        $this->itemNetPrice = $itemNetPrice;
+
+        return $this;
+    }
+
+    public function getItemPriceDiscount(): ?float
+    {
+        return $this->itemPriceDiscount;
+    }
+
+    public function setItemPriceDiscount(?float $itemPriceDiscount): self
+    {
+        $this->itemPriceDiscount = $itemPriceDiscount;
+
+        return $this;
+    }
+
+    public function getItemGrossPrice(): ?float
+    {
+        return $this->itemGrossPrice;
+    }
+
+    public function setItemGrossPrice(?float $itemGrossPrice): self
+    {
+        $this->itemGrossPrice = $itemGrossPrice;
+
+        return $this;
+    }
+
+    public function getItemPriceBaseQuantity(): ?float
+    {
+        return $this->itemPriceBaseQuantity;
+    }
+
+    public function setItemPriceBaseQuantity(?float $itemPriceBaseQuantity): self
+    {
+        $this->itemPriceBaseQuantity = $itemPriceBaseQuantity;
+
+        return $this;
+    }
+
+    public function getItemPriceBaseQuantityUnitOfMeasureCode(): ?UnitOfMeasurement
+    {
+        return $this->itemPriceBaseQuantityUnitOfMeasureCode;
+    }
+
+    public function setItemPriceBaseQuantityUnitOfMeasureCode(
+        ?UnitOfMeasurement $itemPriceBaseQuantityUnitOfMeasureCode
+    ): self {
+        $this->itemPriceBaseQuantityUnitOfMeasureCode = $itemPriceBaseQuantityUnitOfMeasureCode;
+
+        return $this;
+    }
+
+
 
     public function hydrateXmlLine(\DOMDocument $document, \DOMElement $line): void
     {
