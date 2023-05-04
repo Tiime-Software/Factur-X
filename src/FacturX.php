@@ -6,9 +6,6 @@ namespace Tiime\FacturX;
 
 class FacturX
 {
-    //    private const PDF_VERSION = '1.7';
-    //    private const ENCODING = 'UTF-8';
-
     private \Atgp\FacturX\Facturx $instanceFacturxLibrary;
 
     public function __construct()
