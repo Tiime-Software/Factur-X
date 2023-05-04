@@ -37,7 +37,7 @@ class FacturX
 
         if (!$pdfContainsValidXml || !$isValidXml) {
             throw new \Exception(
-                'FacturX must contain a PDF with a valid XML or be created with an XML to be inserted in the PDF.'
+                'FacturX must contain a PDF with a valid XML or be created with a valid XML to be inserted in the PDF.'
             );
         }
 
