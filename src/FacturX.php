@@ -16,18 +16,36 @@ class FacturX
     {
         $this->facturxManager = new \Atgp\FacturX\Facturx();
 
-        if (
-            $this->facturxManager->getFacturxXmlFromPdf($pdfContent) === false
-            && ($xmlContent === null || !$this->facturxManager->checkFacturxXsd($xmlContent))
-        ) {
-            throw new \Exception('FacturX must contain a PDF with a valid XML or be created with an XML to be inserted in the PDF.');
+        $pdfContainsValidXml = true;
+        try {
+            $this->facturxManager->getFacturxXmlFromPdf($pdfContent);
+        } catch (\Exception $e) {
+            $pdfContainsValidXml = false;
+        }
+
+        if ($xmlContent !== null) {
+            $isValidXml = true;
+
+            try {
+                $this->facturxManager->checkFacturxXsd($xmlContent);
+            } catch (\Exception $e) {
+                $isValidXml = false;
+            }
+        } else {
+            $isValidXml = false;
+        }
+
+        if (!$pdfContainsValidXml || !$isValidXml) {
+            throw new \Exception(
+                'FacturX must contain a PDF with a valid XML or be created with an XML to be inserted in the PDF.'
+            );
         }
 
         $this->pdfContent = $pdfContent;
         $this->xmlContent = $xmlContent;
     }
 
-    public function getXmlContent(): string
+    public function getXmlContent(): ?string
     {
         return $this->xmlContent;
     }
@@ -37,7 +55,11 @@ class FacturX
         return $this->pdfContent;
     }
 
-    public function generate(array $additionalAttachments = [], bool $addFacturxLogo = true): string {
+    /**
+     * @param array<int, string> $additionalAttachments
+     */
+    public function generate(array $additionalAttachments = [], bool $addFacturxLogo = true): string
+    {
         if (!is_string($this->xmlContent)) {
             throw new \Exception('You have not provided any XML content so you cannot change your initial PDF file.');
         }
@@ -52,9 +74,12 @@ class FacturX
 
     public function extractXmlFromPdf(): string
     {
-        $extractedXml = $this->facturxManager->getFacturxXmlFromPdf($this->pdfContent);
-        if ($extractedXml === false) {
-            throw new \Exception('The PDF content you provided does not contain valid XML so you cannot extract it.');
+        try {
+            $extractedXml = $this->facturxManager->getFacturxXmlFromPdf($this->pdfContent);
+        } catch (\Exception $e) {
+            throw new \Exception(
+                'The PDF content you provided does not contain valid XML so you cannot extract it : ' . $e
+            );
         }
 
         return $extractedXml;
