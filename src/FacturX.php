@@ -6,63 +6,57 @@ namespace Tiime\FacturX;
 
 class FacturX
 {
-    private \Atgp\FacturX\Facturx $instanceFacturxLibrary;
+    private string $pdfContent;
 
-    public function __construct()
+    private ?string $xmlContent;
+
+    private \Atgp\FacturX\Facturx $facturxManager;
+
+    public function __construct(string $pdfContent, ?string $xmlContent = null)
     {
-        $this->instanceFacturxLibrary = new \Atgp\FacturX\Facturx();
+        $this->facturxManager = new \Atgp\FacturX\Facturx();
+
+        if (
+            $this->facturxManager->getFacturxXmlFromPdf($pdfContent) === false
+            && ($xmlContent === null || !$this->facturxManager->checkFacturxXsd($xmlContent))
+        ) {
+            throw new \Exception('FacturX must contain a PDF with a valid XML or be created with an XML to be inserted in the PDF.');
+        }
+
+        $this->pdfContent = $pdfContent;
+        $this->xmlContent = $xmlContent;
     }
 
-    /**
-     * Generate Factur-X PDF from PDF invoice and Factur-X XML.
-     *
-     * @param string $pdfInvoiceContent Content of the PDF invoice
-     * @param string $xmlInvoiceContent Content of the XML invoice
-     * @param array<int, string> $additionalAttachments Content of the additional files
-     * @param bool $addFacturxLogo Add Factur-X logo on PDF first page
-     *
-     * @return string
-     * @throws \Exception
-     */
-    public function generateFromPdfInvoiceContent(
-        string $pdfInvoiceContent,
-        string $xmlInvoiceContent,
-        array $additionalAttachments = [],
-        bool $addFacturxLogo = false
-    ): string {
-        return $this->instanceFacturxLibrary->generateFacturxFromFiles(
-            $pdfInvoiceContent,
-            $xmlInvoiceContent,
+    public function getXmlContent(): string
+    {
+        return $this->xmlContent;
+    }
+
+    public function getPdfContent(): string
+    {
+        return $this->pdfContent;
+    }
+
+    public function generate(array $additionalAttachments = [], bool $addFacturxLogo = true): string {
+        if (!is_string($this->xmlContent)) {
+            throw new \Exception('You have not provided any XML content so you cannot change your initial PDF file.');
+        }
+
+        return $this->facturxManager->generateFacturxFromFiles(
+            $this->pdfContent,
+            $this->xmlContent,
             additionalAttachments: $additionalAttachments,
             addFacturxLogo: $addFacturxLogo
         );
     }
 
-    /**
-     * Get Factur-X XML from Factur-X PDF.
-     *
-     * @param string $pdfInvoiceContent Content of the PDF invoice
-     *
-     * @return string|bool
-     * @throws \Exception
-     */
-    public function getXmlFromPdfInvoiceContent(string $pdfInvoiceContent): string|bool
+    public function extractXmlFromPdf(): string
     {
-        return $this->instanceFacturxLibrary->getFacturxXmlFromPdf($pdfInvoiceContent);
-    }
+        $extractedXml = $this->facturxManager->getFacturxXmlFromPdf($this->pdfContent);
+        if ($extractedXml === false) {
+            throw new \Exception('The PDF content you provided does not contain valid XML so you cannot extract it.');
+        }
 
-    /**
-     * Check Factur-X XML against XSD.
-     *
-     * @param string $xmlInvoiceContent Content of the XML invoice
-     * @param string $profile Possible values : autodetect, minimum, basicwl, basic, en16931
-     *
-     * @throws \Exception
-     *
-     * @return bool
-     */
-    public function checkXsdFromXmlInvoiceContent(string $xmlInvoiceContent, string $profile = 'autodetect'): bool
-    {
-        return $this->instanceFacturxLibrary->checkFacturxXsd($xmlInvoiceContent, $profile);
+        return $extractedXml;
     }
 }
