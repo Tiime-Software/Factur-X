@@ -16,7 +16,7 @@ class FacturX
 
     private string $xmlContent;
 
-    private bool $xmlExtractedFromPdf;
+    private bool $isXmlExtractedFromPdf;
 
     /** @var array<int, FacturXAttachment> $attachments */
     private array $attachments;
@@ -27,7 +27,7 @@ class FacturX
 
     public function __construct(string $pdfContent, ?string $xmlContent = null)
     {
-        $xmlExtractedFromPdf = false;
+        $isXmlExtractedFromPdf = false;
 
         try {
             $pdfXml = $this->getXmlFromPdf($pdfContent);
@@ -44,7 +44,7 @@ class FacturX
         if (is_string($pdfXml)) {
             try {
                 $this->checkXmlWithXsd($pdfXml);
-                $xmlExtractedFromPdf = true;
+                $isXmlExtractedFromPdf = true;
             } catch (\Exception $e) {
                 throw new \Exception('The PDF provided must contain a valid XML.');
             }
@@ -65,8 +65,8 @@ class FacturX
         }
 
         $this->pdfContent = $pdfContent;
-        $this->xmlContent = $xmlExtractedFromPdf ? $pdfXml : $xmlContent; // @phpstan-ignore-line
-        $this->xmlExtractedFromPdf = $xmlExtractedFromPdf;
+        $this->xmlContent = $isXmlExtractedFromPdf ? $pdfXml : $xmlContent; // @phpstan-ignore-line
+        $this->isXmlExtractedFromPdf = $isXmlExtractedFromPdf;
         $this->addFacturXLogo = false;
         $this->attachments = [];
         $this->profile = null;
@@ -107,7 +107,7 @@ class FacturX
             }
         }
 
-        if (!$this->xmlExtractedFromPdf) {
+        if (!$this->isXmlExtractedFromPdf) {
             $pdfWriter->Attach($this->xmlContent, self::FACTURX_FILENAME, 'Factur-X Invoice', 'Data', 'text#2Fxml');
         }
 
