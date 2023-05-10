@@ -347,7 +347,7 @@ class FacturX
      * @return array{author: string|null, keywords: string, title: string, subject: string, createdDate: string,
      *     modifiedDate: string}
      */
-    protected function preparePdfMetadata(\DOMDocument $document): array
+    private function preparePdfMetadata(\DOMDocument $document): array
     {
         $invoiceInformations = $this->extractInvoiceInformations($document);
 
@@ -384,7 +384,7 @@ class FacturX
     /**
      * @return array{invoiceId: string|null, docTypeName: 'Invoice'|'Refund', seller: string|null, date: string}
      */
-    protected function extractInvoiceInformations(\DOMDocument $document): array
+    private function extractInvoiceInformations(\DOMDocument $document): array
     {
         $xpath = new \DOMXpath($document);
 
