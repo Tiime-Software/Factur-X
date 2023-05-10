@@ -4,6 +4,9 @@
     "type": "library",
     "require": {
         "php": "^8.1",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "ext-simplexml": "*",
         "atgp/factur-x": "^1.0",
         "milo/schematron": "^1.0"
     },
