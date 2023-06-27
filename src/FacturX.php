@@ -248,7 +248,7 @@ class FacturX
     {
         $xpath = new \DOMXpath($xml);
 
-        /** @var \DOMNodeList<\DOMDocument> $elements */
+        /** @var \DOMNodeList<\DOMElement> $elements */
         $elements = $xpath->query(
             '//rsm:ExchangedDocumentContext/ram:GuidelineSpecifiedDocumentContextParameter/ram:ID'
         );
@@ -260,7 +260,7 @@ class FacturX
 
         $documentIdentifierItem = $elements->item(0);
 
-        if (!$documentIdentifierItem instanceof \DOMDocument) {
+        if (!$documentIdentifierItem instanceof \DOMElement) {
             throw new \Exception('The XML doesn\'t contain a valid Factur-X version.');
         }
 
