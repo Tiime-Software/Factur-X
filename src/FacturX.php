@@ -248,7 +248,7 @@ class FacturX
     {
         $xpath = new \DOMXpath($xml);
 
-        /** @var \DOMNodeList<\DOMDocument> $elements */
+        /** @var \DOMNodeList<\DOMElement> $elements */
         $elements = $xpath->query(
             '//rsm:ExchangedDocumentContext/ram:GuidelineSpecifiedDocumentContextParameter/ram:ID'
         );
