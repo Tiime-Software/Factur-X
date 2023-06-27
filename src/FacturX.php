@@ -260,7 +260,7 @@ class FacturX
 
         $documentIdentifierItem = $elements->item(0);
 
-        if (!$documentIdentifierItem instanceof \DOMDocument) {
+        if (!$documentIdentifierItem instanceof \DOMElement) {
             throw new \Exception('The XML doesn\'t contain a valid Factur-X version.');
         }
 
