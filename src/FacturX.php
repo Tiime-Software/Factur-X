@@ -214,7 +214,7 @@ class FacturX
         }
 
         $xsdFilename = \Atgp\FacturX\Facturx::FACTURX_PROFIL_TO_XSD[$profile];
-        $xsdFile = __DIR__ . '/../vendor/atgp/factur-x/xsd/' . $xsdFilename;
+        $xsdFile = __DIR__ . '/../../../../vendor/atgp/factur-x/xsd/' . $xsdFilename;
 
         try {
             libxml_use_internal_errors(true);
