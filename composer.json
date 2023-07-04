@@ -1,5 +1,5 @@
 {
-    "name": "tiime-software/factur-x",
+    "name": "tiime/factur-x",
     "description": "French (XML in PDF) usage of european EN 16931 standard",
     "type": "library",
     "require": {
