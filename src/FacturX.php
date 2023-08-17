@@ -27,6 +27,7 @@ class FacturX
 
     public function __construct(string $pdfContent, ?string $xmlContent = null)
     {
+        $this->profile = null;
         $isXmlExtractedFromPdf = false;
 
         try {
@@ -69,7 +70,6 @@ class FacturX
         $this->isXmlExtractedFromPdf = $isXmlExtractedFromPdf;
         $this->addFacturXLogo = false;
         $this->attachments = [];
-        $this->profile = null;
     }
 
     public function getXmlContent(): string
@@ -83,6 +83,7 @@ class FacturX
         $document->loadXML($this->xmlContent);
 
         $pdfStreamReader = StreamReader::createByString($this->pdfContent);
+        $xmlStreamReader= StreamReader::createByString($this->xmlContent);
 
         $pdfWriter = new FdpiFacturx();
         $pageCount = $pdfWriter->setSourceFile($pdfStreamReader);
@@ -108,7 +109,7 @@ class FacturX
         }
 
         if (!$this->isXmlExtractedFromPdf) {
-            $pdfWriter->Attach($this->xmlContent, self::FACTURX_FILENAME, 'Factur-X Invoice', 'Data', 'text#2Fxml');
+            $pdfWriter->Attach($xmlStreamReader, self::FACTURX_FILENAME, 'Factur-X Invoice', 'Data', 'text#2Fxml');
         }
 
         /** @var FacturXAttachment $attachment */
@@ -129,7 +130,7 @@ class FacturX
         $pdfWriter->SetPDFVersion('1.7', true);
         $pdfWriter = $this->updatePdfMetadata($pdfWriter, $document);
 
-        return $pdfWriter->Output('invoice-facturx-' . date('Ymdhis') . '.pdf', 'S');
+        return $pdfWriter->Output( 'S', 'invoice-facturx-' . date('Ymdhis') . '.pdf');
     }
 
     public function addFacturxLogo(): void
