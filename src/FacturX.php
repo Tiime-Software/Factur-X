@@ -83,7 +83,7 @@ class FacturX
         $document->loadXML($this->xmlContent);
 
         $pdfStreamReader = StreamReader::createByString($this->pdfContent);
-        $xmlStreamReader= StreamReader::createByString($this->xmlContent);
+        $xmlStreamReader = StreamReader::createByString($this->xmlContent);
 
         $pdfWriter = new FdpiFacturx();
         $pageCount = $pdfWriter->setSourceFile($pdfStreamReader);
@@ -130,7 +130,7 @@ class FacturX
         $pdfWriter->SetPDFVersion('1.7', true);
         $pdfWriter = $this->updatePdfMetadata($pdfWriter, $document);
 
-        return $pdfWriter->Output( 'S', 'invoice-facturx-' . date('Ymdhis') . '.pdf');
+        return $pdfWriter->Output('S', 'invoice-facturx-' . date('Ymdhis') . '.pdf');
     }
 
     public function addFacturxLogo(): void
@@ -390,7 +390,7 @@ class FacturX
     {
         $xpath = new \DOMXpath($document);
 
-        /** @var \DOMNodeList<\DOMDocument> $dateElements */
+        /** @var \DOMNodeList<\DOMElement> $dateElements */
         $dateElements = $xpath->query('//rsm:ExchangedDocument/ram:IssueDateTime/udt:DateTimeString');
         $dateItem = $dateElements->item(0);
 
@@ -404,8 +404,14 @@ class FacturX
             throw new \Exception('DateTimeString element is missing in XML.');
         }
 
-        $dateObject = (\DateTime::createFromFormat('Ymd', $date))->format('Y-m-d');
-        $strToTimeDate = strtotime($dateObject);
+        $dateObject = \DateTime::createFromFormat('Ymd', $date);
+
+        if (!$dateObject) {
+            throw new \Exception('DateTimeString element is malformed.');
+        }
+
+        $formattedDateObject = $dateObject->format('Y-m-d');
+        $strToTimeDate = strtotime($formattedDateObject);
 
         if (!$strToTimeDate) {
             throw new \Exception('DateTimeString element is malformed in XML.');
