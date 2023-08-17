@@ -97,7 +97,7 @@ class FacturX
                     sprintf(
                         '%s%s%s',
                         __DIR__,
-                        '/../vendor/atgp/factur-x/img/',
+                        '/../../../../vendor/atgp/factur-x/img/',
                         \Atgp\FacturX\Facturx::FACTURX_LOGO[$this->profile]
                     ),
                     197,
@@ -303,9 +303,10 @@ class FacturX
         $xmp = simplexml_load_file(sprintf(
             '%s%s%s',
             __DIR__,
-            '/../vendor/atgp/factur-x/xmp/',
+            '/../../../../vendor/atgp/factur-x/xmp/',
             \Atgp\FacturX\Facturx::FACTURX_XMP
         ));
+
         $descriptionElements = $xmp->xpath('rdf:Description');
 
         if (!$descriptionElements) {
@@ -392,7 +393,7 @@ class FacturX
         $dateElements = $xpath->query('//rsm:ExchangedDocument/ram:IssueDateTime/udt:DateTimeString');
         $dateItem = $dateElements->item(0);
 
-        if (!$dateItem instanceof \DOMDocument) {
+        if (!$dateItem instanceof \DOMElement) {
             throw new \Exception('DateTimeString element is missing in XML.');
         }
 
@@ -402,38 +403,40 @@ class FacturX
             throw new \Exception('DateTimeString element is missing in XML.');
         }
 
-        $strToTimeDate = strtotime($date);
+        $dateObject = (\DateTime::createFromFormat('Ymd', $date))->format('Y-m-d');
+        $strToTimeDate = strtotime($dateObject);
+
         if (!$strToTimeDate) {
             throw new \Exception('DateTimeString element is malformed in XML.');
         }
 
         $dateReformatted = date('Y-m-d\TH:i:s', $strToTimeDate) . '+00:00';
 
-        /** @var \DOMNodeList<\DOMDocument> $invoiceIdentifierElements */
+        /** @var \DOMNodeList<\DOMElement> $invoiceIdentifierElements */
         $invoiceIdentifierElements = $xpath->query('//rsm:ExchangedDocument/ram:ID');
         $invoiceIdentifierItem = $invoiceIdentifierElements->item(0);
 
-        if (!$invoiceIdentifierItem instanceof \DOMDocument) {
+        if (!$invoiceIdentifierItem instanceof \DOMElement) {
             throw new \Exception('Invoice ID element is missing in XML.');
         }
 
         $invoiceIdentifier = $invoiceIdentifierItem->nodeValue;
 
-        /** @var \DOMNodeList<\DOMDocument> $sellerElements */
+        /** @var \DOMNodeList<\DOMElement> $sellerElements */
         $sellerElements = $xpath->query('//ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:Name');
         $sellerItem = $sellerElements->item(0);
 
-        if (!$sellerItem instanceof \DOMDocument) {
+        if (!$sellerItem instanceof \DOMElement) {
             throw new \Exception('TypeCode element is missing in XML.');
         }
 
         $seller = $sellerItem->nodeValue;
 
-        /** @var \DOMNodeList<\DOMDocument> $docTypeElements */
+        /** @var \DOMNodeList<\DOMElement> $docTypeElements */
         $docTypeElements = $xpath->query('//rsm:ExchangedDocument/ram:TypeCode');
         $docTypeItem = $docTypeElements->item(0);
 
-        if (!$docTypeItem instanceof \DOMDocument) {
+        if (!$docTypeItem instanceof \DOMElement) {
             throw new \Exception('TypeCode element is missing in XML.');
         }
 
