@@ -1,6 +1,36 @@
-# Factur-x
+# Factur-X PHP Library
 
-> this standard use the european EN 16931 standard for invoicing introperability
+## Install with Composer
 
-## 🐿️ In a nutshell
-Factur-X est un standard franco-allemand de facture électronique mixte (PDF pour les utilisateurs et données XML pour un traitement automatisé), première implémentation de la Norme Sémantique Européenne EN 16931 publiée par la Commission Européenne le 16 octobre 2017. Factur-x est le même standard que ZUGFeRD 2.1. 
+```bash
+composer require tiime/factur-x
+```
+
+## Usage
+
+### Generate Factur-X
+
+Create a Factur-X compliant PDF document by merging provided PDF content with XML data and optionally adding a logo.
+
+```php
+use Tiime\FacturX\Writer;
+
+$writer = new Writer();
+$facturxContent = $writer->generate(
+    pdfContent: $pdfContent,
+    xmlContent: $xml,
+    addLogo: true
+);
+
+file_put_contents('generated_facturx.pdf', $facturxContent);
+```
+
+### Extract XML from Factur-X
+
+Extract XML data from a Factur-X compliance PDF document.
+
+```php
+use Tiime\FacturX\Reader;
+
+$extractedXml = (new Reader())->extractXML($writer);
+```
