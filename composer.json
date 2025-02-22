@@ -44,6 +44,6 @@
     "scripts": {
         "test": "vendor/bin/phpunit tests",
         "fix-cs": "vendor/bin/php-cs-fixer fix",
-        "phpstan": "vendor/bin/phpstan analyse -l 9 src tests"
+        "phpstan": "vendor/bin/phpstan analyse"
     }
 }
