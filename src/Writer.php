@@ -57,6 +57,7 @@ class Writer
         bool $addLogo = false,
     ): string {
         foreach ($additionalAttachments as $attachment) {
+            // @phpstan-ignore-next-line
             if (!$attachment instanceof FacturXAttachment) {
                 throw new Exception(\sprintf('An additional attachment must be an instance of %s.', FacturXAttachment::class));
             }

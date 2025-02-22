@@ -80,13 +80,9 @@ XML;
             addLogo: true
         );
 
-        $this->assertIsString($writer);
-
         file_put_contents(__DIR__ . \DIRECTORY_SEPARATOR . 'minimum_facturx.pdf', $writer);
 
         $extractedXml = (new Reader())->extractXML($writer);
-
-        $this->assertIsString($extractedXml);
         $this->assertSame($xml, $extractedXml);
     }
 
@@ -451,13 +447,9 @@ XML;
             addLogo: true
         );
 
-        $this->assertIsString($writer);
-
         file_put_contents(__DIR__ . \DIRECTORY_SEPARATOR . 'basicwl_facturx.pdf', $writer);
 
         $extractedXml = (new Reader())->extractXML($writer);
-
-        $this->assertIsString($extractedXml);
         $this->assertSame($xml, $extractedXml);
     }
 
@@ -1052,13 +1044,9 @@ XML;
             addLogo: true
         );
 
-        $this->assertIsString($writer);
-
         file_put_contents(__DIR__ . \DIRECTORY_SEPARATOR . 'basic_facturx.pdf', $writer);
 
         $extractedXml = (new Reader())->extractXML($writer);
-
-        $this->assertIsString($extractedXml);
         $this->assertSame($xml, $extractedXml);
     }
 
@@ -1779,13 +1767,9 @@ XML;
             addLogo: true
         );
 
-        $this->assertIsString($writer);
-
         file_put_contents(__DIR__ . \DIRECTORY_SEPARATOR . 'en16931_facturx.pdf', $writer);
 
         $extractedXml = (new Reader())->extractXML($writer);
-
-        $this->assertIsString($extractedXml);
         $this->assertSame($xml, $extractedXml);
     }
 
@@ -2524,13 +2508,9 @@ XML;
             addLogo: true
         );
 
-        $this->assertIsString($writer);
-
         file_put_contents(__DIR__ . \DIRECTORY_SEPARATOR . 'extended_facturx.pdf', $writer);
 
         $extractedXml = (new Reader())->extractXML($writer);
-
-        $this->assertIsString($extractedXml);
         $this->assertSame($xml, $extractedXml);
     }
 }
