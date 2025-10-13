@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Tiime\FacturX\Reader;
 use Tiime\FacturX\Writer;
 
-class FacturXTest extends TestCase
+final class FacturXTest extends TestCase
 {
     public function testGenerateMinimumProfileFacturX(): void
     {
