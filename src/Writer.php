@@ -48,6 +48,7 @@ class Writer
      * @throws PdfReaderException
      * @throws PdfTypeException
      * @throws \DateMalformedStringException
+     * @throws XsdValidationException
      */
     public function generate(
         string $pdfContent,
