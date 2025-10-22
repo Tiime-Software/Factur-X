@@ -10,7 +10,7 @@ final class FacturXTest extends TestCase
 {
     public function testGenerateMinimumProfileFacturX(): void
     {
-        $pdfFilePath = __DIR__ . \DIRECTORY_SEPARATOR . 'sample.pdf';
+        $pdfFilePath = __DIR__ . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'sample.pdf';
         $pdfContent  = file_get_contents($pdfFilePath);
         \assert(\is_string($pdfContent));
         $xml = <<<XML
@@ -80,7 +80,7 @@ XML;
             addLogo: true
         );
 
-        file_put_contents(__DIR__ . \DIRECTORY_SEPARATOR . 'minimum_facturx.pdf', $writer);
+        file_put_contents(sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'minimum_facturx.pdf', $writer);
 
         $extractedXml = (new Reader())->extractXML($writer);
         $this->assertSame($xml, $extractedXml);
@@ -88,7 +88,7 @@ XML;
 
     public function testGenerateBasicWLProfileFacturX(): void
     {
-        $pdfFilePath = __DIR__ . \DIRECTORY_SEPARATOR . 'sample.pdf';
+        $pdfFilePath = __DIR__ . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'sample.pdf';
         $pdfContent  = file_get_contents($pdfFilePath);
         \assert(\is_string($pdfContent));
         $xml = <<<XML
@@ -447,7 +447,7 @@ XML;
             addLogo: true
         );
 
-        file_put_contents(__DIR__ . \DIRECTORY_SEPARATOR . 'basicwl_facturx.pdf', $writer);
+        file_put_contents(sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'basicwl_facturx.pdf', $writer);
 
         $extractedXml = (new Reader())->extractXML($writer);
         $this->assertSame($xml, $extractedXml);
@@ -455,7 +455,7 @@ XML;
 
     public function testGenerateBasicProfileFacturX(): void
     {
-        $pdfFilePath = __DIR__ . \DIRECTORY_SEPARATOR . 'sample.pdf';
+        $pdfFilePath = __DIR__ . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'sample.pdf';
         $pdfContent  = file_get_contents($pdfFilePath);
         \assert(\is_string($pdfContent));
         $xml = <<<XML
@@ -1044,7 +1044,7 @@ XML;
             addLogo: true
         );
 
-        file_put_contents(__DIR__ . \DIRECTORY_SEPARATOR . 'basic_facturx.pdf', $writer);
+        file_put_contents(sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'basic_facturx.pdf', $writer);
 
         $extractedXml = (new Reader())->extractXML($writer);
         $this->assertSame($xml, $extractedXml);
@@ -1052,7 +1052,7 @@ XML;
 
     public function testGenerateEN16931ProfileFacturX(): void
     {
-        $pdfFilePath = __DIR__ . \DIRECTORY_SEPARATOR . 'sample.pdf';
+        $pdfFilePath = __DIR__ . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'sample.pdf';
         $pdfContent  = file_get_contents($pdfFilePath);
         \assert(\is_string($pdfContent));
         $xml = <<<XML
@@ -1767,7 +1767,7 @@ XML;
             addLogo: true
         );
 
-        file_put_contents(__DIR__ . \DIRECTORY_SEPARATOR . 'en16931_facturx.pdf', $writer);
+        file_put_contents(sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'en16931_facturx.pdf', $writer);
 
         $extractedXml = (new Reader())->extractXML($writer);
         $this->assertSame($xml, $extractedXml);
@@ -1775,7 +1775,7 @@ XML;
 
     public function testGenerateExtendedProfileFacturX(): void
     {
-        $pdfFilePath = __DIR__ . \DIRECTORY_SEPARATOR . 'sample.pdf';
+        $pdfFilePath = __DIR__ . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'sample.pdf';
         $pdfContent  = file_get_contents($pdfFilePath);
         \assert(\is_string($pdfContent));
         $xml = <<<XML
@@ -2508,7 +2508,7 @@ XML;
             addLogo: true
         );
 
-        file_put_contents(__DIR__ . \DIRECTORY_SEPARATOR . 'extended_facturx.pdf', $writer);
+        file_put_contents(sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'extended_facturx.pdf', $writer);
 
         $extractedXml = (new Reader())->extractXML($writer);
         $this->assertSame($xml, $extractedXml);
