@@ -9,7 +9,7 @@
         "ext-libxml": "*",
         "ext-simplexml": "*",
         "ext-zlib": "*",
-        "tiime/en-16931": "^0.10.0",
+        "tiime/en-16931": "^0.10",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.6",
         "ramsey/uuid": "^4.7",
