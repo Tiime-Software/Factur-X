@@ -46,7 +46,7 @@ class FdpiFacturX extends Fpdi
         $this->PDFVersion = \sprintf('%.1F', $pdfVersion);
 
         if ($binaryData) {
-            $this->PDFVersion .= "\n" . '%' . \chr(rand(128, 256)) . \chr(rand(128, 256)) . \chr(rand(128, 256)) . \chr(rand(128, 256));
+            $this->PDFVersion .= "\n" . '%' . \chr(rand(128, 255)) . \chr(rand(128, 255)) . \chr(rand(128, 255)) . \chr(rand(128, 255));
         }
     }
 
@@ -150,7 +150,7 @@ class FdpiFacturX extends Fpdi
         /*
          * Sorting files in name order as PDF specs (if not, issue with Acrobat Reader when trying to download attachments)
          */
-        usort($files, function ($a, $b) {
+        usort($files, static function ($a, $b) {
             return strcmp($a['name'], $b['name']);
         });
 
@@ -199,12 +199,12 @@ class FdpiFacturX extends Fpdi
             'Factur-X %s %s dated %s issued by %s',
             $this->xmlDocumentTypeName,
             $this->xmlInvoiceId,
-            $this->xmlDateTime->format('Y-m-d'),
+            $this->xmlDateTime->format('Ymd'),
             $this->xmlSeller
         );
         $producer    = 'FPDF';
         $creatorTool = 'Factur-X PHP library by Tiime';
-        $timestamp   = (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d\TH:i:sP');
+        $dt          = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
 
         $xmlString = <<<XML
 <?xpacket begin="\ufeff" id="W5M0MpCehiHzreSzNTczkc9d"?>
@@ -236,8 +236,8 @@ class FdpiFacturX extends Fpdi
     </rdf:Description>
     <rdf:Description xmlns:xmp="http://ns.adobe.com/xap/1.0/" rdf:about="">
       <xmp:CreatorTool>{$creatorTool}</xmp:CreatorTool>
-      <xmp:CreateDate>{$timestamp}</xmp:CreateDate>
-      <xmp:ModifyDate>{$timestamp}</xmp:ModifyDate>
+      <xmp:CreateDate>{$dt->format('c')}</xmp:CreateDate>
+      <xmp:ModifyDate>{$dt->format('c')}</xmp:ModifyDate>
     </rdf:Description>
     <rdf:Description xmlns:pdfaExtension="http://www.aiim.org/pdfa/ns/extension/" xmlns:pdfaSchema="http://www.aiim.org/pdfa/ns/schema#" xmlns:pdfaProperty="http://www.aiim.org/pdfa/ns/property#" rdf:about="">
       <pdfaExtension:schemas>
