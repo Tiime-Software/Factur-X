@@ -134,8 +134,8 @@ class Writer
         $pdfWriter->SetSubject(\sprintf('Factur-X %s %s dated %s issued by %s', $documentTypeName, $invoiceId, $dateTime->format('Y-m-d'), $seller));
         $pdfWriter->SetKeywords(\sprintf('%s, Factur-X', $documentTypeName));
         $pdfWriter->SetCreator('Factur-X PHP library by Tiime');
-        $pdfWriter->setModifiedDate($now->format('Y-m-d'));
-        $pdfWriter->setCreationDate($now->format('Y-m-d'));
+        $pdfWriter->setModifiedDate('D:' . $now->format('YmdHis') . 'Z');
+        $pdfWriter->setCreationDate('D:' . $now->format('YmdHis') . 'Z');
 
         $pageCount = $pdfWriter->setSourceFile($pdfStreamReader);
 
