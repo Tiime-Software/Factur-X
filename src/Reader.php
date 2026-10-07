@@ -16,7 +16,8 @@ class Reader
             $xml       = null;
 
             foreach ($pdfParsed->getObjectsByType('Filespec') as $spec) {
-                if ('factur-x.xml' !== $spec->get('F')->getContent()) {
+                $attached = strtolower($spec->get('F')->getContent());
+                if ('factur-x.xml' !== $attached) {
                     continue;
                 }
 
